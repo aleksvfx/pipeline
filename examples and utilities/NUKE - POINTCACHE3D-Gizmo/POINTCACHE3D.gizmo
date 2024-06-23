@@ -1,0 +1,240 @@
+#! /Applications/Nuke5.2v3/Nuke5.2v3.app/Contents/MacOS/Nuke5.2v3 -nx
+version 5.2300
+Gizmo {
+ inputs 2
+ help "POINTCACHE3D\n\nWith Input from an PointPosition-Pass \[P]\ncan you make an 3D-PointCloud for better\nReLighting (in 3D) or for representation of\nyour 3D-Scene\n\nOptional with an ImageInput can you\nproject the Image (in UVSpace \[internal with an 3D_UVprojection] to the 'Surface'\nOR when you set the projection to\nperspective and set some settings in CAMERA\nthen you can resample it (better with an imported Camera)\n\n\n=========================\n\nSOME TIPPS:\n\n*) YOU CAN ALSO PUT AN\n>>> SCANLINE-RENDERER <<<\nAFTER THE POINTCACHE3D\n\n!!! This PointCloud is RENDERABLE !!!\n\n*) YOU CAN ALSO PUT AN\n>>> 3D-GeoWrite <<<\nAFTER THE POINTCACHE3D\n\n!!! This PointCloud is SAVEABLE !!!\n\n*) -> WITH THIS OBJ\n(example for each Frame)\nCAN YOU IN YOUR 3D-App\nVISUALIZE YOUR Image in 3D !!!\n\n*) YOU CAN ALSO IMPORT YOUR PointCloud-OBJ\nFOR LATER USE AND CONNECT IT TO YOUR SCENE\n\n\nAND YOU CAN example MAKE AN 3D-PointCloud\nIN FRAME 1 AND THE NEXT IN FRAME 10\nAND SO YOU HAVE A\n>>> 'PLAYABLE'/'MOVING' Preview/PreViz 3D-SCENE ;-) <<<"
+ tile_color 0x115efcff
+ gl_color 0xe4fd3ff
+ note_font "Verdana Bold Bold Bold Bold Bold"
+ note_font_color 0xffeb17ff
+ addUserKnob {20 PC3D l PointCache3D}
+ addUserKnob {41 POINTSAMPLE l PointsSample t "DEFAULT : 80\n\nThis means that (100-80=20)\nevery 20thy Pixel will sample." T DummyANZAHL.POINTANZAHL}
+ addUserKnob {22 LAYOUT t "This change your Layout from\n\"Simple\" to \"FULL\"\n\nSimple = only the most Settings\n\nFULL = ALL Settings" -STARTLINE T "#k = nuke.toNode('PointCache3D')\n#k = nuke.selectedNode()\nk = nuke.thisNode()\n\nif k\['LAYOUTtmp'].value() != 'FULL':\n\n    k\['DEPTHCHANGEgroup'].setVisible(False)\n    k\['PROJECTIONgroup'].setVisible(False)\n    k\['TIPPgroup'].setVisible(False)\n    k\['SHADERgroup'].setVisible(False)\n    k\['CAMERAgroup'].setVisible(False)\n    k\['strich1'].setVisible(False)\n    k\['strich2'].setVisible(False)\n    k\['LAYOUTtmp'].setValue('FULL')\n\nelse:\n\n    k\['DEPTHCHANGEgroup'].setVisible(True)\n    k\['PROJECTIONgroup'].setVisible(True)\n    k\['TIPPgroup'].setVisible(True)\n    k\['SHADERgroup'].setVisible(True)\n    k\['CAMERAgroup'].setVisible(True)\n    k\['strich1'].setVisible(True)\n    k\['strich2'].setVisible(True)\n    k\['LAYOUTtmp'].setValue('Simple')"}
+ addUserKnob {26 LAYOUTtmp l INVISIBLE -STARTLINE T FULL}
+ addUserKnob {41 PointSize t "This change the PointCache Point-Size\n\nDEFAULT: 0.01" T DummyCube.uniform_scale}
+ addUserKnob {26 strich1 l "" +STARTLINE}
+ addUserKnob {20 DEPTHCHANGEgroup l Depth n 1}
+ DEPTHCHANGEgroup 0
+ addUserKnob {41 DEPTH_B l "Depth (B)" t "This will change your Depth (B) from your \[Point(P)] Image\n\n0 = Default (like in your Image)\n\n1 = change your Depth/B-Value with Minus (-b)\n\n-> so your Points are \"away\" from Orient(0,0,0)\n\n\nBUT YOU CAN ALSO TO THIS BEFORE POINTCACHE3D\n(with example an (Color)Math-Expression \[in b set it to -b])" T InputPoint.which}
+ addUserKnob {20 DEPTHSETTINGS l SETTINGS n 1}
+ DEPTHSETTINGS 0
+ addUserKnob {41 DEPTH_B_MULT l "Depth (B) Multiply" t "This can the Depth (B) make 'stronger'\n\nSo your Depth(Range) is 'dephter'\n(Before: 0.4 - 1.3 - After: 2.0 - 6.5)\n\n0 = Without MultiplyDepth\n1 = WITH (and change it with the Settings below)\n\nDEFAULT: 0\n\nBUT YOU CAN ALSO TO THIS BEFORE POINTCACHE3D\n(with example an (Color)Grade \[in b])" T Switch1.which}
+ addUserKnob {26 DepthMulti l DepthMultiply}
+ addUserKnob {41 multiply T Grade1.multiply}
+ addUserKnob {41 gamma T Grade1.gamma}
+ addUserKnob {41 white l gain -STARTLINE T Grade1.white}
+ addUserKnob {41 black l lift -STARTLINE T Grade1.black}
+ addUserKnob {41 add l offset -STARTLINE T Grade1.add}
+ addUserKnob {20 endGroup_5 l endGroup n -1}
+ addUserKnob {20 endGroup n -1}
+ addUserKnob {26 strich2 l "" +STARTLINE}
+ addUserKnob {20 PROJECTIONgroup l ProjectionMaterial n 1}
+ PROJECTIONgroup 0
+ addUserKnob {26 PROJ_CAM l INVISIBLE t UVProjection}
+ addUserKnob {41 projection t "Planar = Project Image front (without Camera)\n\nPerspective = Project from CameraImage (UV)\n\tThen go to Tab CAMERA\n\tand change the Settings\n\t(also you can import your Cam)\n\nOff = Disable the UVProjection" T DummyUVProject.projection}
+ addUserKnob {41 selectable -STARTLINE T DummyUVProject.selectable}
+ addUserKnob {41 display T DummyUVProject.display}
+ addUserKnob {41 disable_2 l disable -STARTLINE T DummyUVProject.disable}
+ addUserKnob {20 endGroup_1 l endGroup n -1}
+ addUserKnob {26 strich3 l "" +STARTLINE}
+ addUserKnob {1 HOWMUCH l "Points: " t "This your Points that will be presented.\n\n*) to 2000 (real) are very fast\n*) between 2000 and 5000 is fast\n*) from 5000 to 8000 is \"ok\"\n*) 8000 to 10000 is (very) slow\n*) and up 10000 it's bugy (mostly Nuke will crash or it will run this task \[very] long) !!!!!\n"}
+ HOWMUCH 0
+ addUserKnob {22 CALCULATE t "Preview of your PointNumbers" -STARTLINE T "#k = nuke.selectedNode()\n#print k.name()\n# nuke.thisNode()\n\n#HAUPTgroup = nuke.toNode('PointCache3D') \n#HAUPTgroup = nuke.selectedNode()\nHAUPTgroup = nuke.thisNode()\n##### HAUPTgroup.begin() \n\n###sn = nuke.selectedNode() #---------------> sn = nuke.selectedNodes()\nInputImage_sn = nuke.toNode('InputPoint').setSelected('True')\nsn = nuke.selectedNode()\n\nwa = nuke.value(sn.name()+\".format.w\")\nha = nuke.value(sn.name()+\".format.h\")\n\nPOINTx = nuke.toNode('DummyANZAHL')\nPOINTS = POINTx\['POINTANZAHL'].value()\n\n#########################\n# Points in Prozent %\n#\n# 500 * (0.5\[*100]) = 250\n#########################\n\n### WIEVIEL = 100/POINTS\n###WIEVIEL = POINTS*100\nWIEVIEL = 100-POINTS\n\nif WIEVIEL <= 1:\n    WIEVIEL = 1\n\nw = int(wa)/WIEVIEL\nh = int(ha)/WIEVIEL\n\nAllePoints=0\n\nfor sampleY in range(int(h)+1):\n\n    for sampleX in range(int(w)+1):\n        svr = sn.sample(\"r\", sampleY*WIEVIEL, sampleX*WIEVIEL, 0.5, 0.5)\n        svg = sn.sample(\"g\", sampleY*WIEVIEL, sampleX*WIEVIEL, 0.5, 0.5)\n        svb = sn.sample(\"b\", sampleY*WIEVIEL, sampleX*WIEVIEL, 0.5, 0.5)\n\n        erg = \[svr + svg + svb]\n\n        if erg != \[0.0] :\n\n            AllePoints=AllePoints+1\n\n\nfor n in nuke.allNodes() :\n        n.setSelected(0)\n\n##### HAUPTgroup.end()\n\n\n# ERG = int(w*h)\n\nCALCULATE_ERG = str(AllePoints)\n\n#x = nuke.toNode('PointCache3D')\n#x = nuke.selectedNode()\n#x = nuke.thisNode()\nHAUPTgroup\['HOWMUCH'].setValue(CALCULATE_ERG)"}
+ addUserKnob {26 strich4 l "" +STARTLINE}
+ addUserKnob {22 RUN T "### import threading \n### import time \n### def selfDestruct(): \n###   task = nuke.ProgressTask(\"Self Destructing\") \n###   task.setMessage(\"Deleting files\") \n  \n#k = nuke.selectedNode()\n#print k.name()\n# nuke.thisNode()\n\n#HAUPTgroup = nuke.toNode('PointCache3D') \n#HAUPTgroup = nuke.selectedNode()\nHAUPTgroup = nuke.thisNode()\n##### HAUPTgroup.begin() \n\n###sn = nuke.selectedNode() #---------------> sn = nuke.selectedNodes()\nInputImage_sn = nuke.toNode('InputPoint').setSelected('True')\nsn = nuke.selectedNode()\n\nwa = nuke.value(sn.name()+\".format.w\")\nha = nuke.value(sn.name()+\".format.h\")\n\nPOINTx = nuke.toNode('DummyANZAHL')\nPOINTS = POINTx\['POINTANZAHL'].value()\n\n#########################\n# Points in Prozent %\n#\n# 500 * (0.5\[*100]) = 250\n#########################\n\n### WIEVIEL = 100/POINTS\n###WIEVIEL = POINTS*100\nWIEVIEL = 100-POINTS\n\nif WIEVIEL <= 1:\n    WIEVIEL = 1\n\nw = int(wa)/WIEVIEL\nh = int(ha)/WIEVIEL\n\nmaxB = \[]\n\nAllePoints=0\n\nnuke.nodes.Group()\nGroup = nuke.toNode('Group1')\nGroup.begin()\n\ngIn = nuke.nodes.Input()\ngOut = nuke.nodes.Output()\n\nDeCube = nuke.toNode('DummyANZAHL')\nxxx = nuke.toNode('Group1')\nxxx\['disable'].setExpression(DeCube.name()+\".DISABLE_GROUP\")\n\nfor sampleY in range(int(h)+1):\n\n    \n###     if task.isCancelled(): \n###       nuke.executeInMainThread( nuke.message, args=( \"Phew!\" ) ) \n###       break; \n###     task.setProgress(sampleY)\n    \n    \n    tmp_b = \[]\n    \n    for sampleX in range(int(w)+1):\n        svr = sn.sample(\"r\", sampleY*WIEVIEL, sampleX*WIEVIEL, 0.5, 0.5)\n        svg = sn.sample(\"g\", sampleY*WIEVIEL, sampleX*WIEVIEL, 0.5, 0.5)\n        svb = sn.sample(\"b\", sampleY*WIEVIEL, sampleX*WIEVIEL, 0.5, 0.5)\n        \n        tmp_b.append(svb)\n        \n        erg = \[svr + svg + svb]\n\n        if erg != \[0.0] :\n\n            AllePoints=AllePoints+1\n            ergSTR = str(AllePoints)\n\n            POINTs = nuke.nodes.Cube()\n            \n            DCube = nuke.toNode('DummyCube')\n            ### POINTs\['uniform_scale'].setValue(0.01)\n            POINTs\['uniform_scale'].setExpression(DCube.name()+\".uniform_scale\")\n            POINTs\['rows'].setValue(1)\n            POINTs\['columns'].setValue(1)\n            pos=\[svr,svg,svb]\n            POINTs\['translate'].setValue(pos)\n\n    maxB.append(max(tmp_b))\n    \n#for n in nuke.allNodes() :\n#        n.setSelected(0)\n\n# for n in nuke.allNodes('Cube') :\n#         n.setSelected('True')\n# xInput = nuke.toNode('Input1').setInput(0, nuke.selectedNode())\n\nxInput = nuke.toNode('Input1').setSelected('True')\n\nfor n in nuke.allNodes('Cube') :\n        n.setInput(0, nuke.selectedNode())\n\nxInput = nuke.toNode('Input1').setSelected(0)\n\n###################################################################\n#\n#for n in nuke.allNodes('Cube') :\n#        n.setSelected('True')\n#\n##m = nuke.nodes.MergeGeo()\n##m = nuke.toNode('MergeGeo1').setInput(0, nuke.selectedNode())\n#m = nuke.createNode('MergeGeo', inpanel=False)\n#\n#for n in nuke.allNodes('Cube') :\n#        n.setSelected(0)\n#\n##################################################################\n\n\n\n\nMergeAnzahlx = AllePoints/1000+1\nMergeAnzahl = int(MergeAnzahlx)\n\nSTART = 1\nENDE = 1001\n\nrangelistPoint = range(AllePoints)\nrangelistMerge = range(MergeAnzahl)\n\n\nfor n in rangelistMerge:\n    \n    for number in rangelistPoint\[START:ENDE]:\n        \n        ZAHL = str(number)\n        CUBEnr = nuke.toNode('Cube'+ZAHL)\n        CUBEnr.setSelected('True')\n    \n    g = nuke.createNode('MergeGeo', inpanel=False)\n    g.setSelected(0)\n    \n    for CubeNrDeSel in rangelistPoint\[START:ENDE]:\n        \n        ZAHLx = str(CubeNrDeSel)\n        CUBEnrx = nuke.toNode('Cube'+ZAHLx)\n        CUBEnrx.setSelected(0)\n    \n#    for CubeNrDeSel in nuke.allNodes('Cube') :\n#        CubeNrDeSel.setSelected(0)\n\n    START = START+1000\n    ENDE = ENDE+1000\n\n\n\nfor n in nuke.allNodes('MergeGeo') :\n        n.setSelected('True')\n\n#m = nuke.nodes.Scene()\n#m = nuke.toNode('Scene1').setInput(0, nuke.selectedNode())\nm = nuke.createNode('Scene', inpanel=False)\n\nfor n in nuke.allNodes('MergeGeo') :\n        n.setSelected(0)\n\nx = nuke.toNode('Scene1').setSelected('True')\n\nnOutput = nuke.toNode('Output1').setInput(0, nuke.selectedNode())\n\nx = nuke.toNode('Scene1').setSelected(0)\n\n# for n in nuke.allNodes() :\n#        n.setSelected(0)\n\nGroup.end()\n\n\n\n### m = nuke.toNode('InputImage').setSelected('True')\n\n### n = nuke.createNode('BasicMaterial', inpanel=False)\n\n### for n in nuke.allNodes() :\n###        n.setSelected(0)\n\nm = nuke.toNode('DummyBasicMaterial').setSelected('True')\n\nfor n in nuke.allNodes('Group') :\n        n.setInput(0, nuke.selectedNode())\n\nm = nuke.toNode('DummyBasicMaterial').setSelected(0)\n\nfor n in nuke.allNodes('Group') :\n        n.setSelected('True')\n\nxOutput = nuke.toNode('DummyUVProject').setInput(0, nuke.selectedNode())\n\nfor n in nuke.allNodes() :\n        n.setSelected(0)\n\nCamProj = nuke.toNode('CameraProject')\nCamPos=\[0,0,str(max(maxB)*2)]\nCamProj\['translate'].setValue(CamPos)\n\nCamLabelDepth = str(max(maxB))\nCamLabelDepthCamera = str(max(maxB)*2)\nCamLabelCamera = CamLabelDepthCamera\nCamProj\['label'].setValue(\"Depth: \" + CamLabelDepth + \"\\n\" + \"CameraDepth: \" + CamLabelCamera)\n\nFRAMENR = str(nuke.frame())\n\nprint\nprint\nprint ### \"Maximum Depth(b) PixelValue\"\nprint \">>> Depth(B): \" + str(max(maxB)) + \" <<<\"\nprint \">>> \" + ergSTR + \" POINTS <<<\"\nprint \" ----- FRAME: \" + FRAMENR + \" -----\"\nprint\n\n##### HAUPTgroup.end()\n\nGroupSTR = str(ergSTR)\n#GroupValue = nuke.toNode('PointCache3D')\n#GroupValue = nuke.selectedNode()\n#GroupValue = nuke.thisNode()\n#GroupLabel = GroupValue\['label'].setValue(GroupSTR+\" Points\"  + \"\\n\" + \"FRAME: \" + FRAMENR)\nGroupLabel = HAUPTgroup\['label'].setValue(GroupSTR+\" Points\"  + \"\\n\" + \"FRAME: \" + FRAMENR)\n\n#k = nuke.toNode('PointCache3D')\n#k = nuke.selectedNode()\n#k = nuke.thisNode()\nHAUPTgroup\['RUN'].setVisible(False)\n\n### threading.Thread( None, selfDestruct ).start()" +STARTLINE}
+ addUserKnob {26 leer l "" -STARTLINE T "  "}
+ addUserKnob {41 DISABLE l Disable -STARTLINE T DummyANZAHL.DISABLE_GROUP}
+ addUserKnob {26 leer_1 l "" -STARTLINE T "  "}
+ addUserKnob {22 DELETE t "DELETE is to delete the complete PointCache\n\nALL Cubes are deleted.\n\n--> THIS IS GOOD FOR MANY Points (over 3000)\nWHEN YOU SAVE YOUR NUKE-Script(.nk)\n\[Size & Loading-Issues]\n\nBUT: when you have under 3000 than you can save it, too !!!\n\[for later (ready-to-go) use]" -STARTLINE T "#k = nuke.selectedNode()\n#print k.name()\n# nuke.thisNode()\n\n#HAUPTgroup = nuke.toNode('PointCache3D') \n#HAUPTgroup = nuke.selectedNode()\nHAUPTgroup = nuke.thisNode()\n##### HAUPTgroup.begin() \n\nfor n in nuke.allNodes('Group'):\n    nuke.delete(n)\n\nfor n in nuke.allNodes('Cube') :\n        n.setSelected('True')\n\nxOutput = nuke.toNode('DummyUVProject').setInput(0, nuke.selectedNode())\n\nfor n in nuke.allNodes() :\n        n.setSelected(0)\n\nCamProj = nuke.toNode('CameraProject')\nCamPos=\[0,0,0]\nCamProj\['translate'].setValue(CamPos)\n\nCamProj\['label'].setValue(\"\")\n\n##### HAUPTgroup.end()\n\nGroupSTR = str(ergSTR)\n#GroupValue = nuke.toNode('PointCache3D')\n#GroupValue = nuke.selectedNode()\n#GroupValue = nuke.thisNode()\n#GroupLabel = GroupValue\['label'].setValue(\"\")\nGroupLabel = HAUPTgroup\['label'].setValue(\"\")\n\n#k = nuke.toNode('PointCache3D')\n#k = nuke.selectedNode()\n#k = nuke.thisNode()\nHAUPTgroup\['RUN'].setVisible(True)"}
+ addUserKnob {20 SHADER_Material l SHADER t "This is the Default Material (BasicMaterial)\n\nBUT you can select before PointCache3D and after your Image ANY ShaderMaterial you like ...\n\n-> Then you should deactivate this Material !!!"}
+ addUserKnob {41 disable_1 l disable T DummyBasicMaterial.disable}
+ addUserKnob {26 ""}
+ addUserKnob {20 SHADERgroup l SHADER n 1}
+ SHADERgroup 0
+ addUserKnob {41 channels T DummyBasicMaterial.channels}
+ addUserKnob {41 emission T DummyBasicMaterial.emission}
+ addUserKnob {41 diffuse T DummyBasicMaterial.diffuse}
+ addUserKnob {41 specular T DummyBasicMaterial.specular}
+ addUserKnob {41 min_shininess l "min shininess" T DummyBasicMaterial.min_shininess}
+ addUserKnob {41 max_shininess l "max shininess" T DummyBasicMaterial.max_shininess}
+ addUserKnob {41 shininess_channel l "shininess channel" T DummyBasicMaterial.shininess_channel}
+ addUserKnob {26 ""}
+ addUserKnob {26 TIPPSHADER l "" t TIPP +STARTLINE T "This is your DefaultShader\n(BasicMaterial)\n\nWhen you insert\nany Shader (Phong, Specular, ...)\nbefore PointCache3D\nthen you can disable this one ... !?!"}
+ addUserKnob {20 endGroup_2 l endGroup n -1}
+ addUserKnob {20 TIPPgroup l TIP n 1}
+ TIPPgroup 0
+ addUserKnob {26 TIPP l "" +STARTLINE T "\nBEST RESULTS\n\nKeyout an Alpha\nin your Image for good\nColorImage-Projection\n(when you doesn't have an Alpha)"}
+ addUserKnob {20 endGroup_4 l endGroup n -1}
+ addUserKnob {20 CAMERA_Projection l CAMERA}
+ addUserKnob {20 CAMERAgroup l "CAMERA Projection" n 1}
+ CAMERAgroup 0
+ addUserKnob {41 projection_mode l projection T CameraProject.projection_mode}
+ addUserKnob {41 display_1 l display T CameraProject.display}
+ addUserKnob {41 selectable_1 l selectable -STARTLINE T CameraProject.selectable}
+ addUserKnob {41 focal_1 l "focal length" T CameraProject.focal}
+ addUserKnob {41 haperture_1 l "horiz aperture" T CameraProject.haperture}
+ addUserKnob {41 vaperture_1 l "vert aperture" T CameraProject.vaperture}
+ addUserKnob {41 translate_1 l translate T CameraProject.translate}
+ addUserKnob {41 rotate_1 l rotate T CameraProject.rotate}
+ addUserKnob {41 scaling_1 l scale T CameraProject.scaling}
+ addUserKnob {41 uniform_scale_1 l "uniform scale" T CameraProject.uniform_scale}
+ addUserKnob {26 ""}
+ addUserKnob {41 read_from_file_1 l "read from file" T CameraProject.read_from_file}
+ addUserKnob {41 import_chan_1 l "import chan file" -STARTLINE T CameraProject.import_chan}
+ addUserKnob {41 xform_order l "transform order" T CameraProject.xform_order}
+ addUserKnob {41 rot_order l "rotation order" -STARTLINE T CameraProject.rot_order}
+ addUserKnob {41 file_1 l file T CameraProject.file}
+ addUserKnob {41 reload_1 l reload -STARTLINE T CameraProject.reload}
+ addUserKnob {41 fbx_take_name_1 l "take name" T CameraProject.fbx_take_name}
+ addUserKnob {41 fbx_node_name_1 l "node name" -STARTLINE T CameraProject.fbx_node_name}
+ addUserKnob {41 frame_rate_1 l "frame rate" T CameraProject.frame_rate}
+ addUserKnob {41 use_frame_rate_1 l "use frame rate" -STARTLINE T CameraProject.use_frame_rate}
+ addUserKnob {26 ""}
+ addUserKnob {26 TIPPCAMERA l "" t TIPP +STARTLINE T "YOU CAN ALSO PUT AN\n>>> SCANLINE-RENDERER <<<\nAFTER THE POINTCACHE3D\n\n!!! This PointCloud is RENDERABLE !!!"}
+ addUserKnob {20 endGroup_3 l endGroup n -1}
+ addUserKnob {20 FILE}
+ addUserKnob {26 FILESAVE l "FILE Save/Export"}
+ addUserKnob {41 file l "PointCloud File" T WriteGeo1.file}
+ addUserKnob {26 "" l " "}
+ addUserKnob {41 Execute T WriteGeo1.Execute}
+ addUserKnob {26 ""}
+ addUserKnob {26 leer_3 l INVISIBLE -STARTLINE T "   "}
+ addUserKnob {20 FILETIPPgroup l "" +STARTLINE n 1}
+ FILETIPPgroup 0
+ addUserKnob {26 TIPPFILE l "" t "-> WITH THIS OBJ\n(example for each Frame)\nCAN YOU IN YOUR 3D-App\nVISUALIZE YOUR Image in 3D !!!" +STARTLINE T "YOU CAN ALSO PUT AN\n>>> 3D-GeoWrite <<<\nAFTER THE POINTCACHE3D\n\n!!! This PointCloud is SAVEABLE !!!"}
+ addUserKnob {20 endGroup_6 l endGroup n -1}
+}
+ BackdropNode {
+  inputs 0
+  name BackdropNode1
+  tile_color 0x8e8e3800
+  note_font_size 42
+  xpos -116
+  ypos -65
+  bdwidth 388
+  bdheight 426
+ }
+ Camera2 {
+  inputs 0
+  display off
+  selectable false
+  name CameraProject
+  xpos -49
+  ypos 143
+ }
+ Input {
+  inputs 0
+  name InputImage
+  xpos -63
+  ypos -38
+ }
+ BasicMaterial {
+  name DummyBasicMaterial
+  xpos -63
+  ypos 29
+ }
+ Cube {
+  display off
+  selectable false
+  render_mode off
+  rows 1
+  columns 1
+  uniform_scale 0.01
+  name DummyCube
+  xpos -63
+  ypos 83
+ }
+ UVProject {
+  inputs 2
+  selectable false
+  projection planar
+  name DummyUVProject
+  xpos 102
+  ypos 163
+ }
+set Na6842d0 [stack 0]
+ Viewer {
+  name Viewer1
+  xpos 102
+  ypos 308
+ }
+push $Na6842d0
+ Output {
+  name Output1
+  xpos -26
+  ypos 307
+ }
+ Input {
+  inputs 0
+  name InputPoints
+  xpos 31
+  ypos -36
+  number 1
+ }
+set Na691970 [stack 0]
+ Expression {
+  expr2 -b
+  name InputPointMINUS
+  xpos 130
+  ypos -36
+ }
+set Na6931c0 [stack 0]
+ Grade {
+  channels {-rgba.red -rgba.green rgba.blue}
+  black {{Grade1.black i}}
+  white {{Grade1.white i}}
+  multiply {{Grade1.multiply i}}
+  add {{Grade1.add i}}
+  gamma {{Grade1.gamma i}}
+  black_clamp false
+  name Grade2
+  xpos 181
+  ypos -7
+ }
+push $Na6931c0
+ Switch {
+  inputs 2
+  which {{Switch1.which i}}
+  name Switch2
+  xpos 130
+  ypos 40
+ }
+push $Na691970
+ Grade {
+  channels {-rgba.red -rgba.green rgba.blue}
+  black_clamp false
+  name Grade1
+  xpos 81
+  ypos -8
+ }
+push $Na691970
+ Switch {
+  inputs 2
+  name Switch1
+  xpos 31
+  ypos 42
+ }
+ Switch {
+  inputs 2
+  name InputPoint
+  xpos 106
+  ypos 76
+ }
+push $Na6842d0
+ WriteGeo {
+  file "\[value root.name] POINTCACHE3D_####.obj"
+  name WriteGeo1
+  xpos 152
+  ypos 242
+ }
+ NoOp {
+  inputs 0
+  name DummyANZAHL
+  xpos 106
+  ypos 123
+  addUserKnob {20 User}
+  addUserKnob {7 POINTANZAHL l Points t "In Procent (%)" R 1 100}
+  POINTANZAHL 80
+  addUserKnob {6 DISABLE_GROUP l DisableGroup +STARTLINE}
+ }
+end_group

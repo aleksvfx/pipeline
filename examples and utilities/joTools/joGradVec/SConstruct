@@ -1,0 +1,28 @@
+sourcefiles = Split("""../src/Point3.cpp ../src/Vector.cpp ./src/joGradVec.cpp""")
+
+env = Environment(
+CPPPATH = ['./include/', '../include/', '/usr/local/Nuke4.6/include/'],
+CCFLAGS = '-g -Wall -fPIC -funroll-loops -O3 -ffast-math -D_DEBUG  ', 
+CC='g++' 
+) 
+Export( 'env' ) 
+
+env['SHOBJSUFFIX']=".o"
+
+env.TargetSignatures( 'content' )
+BuildDir( 'obj','src' )
+
+
+env.Append( CCFLAGS = ' -DLINUX' )
+	
+LIBS = ['DDImage4.6']   
+
+env['LIBLINKPREFIX']="-l"
+
+env['LIBS']=LIBS
+	
+env['LIBPATH']=['/usr/lib', '/usr/X11R6/lib' ,'/usr/local/Nuke4.6/']
+
+
+
+env.SharedLibrary( 'joGradVec.linuxfc4_intel', sourcefiles )

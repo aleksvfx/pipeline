@@ -1,0 +1,158 @@
+#! /method/cg/opt/Nuke6.0v3/Nuke6.0 -nx
+version 6.0 v3
+Gizmo {
+ inputs 2
+ help "s_deSpill v0.1\n\n- despill footage by surpressing selected type of screen (currently red, green or blue). on top of the expressions used for despilling, a hue corrector is added for fine tuning."
+ tile_color 0x7aa9ffff
+ lock_connections true
+ addUserKnob {20 s_deSpill}
+ addUserKnob {4 spillcolor l "Spill Color" M {Red Green Blue "" "" "" "" ""}}
+ spillcolor Green
+ addUserKnob {4 method l Method M {Minimum Average Maximum ""}}
+ addUserKnob {7 supression l Supression R 0 2}
+ supression 1
+ addUserKnob {26 "" +STARTLINE}
+ addUserKnob {41 channels T HueCorrect1.channels}
+ addUserKnob {41 hue l "" +STARTLINE T HueCorrect1.hue}
+ addUserKnob {26 "" +STARTLINE}
+ addUserKnob {41 disableMask l "mask disable / no mask switch" T NoOp1.disableMask}
+ addUserKnob {41 from0 l "mask switch" T Copy1.from0}
+}
+ NoOp {
+  inputs 0
+  name NoOp1
+  xpos -49
+  ypos -172
+  addUserKnob {20 User}
+  addUserKnob {6 disableMask l "mask disable / no mask switch" t "keep this box checked if you want to disable the mask or in case you don't have a mask input" +STARTLINE}
+  disableMask true
+ }
+ Input {
+  inputs 0
+  name image
+  xpos 70
+  ypos -513
+  number 1
+  addUserKnob {20 User}
+ }
+ Dot {
+  name Dot5
+  xpos 104
+  ypos -416
+ }
+set Ne813e040 [stack 0]
+ Dot {
+  name Dot3
+  xpos 229
+  ypos -403
+ }
+ Dot {
+  name Dot2
+  xpos 229
+  ypos 26
+ }
+ Input {
+  inputs 0
+  name mask
+  xpos 282
+  ypos -172
+ }
+push $Ne813e040
+ Shuffle {
+  alpha white
+  name Shuffle1
+  xpos 70
+  ypos -373
+ }
+ Expression {
+  expr0 parent.spillcolor==0?r:parent.spillcolor==1?g:b
+  expr1 parent.spillcolor==0?g:parent.spillcolor==1?b:g
+  expr2 parent.spillcolor==0?b:parent.spillcolor==1?r:r
+  name ShuffleTo
+  xpos 70
+  ypos -315
+ }
+ Expression {
+  temp_name0 supMin
+  temp_expr0 r-(clamp(((r-min(g,b))*0.88),0,20)*parent.supression)
+  temp_name1 supAvg
+  temp_expr1 r-(clamp(((r-((g+b)/2))*0.88),0,20)*parent.supression)
+  temp_name2 supMax
+  temp_expr2 r-(clamp(((r-max(g,b))*0.88),0,20)*parent.supression)
+  expr0 parent.method==0?supMin:parent.method==1?supAvg:supMax
+  expr1 g
+  expr2 b
+  name SpillSupressor
+  xpos 70
+  ypos -287
+ }
+ Expression {
+  expr0 parent.spillcolor==0?r:parent.spillcolor==1?b:b
+  expr1 parent.spillcolor==0?g:parent.spillcolor==1?r:g
+  expr2 parent.spillcolor==0?b:parent.spillcolor==1?g:r
+  name ShuffleBack
+  xpos 70
+  ypos -259
+ }
+ HueCorrect {
+  name HueCorrect1
+  xpos 70
+  ypos -221
+ }
+ Copy {
+  inputs 2
+  from0 rgba.alpha
+  to0 rgba.alpha
+  name Copy1
+  xpos 70
+  ypos -179
+  disable {{parent.NoOp1.disableMask.main i}}
+ }
+ Premult {
+  name Premult1
+  xpos 70
+  ypos -124
+  disable {{parent.NoOp1.disableMask.main i}}
+ }
+push $Ne813e040
+ Dot {
+  name Dot4
+  xpos -92
+  ypos -416
+ }
+ Dot {
+  name Dot1
+  xpos -92
+  ypos -64
+ }
+ Merge2 {
+  inputs 2
+  name Merge2
+  xpos 70
+  ypos -69
+ }
+ MergeExpression {
+  inputs 2
+  expr0 r
+  expr1 g
+  expr2 b
+  channel3 rgba
+  expr3 Aa
+  name originalAlpha
+  xpos 70
+  ypos 21
+ }
+set Nf0418580 [stack 0]
+ Output {
+  name Output1
+  xpos 70
+  ypos 146
+ }
+push $Nf0418580
+ Viewer {
+  input_process false
+  name Viewer1
+  xpos 70
+  ypos 297
+ }
+end_group

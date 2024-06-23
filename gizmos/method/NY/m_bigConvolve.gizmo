@@ -1,0 +1,132 @@
+#! /method/cg/opt/Nuke6.1v3/Nuke6.1 -nx
+version 6.1 v3
+Gizmo {
+ inputs 2
+}
+ Input {
+  inputs 0
+  name Pattern
+  xpos -443
+  ypos -392
+  number 1
+ }
+ Reformat {
+  type scale
+  scale 2
+  name Reformat2
+  xpos -443
+  ypos -295
+ }
+ Tile {
+  rows 2
+  columns 2
+  name Tile1
+  xpos -443
+  ypos -267
+ }
+ Crop {
+  box {{"input0.actual_format.width / 4"} {"input0.actual_format.height / 4"} {"input0.actual_format.width - input0.actual_format.width / 4"} {"input0.actual_format.height - input0.actual_format.height / 4"}}
+  reformat true
+  name Crop5
+  xpos -443
+  ypos -239
+ }
+set Ncedc070 [stack 0]
+ FFT {
+  channels rgb
+  name FFT_Pattern
+  xpos -443
+  ypos -71
+ }
+set Ne4abc5b0 [stack 0]
+ Input {
+  inputs 0
+  name Main
+  xpos -546
+  ypos -393
+ }
+ Dot {
+  name Dot4
+  xpos -512
+  ypos -104
+ }
+set Ne4401ce0 [stack 0]
+ FFT {
+  channels rgb
+  name FFT_Main
+  xpos -546
+  ypos -69
+ }
+ FFTMultiply {
+  inputs 2
+  channels rgb
+  name FFTMultiply_ConvolveMain
+  xpos -546
+  ypos 6
+ }
+ InvFFT {
+  channels rgb
+  name InvFFT_Main
+  xpos -546
+  ypos 126
+ }
+push $Ne4abc5b0
+push $Ne4401ce0
+ Shuffle {
+  red white
+  green white
+  blue white
+  alpha black
+  name Shuffle_SetToWhite
+  xpos -333
+  ypos -108
+ }
+ FFT {
+  channels rgb
+  name FFT_Scale
+  xpos -333
+  ypos -72
+ }
+ FFTMultiply {
+  inputs 2
+  channels rgb
+  name FFTMultiply_ConvolveScale
+  xpos -333
+  ypos 6
+ }
+ InvFFT {
+  channels rgb
+  name InvFFT_Scale
+  xpos -333
+  ypos 47
+ }
+ Saturation {
+  saturation 0
+  mode Average
+  name Saturation
+  xpos -333
+  ypos 85
+ }
+ Merge2 {
+  inputs 2
+  operation divide
+  name Merge1
+  xpos -333
+  ypos 126
+ }
+set Ne75ae970 [stack 0]
+ Output {
+  name Output1
+  xpos -333
+  ypos 226
+ }
+push $Ncedc070
+push $Ne75ae970
+ Viewer {
+  inputs 2
+  input_process false
+  name Viewer1
+  xpos -697
+  ypos -265
+ }
+end_group

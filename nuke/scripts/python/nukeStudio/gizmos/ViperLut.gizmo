@@ -1,0 +1,53 @@
+#! S:/Software/Nuke/4.5.27/nuke4.5.exe -nx
+version 4.5027
+Gizmo {
+ inputs 1
+}
+ Input {
+  inputs 0
+  name RAW
+  xpos -115
+  ypos -4
+ }
+ Log2Lin {
+  gamma 1
+  name Log2Lin8
+  label "Conversion of Log DPX\n(Gamma 1)"
+  xpos -115
+  ypos 81
+ }
+ ColorLookup {
+  lut {master {from_sRGB(to_rec709(x)) C 0 1}
+    red {curve C 0 1}
+    green {curve C 0 1}
+    blue {curve C 0 1}
+    alpha {curve C 0 1}}
+  name ColorLookup6
+  label "Remove sRGB Add rec709"
+  xpos -115
+  ypos 176
+ }
+ ColorLookup {
+  lut {master {curve C 0 1}
+    red {curve C 0.0006 s0.05 x0.004778 0.00182 x0.008101 0.0043 x0.015678 0.01278 x0.0281925 0.02966 x0.0467078 0.0544 x0.075236 0.09255 x0.100084 0.126512 x0.160915 0.21028 x0.21432 0.28755 x0.34464 0.4734 x0.458926 0.636884 x0.73327 1.04126 x1.0086 1.3955 x1.61325 2.255 x2.17311 3.021 x3.382 4.865 x4.278 6.52 x5.2 8.15 x5.96 8.8 s0.3}
+    green {curve C 0.0006 s0.05 x0.006025 0.00182 x0.0120732 0.00455 x0.0246 0.01335 x0.04519 0.02964 x0.0749205 0.05387 x0.120002 0.090967 x0.16079 0.12555 x0.25926 0.20856 x0.342273 0.28515 x0.5525 0.466 x0.726504 0.6325 x1.16 1.0241 x1.5775 1.3852 x2.486 2.24 x3.2546 2.9965 x4.9768 4.828 s1.14 x5.8 6.5 s4.2 u0.961171 x5.96 8.25}
+    blue {curve C 0.0006 s0.02 v1.39164 x0.00384 0.00182 s0.88 u0.939857 x0.005438 0.0048 x0.00796 0.01323 x0.01259 0.0306 x0.0192895 0.0549 x0.029567 0.088 x0.03986 0.12645 x0.06255 0.2021 x0.0826715 0.2898 x0.13132 0.451 x0.17692 0.6418 x0.28064 0.9926 x0.39346 1.418 x0.62736 2.1698 x0.86199 3.0665 x1.36385 4.684 x1.77098 6.63 x2.769 10.05 s2.28 x5.95 13.9 s0.28}
+    alpha {curve C 0 1}}
+  name ColorLookup7
+  xpos -115
+  ypos 245
+ }
+ Clamp {
+  maximum_enable false
+  name Clamp1
+  label "Remove Negative Values"
+  xpos -115
+  ypos 322
+ }
+ Output {
+  name Output1
+  selected true
+  xpos -115
+  ypos 457
+ }
+end_group

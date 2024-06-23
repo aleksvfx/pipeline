@@ -1,0 +1,1 @@
+plugin_addpath [file dirname $program_name]

@@ -1,0 +1,156 @@
+#! /Applications/Nuke5.2v3/Nuke5.2v3.app/Contents/MacOS/Nuke5.2v3 -nx
+version 5.2300
+define_window_layout_xml {<?xml version="1.0" encoding="UTF-8"?>
+<layout version="1.0">
+    <window x="0" y="22" w="1024" h="742" screen="0">
+        <splitter orientation="1">
+            <split size="646"></split>
+            <splitter orientation="1">
+                <split size="57"></split>
+                <dock id="" hideTitles="1" activePageId="Toolbar.1">
+                    <page id="Toolbar.1"></page>
+                </dock>
+                <split size="585"></split>
+                <splitter orientation="2">
+                    <split size="358"></split>
+                    <dock id="" activePageId="Viewer.1">
+                        <page id="Viewer.1"></page>
+                    </dock>
+                    <split size="358"></split>
+                    <dock id="" activePageId="DAG.1">
+                        <page id="DAG.1"></page>
+                        <page id="Curve Editor.1"></page>
+                        <page id="Script Editor.1"></page>
+                        <page id="Viewer.2"></page>
+                    </dock>
+                </splitter>
+            </splitter>
+            <split size="374"></split>
+            <splitter orientation="2">
+                <split size="73"></split>
+                <dock id="" activePageId="Progress.1">
+                    <page id="Progress.1"></page>
+                </dock>
+                <split size="643"></split>
+                <dock id="" activePageId="Properties.1">
+                    <page id="Properties.1"></page>
+                </dock>
+            </splitter>
+        </splitter>
+    </window>
+</layout>
+}
+Root {
+ inputs 0
+ name /Users/xXx/ViewerOnOff.nk
+ fps 25
+ format "720 576 0 0 720 576 1.09 PAL"
+ proxy_type scale
+ proxy_format "1024 778 0 0 1024 778 1 1K_Super_35(full-ap)"
+}
+Read {
+ inputs 0
+ file /users/xXx/2.tiff
+ format "24 24 0 0 24 24 1 "
+ name Read2
+ xpos 31
+ ypos -151
+}
+Shuffle {
+ alpha red
+ name Shuffle2
+ xpos 31
+ ypos -65
+}
+Clamp {
+ channels alpha
+ minimum 0.1
+ MinClampTo_enable true
+ MaxClampTo_enable true
+ name Clamp2
+ xpos 31
+ ypos -39
+}
+Gamma {
+ channels alpha
+ value 2
+ name Gamma2
+ xpos 31
+ ypos -1
+}
+set N9610d40 [stack 0]
+push $N9610d40
+Multiply {
+ inputs 1+1
+ channels rgb
+ value {0 0 0 0}
+ fringe true
+ name Multiply1
+ xpos 31
+ ypos 37
+}
+Read {
+ inputs 0
+ file /users/xXx/1.tiff
+ format "24 24 0 0 24 24 1 "
+ name Read1
+ xpos -158
+ ypos -169
+}
+Shuffle {
+ alpha red
+ name Shuffle1
+ xpos -158
+ ypos -83
+}
+Clamp {
+ channels alpha
+ minimum 0.1
+ MinClampTo_enable true
+ MaxClampTo_enable true
+ name Clamp1
+ xpos -158
+ ypos -57
+}
+Gamma {
+ channels alpha
+ value 2
+ name Gamma1
+ xpos -158
+ ypos -19
+}
+set N66d5590 [stack 0]
+push $N66d5590
+Multiply {
+ inputs 1+1
+ channels rgb
+ value {0 0 0 0}
+ fringe true
+ name Multiply2
+ xpos -158
+ ypos 19
+}
+Merge2 {
+ inputs 2
+ operation average
+ mix 0.45
+ name Merge1
+ xpos -62
+ ypos 88
+}
+Write {
+ channels rgba
+ file /Users/xXx/ViewerOnOff.png
+ file_type png
+ checkHashOnRead false
+ version 1
+ name Write1
+ selected true
+ xpos -62
+ ypos 121
+}
+Viewer {
+ name Viewer1
+ xpos -60
+ ypos 210
+}

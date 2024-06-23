@@ -1,0 +1,64 @@
+#! /method/cg/opt/Nuke6.0v7/Nuke6.0 -nx
+version 6.0 v7
+Gizmo {
+ addUserKnob {20 User}
+ addUserKnob {41 lensType l "Lens Type" T LensDistortion1.lensType}
+ addUserKnob {41 distortion1 l "Radial Distortion 1" T LensDistortion1.distortion1}
+ addUserKnob {41 distortion2 l "Radial Distortion 2" T LensDistortion1.distortion2}
+ addUserKnob {41 distortionCenter l "Distortion Center" T LensDistortion1.distortionCenter}
+ addUserKnob {41 anamorphicSqueeze l "Anamorphic Squeeze" T LensDistortion1.anamorphicSqueeze}
+ addUserKnob {41 asymmetricDistortion l "Asymmetric Distortion" T LensDistortion1.asymmetricDistortion}
+ addUserKnob {41 invertDistortion l Undistort T LensDistortion1.invertDistortion}
+ addUserKnob {41 filter T STMap2.filter}
+}
+ Input {
+  inputs 0
+  name Input1
+  xpos 554
+  ypos -335
+ }
+set N208b8ad0 [stack 0]
+push $N208b8ad0
+ LensDistortion1_0 {
+  serializeKnob ""
+  serialiseKnob "22 serialization::archive 4 0 0 0 0 0 0 0 0 0 0 0 0"
+  outputType Displacement
+  invertDistortion true
+  name LensDistortion1
+  xpos 688
+  ypos -264
+ }
+push $N208b8ad0
+ STMap {
+  inputs 2
+  uv forward
+  filter Keys
+  name STMap2
+  xpos 688
+  ypos -187
+ }
+set N208c7d10 [stack 0]
+ Switch {
+  inputs 2
+  which {{"(parent.LensDistortion1.distortion1.main == 0) && (parent.LensDistortion1.distortion2.main == 0) && (parent.LensDistortion1.distortionCenter.main.x == 0) && (parent.LensDistortion1.distortionCenter.main.y == 0)"}}
+  name Switch1
+  xpos 554
+  ypos -123
+ }
+set N2105c860 [stack 0]
+ Output {
+  name Output1
+  xpos 554
+  ypos -60
+ }
+push $N208c7d10
+push $N2105c860
+ Viewer {
+  inputs 2
+  frame 1
+  input_process false
+  name Viewer1
+  xpos 346
+  ypos -306
+ }
+end_group

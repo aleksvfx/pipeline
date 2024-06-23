@@ -1,0 +1,138 @@
+#! /S2/3d/farm/nuke/apps/software/Nuke5.0.2/Nuke5.0 -nx
+version 5.0200
+Gizmo {
+ addUserKnob {20 User}
+ addUserKnob {26 "" l Knee}
+ addUserKnob {7 power R 0 4}
+ power 1
+ addUserKnob {7 knee_biase l biase R 0.2 4}
+ knee_biase 1
+ addUserKnob {26 "" l Shoulder}
+ addUserKnob {7 cur_pow l power R 0 4}
+ cur_pow 1
+ addUserKnob {7 maxval l max R 1 10}
+ maxval 5
+}
+ Input {
+  inputs 0
+  name Input1
+  xpos -583
+  ypos -79
+ }
+set N9bd21f0 [stack 0]
+ Colorspace {
+  colorspace_out CIE-Yxy
+  name Transcode6
+  tile_color 0xff000000
+  xpos -583
+  ypos -35
+ }
+ Multiply {
+  channels {rgba.red -rgba.green -rgba.blue}
+  value {{parent.knee_biase i}}
+  maskChannel -rgba.alpha
+  maskFrom input
+  unpremult -rgba.alpha
+  name Multiply3
+  xpos -583
+  ypos 8
+  disable {{parent.power==0?1:0}}
+ }
+set N9bd85f0 [stack 0]
+ ColorLookup {
+  channels {rgba.red -rgba.green -rgba.blue}
+  lut {master {}
+    red {curve C 7e-05 x0.0007 9.5e-05 x0.0032 0.0005 x0.014 0.0029 x0.0395 0.011 x0.0875 0.041349 s1 x0.625 0.625 s1}
+    green {}
+    blue {}
+    alpha {}}
+  maskChannel -rgba.alpha
+  name ColorLookup
+  tile_color 0xff000000
+  label "Film Lookup"
+  selected true
+  xpos -697
+  ypos 87
+ }
+push $N9bd85f0
+ Merge {
+  inputs 2
+  A {rgba.red -rgba.green -rgba.blue -rgba.alpha}
+  operation divide
+  B {rgba.red -rgba.green -rgba.blue -rgba.alpha}
+  output {rgba.red -rgba.green -rgba.blue -rgba.alpha}
+  maskChannel -rgba.alpha
+  maskFrom input
+  name Merge4
+  xpos -697
+  ypos 167
+ }
+ SoftClip {
+  conversion "logarithmic compress"
+  softclip_min 1
+  softclip_max 2
+  name SoftClip1
+  label "Soft Fix Divide errors"
+  xpos -697
+  ypos 218
+ }
+push $N9bd85f0
+ MergeExpression {
+  inputs 2
+  temp_name0 mag
+  temp_expr0 parent.power
+  expr0 pow(Ar,mag)*Br
+  expr1 Bg
+  expr2 Bb
+  channel3 {none none none -rgba.alpha}
+  name MergeExpression1
+  xpos -583
+  ypos 287
+ }
+ Multiply {
+  channels {rgba.red -rgba.green -rgba.blue}
+  value {{1/parent.knee_biase i}}
+  maskChannel -rgba.alpha
+  maskFrom input
+  unpremult -rgba.alpha
+  name Multiply4
+  xpos -583
+  ypos 347
+  disable {{parent.power==0?1:0}}
+ }
+ Colorspace {
+  colorspace_in CIE-Yxy
+  name Transcode1
+  tile_color 0xff000000
+  xpos -583
+  ypos 523
+ }
+ Expression {
+  expr0 "maxval * pow( 1 - exp( - pow(r / maxval,  1/pwr ) ) , pwr )"
+  expr1 "maxval * pow( 1 - exp( - pow(g / maxval,  1/pwr ) ) , pwr )"
+  expr2 "maxval * pow( 1 - exp( - pow(b / maxval,  1/pwr ) ) , pwr )"
+  mix {{parent.cur_pow>1?1:parent.cur_pow i}}
+  name FilmCurver3
+  xpos -583
+  ypos 645
+  addUserKnob {20 "" l User}
+  addUserKnob {7 pwr l Value}
+  pwr {{parent.cur_pow<1?1:parent.cur_pow i}}
+  addUserKnob {7 maxval l "Max Value" R 1 20}
+  maxval {{parent.maxval i}}
+ }
+set N9beb310 [stack 0]
+ Output {
+  name Output1
+  xpos -583
+  ypos 739
+ }
+push $N9bd21f0
+push $N9beb310
+ Viewer {
+  inputs 2
+  name Viewer1
+  xpos -384
+  ypos 791
+ }
+end_group

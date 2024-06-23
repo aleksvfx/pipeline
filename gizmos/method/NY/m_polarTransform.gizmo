@@ -1,0 +1,127 @@
+#! /method/cg/opt/Nuke6.1v3/Nuke6.1 -nx
+version 6.1 v3
+Gizmo {
+ addUserKnob {20 User}
+ addUserKnob {6 reverse l Reverse +STARTLINE}
+ addUserKnob {12 center l Center}
+ center {1024 778}
+ addUserKnob {7 rotation l Rotation R -360 360}
+ addUserKnob {14 scale l Scale R 0 100}
+ scale 1
+ addUserKnob {41 filter T STMap5.filter}
+}
+ Input {
+  inputs 0
+  name Input1
+  xpos -560
+  ypos -541
+ }
+ Dot {
+  name Dot8
+  xpos -526
+  ypos -513
+ }
+set Nb3a4d30 [stack 0]
+ Shuffle {
+  red black
+  green black
+  blue black
+  alpha black
+  name Shuffle1
+  xpos -560
+  ypos -495
+ }
+set Nb3a7b30 [stack 0]
+ Dot {
+  name Dot2
+  xpos -417
+  ypos -490
+ }
+ Reformat {
+  type "to box"
+  box_width {{"input.actual_format.width / parent.scale.w"}}
+  box_height {{"input.actual_format.height / parent.scale.h"}}
+  box_fixed true
+  box_pixel_aspect {{input.actual_format.pixel_aspect}}
+  resize distort
+  name Reformat2
+  xpos -450
+  ypos -467
+ }
+ Expression {
+  expr0 "fmod(.5 - (atan2(x - parent.center.x, y - parent.center.y) + parent.rotation * pi / 180) / (2 * pi) + 10, 1)"
+  expr1 "sqrt(pow(x - parent.center.x, 2) + pow(y - parent.center.y, 2)) / (radius)"
+  name Expression3
+  xpos -450
+  ypos -409
+  addUserKnob {20 User}
+  addUserKnob {7 radius l Radius}
+  radius {{"sqrt(pow(max(actual_format.width - parent.center.x, parent.center.x), 2) + pow(max(actual_format.height - parent.center.y, parent.center.y), 2))" i}}
+ }
+set Nb3bc780 [stack 0]
+push $Nb3a7b30
+ Reformat {
+  type "to box"
+  box_width {{"input.actual_format.width * parent.scale.w"}}
+  box_height {{"input.actual_format.height * parent.scale.h"}}
+  box_fixed true
+  box_pixel_aspect {{input.actual_format.pixel_aspect}}
+  resize distort
+  name Reformat1
+  xpos -560
+  ypos -467
+ }
+ Expression {
+  temp_name3 o
+  temp_expr3 "-.25 + parent.rotation / 360"
+  expr0 "(parent.center.x * parent.scale.w + cos((x / actual_format.width + o) * 2 * pi) * (y / actual_format.height) * radius) / actual_format.width"
+  expr1 "(parent.center.y * parent.scale.h + sin((x / actual_format.width + o) * 2 * pi) * (y / actual_format.height) * radius) / actual_format.height"
+  channel2 {-rgba.red -rgba.green -rgba.blue}
+  channel3 {none none none -rgba.alpha}
+  name Expression4
+  xpos -560
+  ypos -439
+  addUserKnob {20 User}
+  addUserKnob {7 radius l Radius}
+  radius {{"sqrt(pow(max(actual_format.width - parent.center.x * parent.scale.w, parent.center.x * parent.scale.w), 2) + pow(max(actual_format.height - parent.center.y * parent.scale.h, parent.center.y * parent.scale.h), 2))"}}
+ }
+ Switch {
+  inputs 2
+  which {{parent.reverse.main}}
+  name Switch1
+  xpos -560
+  ypos -411
+ }
+push $Nb3a4d30
+ Dot {
+  name Dot6
+  xpos -578
+  ypos -513
+ }
+ Dot {
+  name Dot1
+  xpos -578
+  ypos -373
+ }
+ STMap {
+  inputs 2
+  uv rgb
+  name STMap5
+  xpos -560
+  ypos -383
+ }
+set Nb3de6c0 [stack 0]
+push $Nb3bc780
+ Viewer {
+  inputs 2
+  name Viewer1
+  xpos -214
+  ypos -301
+ }
+push $Nb3de6c0
+ Output {
+  name Output1
+  xpos -560
+  ypos -341
+ }
+end_group

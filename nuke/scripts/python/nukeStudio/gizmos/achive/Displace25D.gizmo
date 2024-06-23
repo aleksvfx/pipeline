@@ -1,0 +1,268 @@
+#! /diskx/film/apps/d2/Nuke4.3.34_temp_lin/nuke4.3 -nx
+version 4.3035
+Gizmo {
+ inputs 2
+ addUserKnob { 20 "" Displace25D } 
+ addUserKnob { 26 "" "2.5D Displace" } 
+ addUserKnob { 4 DisplaceChanel "Displacement Channel" M { rgba.red rgba.green rgba.blue rgba.alpha uv.u uv.v depth.z rgba.lum } } 
+ addUserKnob { 7 DisplaceOffset "Z Offset" R -1 1 } 
+ addUserKnob { 7 DisplaceLevel Level R -100 100 } 
+ addUserKnob { 7 Soften Soften R 0 1 } 
+ addUserKnob { 20 "" DEV } 
+ addUserKnob { 26 "" "" T "Tool is under Development\nbeta v1.2\n\nBANKOFF" } 
+ name Displace25D
+ window {-1 -1 876 943 0 -340 -814 0.840896}
+ DisplaceChanel rgba.lum
+ DisplaceLevel -36
+ Soften 0.26
+}
+ BackdropNode {
+  inputs 0
+  name DEV_Notes
+  label "-The Problem is the Displace is only \nhappening over the location of the Text.  If \nthe text was displaced in 3D then the text \nshould be increassing in size.\n\n-The Text is now side under behind the texture\nnot a full projection.  The base of the sides are not\nstuck to their orginal location.\n\n-Explored the God Ray Solution NEED WORK\n\n-The Blur Need to extend beyond the BBox.  There\nis a Plastic Rap Problem at the edges"
+  note_font_size 20
+  xpos 171
+  ypos -583
+  bdwidth 485
+  bdheight 329
+ }
+ Input {
+  inputs 0
+  name image
+  xpos 16
+  ypos -587
+ }
+ Expression {
+  channel0 {uv.u -uv.v}
+  expr0 cx*-1
+  channel1 {-uv.u uv.v}
+  expr1 cy*-1
+  name Expression3
+  xpos 16
+  ypos -533
+ }
+ Dot {
+  name Dot3
+  tile_color 0x9597bf00
+  xpos 50
+  ypos -482
+ }
+set N877c5d0 [stack 0]
+ Input {
+  inputs 0
+  name src
+  xpos -165
+  ypos -1005
+  number 1
+ }
+ Dot {
+  name Dot1
+  tile_color 0x9597bf00
+  xpos -131
+  ypos -906
+ }
+set N865f7b0 [stack 0]
+ Saturation {
+  saturation 0
+  name Saturation1
+  tile_color 0x7aa9ff00
+  xpos 274
+  ypos -817
+ }
+set N8781e30 [stack 0]
+push $N8781e30
+ ChannelCopy {
+  inputs 2
+  srcchan rgba.red
+  dstchan depth.Z
+  name ChannelCopy17
+  label "(red -> depth.Z)"
+  xpos 274
+  ypos -783
+ }
+push $N865f7b0
+push $N865f7b0
+ ChannelCopy {
+  inputs 2
+  srcchan depth.Z
+  dstchan depth.Z
+  name ChannelCopy7
+  label "(depth.Z -> depth.Z)"
+  xpos 159
+  ypos -783
+ }
+push $N865f7b0
+push $N865f7b0
+ ChannelCopy {
+  inputs 2
+  srcchan uv.v
+  dstchan depth.Z
+  name ChannelCopy6
+  label "(uv.v -> depth.Z)"
+  xpos 55
+  ypos -782
+ }
+push $N865f7b0
+push $N865f7b0
+ ChannelCopy {
+  inputs 2
+  srcchan uv.u
+  dstchan depth.Z
+  name ChannelCopy5
+  label "(uv.u -> depth.Z)"
+  xpos -55
+  ypos -782
+ }
+push $N865f7b0
+push $N865f7b0
+ ChannelCopy {
+  inputs 2
+  dstchan depth.Z
+  name ChannelCopy4
+  label "(alpha -> depth.Z)"
+  xpos -165
+  ypos -782
+ }
+push $N865f7b0
+push $N865f7b0
+ ChannelCopy {
+  inputs 2
+  srcchan rgba.blue
+  dstchan depth.Z
+  name ChannelCopy3
+  label "(blue -> depth.Z)"
+  xpos -275
+  ypos -782
+ }
+push $N865f7b0
+push $N865f7b0
+ ChannelCopy {
+  inputs 2
+  srcchan rgba.green
+  dstchan depth.Z
+  name ChannelCopy2
+  label "(green -> depth.Z)"
+  xpos -385
+  ypos -782
+ }
+push $N865f7b0
+push $N865f7b0
+ ChannelCopy {
+  inputs 2
+  srcchan rgba.red
+  dstchan depth.Z
+  name ChannelCopy1
+  label "(red -> depth.Z)"
+  xpos -495
+  ypos -782
+ }
+ Switch {
+  inputs 8
+  which {{DisplaceChanel}}
+  name ChanelSelect
+  xpos -165
+  ypos -655
+  indicators 2
+ }
+ Remove {
+  action keep
+  channels depth
+  name Remove2
+  tile_color 0x9e3c6300
+  label (depth)
+  xpos -165
+  ypos -613
+ }
+ AdjBBox {
+  numpixels {{Soften*100}}
+  name AdjBBox1
+  xpos -165
+  ypos -579
+  indicators 2
+ }
+ Add {
+  channels depth
+  value {{DisplaceOffset.0}}
+  name Add1
+  label (depth)
+  selected true
+  xpos -165
+  ypos -531
+  indicators 2
+ }
+ LayerCopy {
+  inputs 2
+  channels uv
+  name LayerCopy2
+  tile_color 0x9e3c6300
+  label (uv)
+  xpos -165
+  ypos -485
+ }
+ Dot {
+  name Dot2
+  tile_color 0x9597bf00
+  xpos -131
+  ypos -414
+ }
+set N878b198 [stack 0]
+push $N878b198
+push $N877c5d0
+ ChannelMerge {
+  inputs 2
+  A depth.Z
+  operation multiply
+  B uv.u
+  out uv.u
+  name ChannelMerge1
+  tile_color 0x4b5ec600
+  label "(depth.Z * uv.u =\nuv.u)"
+  xpos 16
+  ypos -428
+ }
+ ChannelMerge {
+  inputs 2
+  A depth.Z
+  operation multiply
+  B uv.v
+  out uv.v
+  name ChannelMerge2
+  tile_color 0x4b5ec600
+  label "(depth.Z * uv.v =\nuv.v)"
+  xpos 16
+  ypos -383
+ }
+ Blur {
+  channels uv
+  size {{Soften*100 i}}
+  name Blur1
+  tile_color 0xcc804e00
+  label (uv)
+  xpos 16
+  ypos -302
+  indicators 2
+ }
+ Multiply {
+  channels uv
+  value {{DisplaceLevel}}
+  name Multiply2
+  tile_color 0x7aa9ff00
+  label "Max Value Half of Max Side\n(uv)"
+  xpos 16
+  ypos -254
+  indicators 2
+ }
+ IDistort {
+  uv uv
+  name IDistort2
+  tile_color 0xa57aaa00
+  label (all)
+  xpos 16
+  ypos -182
+ }
+ Output {
+  name Output1
+  xpos 16
+  ypos -111
+ }
+end_group

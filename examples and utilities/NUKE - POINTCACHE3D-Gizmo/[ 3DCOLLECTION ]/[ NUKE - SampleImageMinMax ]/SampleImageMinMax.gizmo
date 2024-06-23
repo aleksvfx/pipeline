@@ -1,0 +1,45 @@
+#! /Applications/Nuke5.2v3/Nuke5.2v3.app/Contents/MacOS/Nuke5.2v3 -nx
+version 5.2300
+Gizmo {
+ help "SampleImageMinMax\n\nThis sample() your Image for\nMin, Max ColorValues\n\nThis can you then use with an expression\nfor your ColorChange ...\nOr for CorrectView of your zDepth/Float-Image\n(like Normalize)\n"
+ addUserKnob {20 SampleImageMinMax}
+ addUserKnob {1 MinR l R}
+ MinR 0
+ addUserKnob {1 MinG l G -STARTLINE}
+ MinG 0
+ addUserKnob {1 MinB l B -STARTLINE}
+ MinB 0
+ addUserKnob {18 MinColor}
+ MinColor {0 0 0}
+ addUserKnob {26 "" +STARTLINE}
+ addUserKnob {1 MaxR l R}
+ MaxR 0
+ addUserKnob {1 MaxG l G -STARTLINE}
+ MaxG 0
+ addUserKnob {1 MaxB l B -STARTLINE}
+ MaxB 0
+ addUserKnob {18 MaxColor}
+ MaxColor {0 0 0}
+ addUserKnob {26 "" +STARTLINE}
+ addUserKnob {22 RUN T "HAUPTgroup = nuke.thisNode()\n##### HAUPTgroup.begin()\n\nInputImage_sn = nuke.toNode('Image').setSelected('True')\nsn = nuke.selectedNode()\n\nw = nuke.value(sn.name()+\".format.w\")\nh = nuke.value(sn.name()+\".format.h\")\n\nminR = \[]\nminG = \[]\nminB = \[]\n\nmaxR = \[]\nmaxG = \[]\nmaxB = \[]\n\nfor sampleY in range(int(h)+1):\n\n    tmp_r = \[]\n    tmp_g = \[]\n    tmp_b = \[]\n\n    for sampleX in range(int(w)+1):\n        svr = sn.sample(\"r\", sampleY, sampleX, 0.5, 0.5)\n        svg = sn.sample(\"g\", sampleY, sampleX, 0.5, 0.5)\n        svb = sn.sample(\"b\", sampleY, sampleX, 0.5, 0.5)\n        tmp_r.append(svr)\n        tmp_g.append(svg)\n        tmp_b.append(svb)\n\n    minR.append(min(tmp_r))\n    minG.append(min(tmp_g))\n    minB.append(min(tmp_b))\n    maxR.append(max(tmp_r))\n    maxG.append(max(tmp_g))\n    maxB.append(max(tmp_b))\n\n##### HAUPTgroup.end()\n\nx = nuke.thisNode()\n\nx\['MinR'].setValue(str(min(minR)))\nx\['MinG'].setValue(str(min(minG)))\nx\['MinB'].setValue(str(min(minB)))\n\nMINColor = \[str(min(minR)),str(min(minG)),str(min(minB))]\n\nx\['MinColor'].setValue(MINColor)\n\nx\['MaxR'].setValue(str(max(maxR)))\nx\['MaxG'].setValue(str(max(maxG)))\nx\['MaxB'].setValue(str(max(maxB)))\n\nMAXColor = \[str(max(maxR)),str(max(maxG)),str(max(maxB))]\n\nx\['MaxColor'].setValue(MAXColor)\n\nprint\nprint \"Minimum pixel value\"\nprint \">>> R: \" + str(min(minR)) + \" G: \" + str(min(minG)) + \" B: \" + str(min(minB))\nprint \"Maximum pixel value\"\nprint \">>> R: \" + str(max(maxR)) + \" G: \" + str(max(maxG)) + \" B: \" + str(max(maxB))" +STARTLINE}
+}
+ Input {
+  inputs 0
+  name Image
+  selected true
+  xpos 24
+  ypos -93
+ }
+set N951c070 [stack 0]
+ Viewer {
+  name Viewer1
+  xpos 124
+  ypos 79
+ }
+push $N951c070
+ Output {
+  name Output1
+  xpos 28
+  ypos 78
+ }
+end_group

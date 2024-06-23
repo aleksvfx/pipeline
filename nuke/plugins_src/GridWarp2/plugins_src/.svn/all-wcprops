@@ -1,0 +1,65 @@
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/sw/!svn/ver/4971/app/method/tools/trunk/nuke/plugins_src/GridWarp2/plugins_src
+END
+ArbMatrix.h
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/sw/!svn/ver/4971/app/method/tools/trunk/nuke/plugins_src/GridWarp2/plugins_src/ArbMatrix.h
+END
+GridWarp2.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/sw/!svn/ver/4971/app/method/tools/trunk/nuke/plugins_src/GridWarp2/plugins_src/GridWarp2.cpp
+END
+TransformUtils.h
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/sw/!svn/ver/4971/app/method/tools/trunk/nuke/plugins_src/GridWarp2/plugins_src/TransformUtils.h
+END
+SplineWarp2.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/sw/!svn/ver/4971/app/method/tools/trunk/nuke/plugins_src/GridWarp2/plugins_src/SplineWarp2.cpp
+END
+fnVecMatDefines.h
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/sw/!svn/ver/4971/app/method/tools/trunk/nuke/plugins_src/GridWarp2/plugins_src/fnVecMatDefines.h
+END
+ThinPlateSpline.h
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/sw/!svn/ver/4971/app/method/tools/trunk/nuke/plugins_src/GridWarp2/plugins_src/ThinPlateSpline.h
+END
+TransformUtils.o
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/sw/!svn/ver/4971/app/method/tools/trunk/nuke/plugins_src/GridWarp2/plugins_src/TransformUtils.o
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/sw/!svn/ver/4971/app/method/tools/trunk/nuke/plugins_src/GridWarp2/plugins_src/Makefile
+END
+TransformUtils.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/sw/!svn/ver/4971/app/method/tools/trunk/nuke/plugins_src/GridWarp2/plugins_src/TransformUtils.cpp
+END
+GridWarp2.o
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/sw/!svn/ver/4971/app/method/tools/trunk/nuke/plugins_src/GridWarp2/plugins_src/GridWarp2.o
+END

@@ -1,0 +1,32 @@
+#! C:/Program Files/Nuke5.2v1/Nuke5.2.exe -nx
+version 5.2100
+Gizmo {
+ addUserKnob {20 User}
+ addUserKnob {6 reverse l Reverse +STARTLINE}
+}
+ Input {
+  inputs 0
+  name Input1
+  xpos 364
+  ypos -286
+ }
+ Add {
+  channels rgb
+  value {{"(!parent.reverse) * -.5 + (parent.reverse)"}}
+  name Add
+  xpos 364
+  ypos -260
+ }
+ Multiply {
+  channels rgb
+  value {{"(!parent.reverse) * 2 + parent.reverse * .5"}}
+  name Multiply
+  xpos 364
+  ypos -234
+ }
+ Output {
+  name Output1
+  xpos 364
+  ypos -208
+ }
+end_group

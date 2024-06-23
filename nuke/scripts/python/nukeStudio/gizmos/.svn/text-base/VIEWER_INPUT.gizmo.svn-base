@@ -1,0 +1,691 @@
+#! Z:/INSTALL/Nuke4/5.21/nuke4.5.exe -nx
+version 4.5021
+Gizmo {
+ inputs 1
+ tile_color 0x94ff00
+ label "SWAY Film Print"
+ note_font "Helvetica bold"
+ note_font_size 14
+}
+ Input {
+  inputs 0
+  name Input1
+  xpos 504
+  ypos 301
+ }
+ NoOp {
+  name IN2
+  tile_color 0xff0000
+  xpos 504
+  ypos 415
+ }
+set N42c7190 [stack 0]
+ Dot {
+  name Dot15
+  tile_color 0xff00ff00
+  xpos 538
+  ypos 449
+ }
+set N42c79f0 [stack 0]
+ Keyer {
+  operation "luminance key"
+  range {0 1 1 1}
+  name Keyer7
+  tile_color 0xff00ff00
+  label (alpha)
+  xpos 606
+  ypos 500
+ }
+add_layer {alpha rgba.alpha}
+ Grade {
+  channels alpha
+  multiply 3.05
+  gamma 0.72
+  black_clamp false
+  name Grade68
+  tile_color 0xff00ff00
+  label (alpha)
+  xpos 606
+  ypos 549
+ }
+ ColorLookup {
+  channels alpha
+  lut {master {curve C 0 x0.5 0.555 0.785 s0.31 v0.484601 x5 1 s0}
+    red {curve C 0 1}
+    green {curve C 0 1}
+    blue {curve C 0 1}
+    alpha {curve C 0 1}}
+  name ColorLookup2
+  tile_color 0xff00ff00
+  label (alpha)
+  xpos 606
+  ypos 593
+ }
+push $N42c79f0
+ Grade {
+  gamma 0.58
+  black_clamp false
+  name Grade120
+  tile_color 0xff00ff00
+  xpos 716
+  ypos 446
+ }
+ Keyer {
+  operation "saturation key"
+  range {0 1 1 1}
+  name Keyer8
+  tile_color 0xff00ff00
+  label (alpha)
+  xpos 716
+  ypos 470
+ }
+ Grade {
+  channels alpha
+  multiply 1.75
+  add -0.32
+  gamma 0.2
+  black_clamp false
+  mix 0
+  name Grade119
+  tile_color 0xff00ff00
+  label (alpha)
+  xpos 716
+  ypos 508
+ }
+ Invert {
+  channels alpha
+  name Invert4
+  tile_color 0xff00ff00
+  label (alpha)
+  xpos 716
+  ypos 554
+ }
+ Merge {
+  inputs 2
+  operation max
+  name Merge14
+  tile_color 0xff00ff00
+  xpos 716
+  ypos 600
+ }
+push $N42c79f0
+ Dot {
+  name Dot2
+  tile_color 0xff00ff00
+  xpos 538
+  ypos 653
+ }
+ Copy {
+  inputs 2
+  from0 rgba.alpha
+  to0 rgba.alpha
+  name ChannelCopy1
+  tile_color 0xff00ff00
+  xpos 716
+  ypos 650
+ }
+ HueCorrect {
+  hue {sat {curve 1.03 s0 x1.16 1.17 x2 1.05 x3 1.25 1.21 s0.18 1.41 s0.01 u0.889517 1.03 s0}
+    lum {curve 0.94 s0 t-0.11 0.89 0.925 s0.075 1 1.03 s0.01 1.02 s-0.03 0.94 s-0.11 t0}
+    red {curve 1.12 s0 t-0.105 1.04 1 1.026 1.09 s0.12 v1.3675 x4.76 1.22 s0.275 v0.878808 x5.18 1.37 s0.15 u0.605405 x6 1.12 s-0.105 t0}
+    green {curve 0.83 s0 t0.01 0.85 x1.96 0.9 s0.08 v0.983095 x3 1 s0 x4 0.99 s-0.03 x4.64 0.95 x5 0.85 s-0.35 x6 0.83 s0.01 t0.015}
+    blue {curve 1 1.27 1.13 s-0.175 0.99 0.95 s0.12 1.1 1}
+    r_sup {curve 1 1 1 1 1 1 1}
+    g_sup {curve 1 1 1 1 1 1 1}
+    b_sup {curve 1 1 1 1 1 1 1}
+    sat_thrsh {curve 0 0 0 0 0 0 0}}
+  mask rgba.alpha
+  invert_mask true
+  name HueCorrect22
+  tile_color 0xff00ff00
+  label "(rgb / rgba.alpha)\nGOOD!\n12-09-04"
+  xpos 716
+  ypos 700
+ }
+ Remove {
+  channels alpha
+  name Remove2
+  tile_color 0xff00ff00
+  label (alpha)
+  xpos 510
+  ypos 714
+ }
+ Transcode {
+  colorspace RGB->CIEXYZ
+  name Transcode1
+  tile_color 0xff000000
+  xpos 283
+  ypos 721
+ }
+ Transcode {
+  colorspace CIEXYZ->CIEYxy
+  name Transcode2
+  tile_color 0xff000000
+  xpos 283
+  ypos 745
+ }
+ ColorLookup {
+  channels {rgba.red -rgba.green -rgba.blue}
+  lut {master {curve C 0 1}
+    red {curve C 5.90086e-012 x0.0007 9.5e-005 x0.0032 0.0005 x0.014 0.0029 x0.0395 0.011 x0.0875 0.041349 s1 x0.625 0.625 s1}
+    green {curve C 0 1}
+    blue {curve C 0 1}
+    alpha {curve C 0 1}}
+  mix 0.8
+  name ColorLookup13
+  tile_color 2
+  label "MODIFIED / SMOOTHED / ZEROED\nROLL OFF TO LINEAR AT 1\n(red)"
+  xpos 283
+  ypos 769
+ }
+ Transcode {
+  colorspace CIEYxy->CIEXYZ
+  name Transcode3
+  tile_color 0xff000000
+  xpos 283
+  ypos 835
+ }
+ Transcode {
+  colorspace CIEXYZ->RGB
+  name Transcode4
+  tile_color 0xff000000
+  xpos 283
+  ypos 859
+ }
+ NoOp {
+  name No-op13
+  xpos 283
+  ypos 945
+ }
+set N42e3360 [stack 0]
+ NoOp {
+  name No-op14
+  xpos -77
+  ypos 945
+ }
+set N42e3de0 [stack 0]
+ Keyer {
+  operation "saturation key"
+  range {0 1 1 1}
+  name Keyer13
+  label (alpha)
+  xpos -317
+  ypos 1154
+ }
+ Invert {
+  channels alpha
+  name Invert7
+  label (alpha)
+  xpos -317
+  ypos 1190
+ }
+push $N42e3de0
+ NoOp {
+  name No-op15
+  xpos -437
+  ypos 945
+ }
+set N42e7458 [stack 0]
+ Transcode {
+  colorspace RGB->CIEXYZ
+  name Transcode9
+  xpos -677
+  ypos 945
+ }
+ Transcode {
+  colorspace CIEXYZ->CIEYxy
+  name Transcode10
+  xpos -677
+  ypos 1017
+ }
+ Grade {
+  channels {rgba.red -rgba.green -rgba.blue}
+  multiply {0 1 1 1}
+  add 0.7
+  name Grade49
+  label (red)
+  xpos -677
+  ypos 1010
+ }
+ Transcode {
+  colorspace CIEYxy->CIEXYZ
+  name Transcode11
+  xpos -677
+  ypos 1053
+ }
+ Transcode {
+  colorspace CIEXYZ->RGB
+  name Transcode12
+  xpos -677
+  ypos 1089
+ }
+set N42edce8 [stack 0]
+push $N42e7458
+ NoOp {
+  name No-op16
+  xpos -437
+  ypos 1089
+ }
+set N42ef320 [stack 0]
+ Copy {
+  inputs 2
+  from0 rgba.red
+  to0 rgba.alpha
+  name ChannelCopy8
+  label "(red -> alpha)"
+  xpos -557
+  ypos 1154
+ }
+ Grade {
+  channels alpha
+  gamma 1.4
+  name Grade50
+  label (alpha)
+  xpos -557
+  ypos 1226
+ }
+set N42f16d8 [stack 0]
+push $N42edce8
+push $N42ef320
+ Copy {
+  inputs 2
+  from0 rgba.green
+  to0 rgba.alpha
+  name ChannelCopy9
+  label "(green -> alpha)"
+  xpos -677
+  ypos 1154
+ }
+ Grade {
+  channels alpha
+  name Grade51
+  label (alpha)
+  xpos -677
+  ypos 1226
+ }
+set N42f4c60 [stack 0]
+ Merge {
+  inputs 2
+  name Merge16
+  xpos -677
+  ypos 1269
+ }
+push $N42f16d8
+push $N42edce8
+push $N42ef320
+ Copy {
+  inputs 2
+  from0 rgba.blue
+  to0 rgba.alpha
+  name ChannelCopy13
+  label "(blue -> alpha)"
+  xpos -437
+  ypos 1154
+ }
+ Grade {
+  channels alpha
+  gamma 1.2
+  name Grade52
+  label (alpha)
+  xpos -437
+  ypos 1226
+ }
+set N42f9670 [stack 0]
+ Merge {
+  inputs 2
+  name Merge17
+  xpos -437
+  ypos 1269
+ }
+ Grade {
+  channels alpha
+  gamma 1.45
+  name Grade53
+  label (alpha)
+  xpos -437
+  ypos 1298
+ }
+ Merge {
+  inputs 2
+  operation min
+  name Merge18
+  xpos -677
+  ypos 1341
+ }
+push $N42f4c60
+push $N42f9670
+ Merge {
+  inputs 2
+  name Merge19
+  xpos -557
+  ypos 1269
+ }
+ Merge {
+  inputs 2
+  operation min
+  name Merge20
+  xpos -557
+  ypos 1341
+ }
+ Grade {
+  channels alpha
+  name Grade54
+  label (alpha)
+  xpos -437
+  ypos 1334
+ }
+ Merge {
+  inputs 2
+  name Merge21
+  xpos -317
+  ypos 1341
+ }
+push $N42e3de0
+ Remove {
+  channels {rgba.red -rgba.green rgba.blue}
+  name Remove1
+  tile_color 0x8e8e3800
+  label "(red  blue)"
+  xpos -77
+  ypos 1046
+ }
+ Keyer {
+  operation "luminance key"
+  range {0 1 1 1}
+  name Lum_Keyer3
+  label (alpha)
+  xpos -77
+  ypos 1118
+ }
+ ColorLookup {
+  lut {master {curve C 0 1}
+    red {curve C 0 1}
+    green {curve C 0 1}
+    blue {curve C 0 1}
+    alpha {curve C 0 s4.18 v0.0532802 x0.795 1 s0 u2.16884}}
+  name ColorLookup6
+  tile_color 0x8e8e3800
+  xpos -77
+  ypos 1197
+ }
+ Invert {
+  channels alpha
+  name Invert10
+  label (alpha)
+  xpos -77
+  ypos 1226
+ }
+ Merge {
+  inputs 2
+  operation min
+  name Merge22
+  xpos -77
+  ypos 1341
+ }
+push $N42e3de0
+ Keyer {
+  operation "saturation key"
+  range {0 1 1 1}
+  name Keyer14
+  label (alpha)
+  xpos 163
+  ypos 1154
+ }
+ Invert {
+  channels alpha
+  name Invert11
+  label (alpha)
+  xpos 163
+  ypos 1154
+ }
+ Merge {
+  inputs 2
+  operation scrn
+  name Merge23
+  xpos 163
+  ypos 1341
+ }
+push $N42e3360
+ Keyer {
+  operation "red keyer"
+  range {0 1 1 1}
+  name Keyer15
+  label (alpha)
+  xpos 283
+  ypos 1154
+ }
+set N430f8a0 [stack 0]
+push $N42e3360
+ Keyer {
+  operation "green keyer"
+  range {0 1 1 1}
+  name Keyer16
+  label (alpha)
+  xpos 283
+  ypos 1154
+ }
+set N4310a60 [stack 0]
+ Merge {
+  inputs 2
+  operation min
+  name Merge24
+  xpos 283
+  ypos 1197
+ }
+push $N4310a60
+push $N42e3360
+ Keyer {
+  operation "blue keyer"
+  range {0 1 1 1}
+  name Keyer17
+  label (alpha)
+  xpos 403
+  ypos 1154
+ }
+set N4313230 [stack 0]
+ Merge {
+  inputs 2
+  operation min
+  name Merge25
+  xpos 283
+  ypos 1197
+ }
+ Merge {
+  inputs 2
+  operation max
+  name Merge26
+  xpos 283
+  ypos 1233
+ }
+push $N430f8a0
+push $N4313230
+ Merge {
+  inputs 2
+  operation min
+  name Merge27
+  xpos 403
+  ypos 1197
+ }
+ Merge {
+  inputs 2
+  operation max
+  name Merge28
+  xpos 403
+  ypos 1233
+ }
+ Grade {
+  channels {-rgba.red -rgba.green -rgba.blue rgba.alpha}
+  white 0.66
+  name Grade55
+  label (alpha)
+  xpos 403
+  ypos 1262
+ }
+ Merge {
+  inputs 2
+  operation scrn
+  name Merge29
+  xpos 403
+  ypos 1341
+ }
+push $N42e3360
+ ColorLookup {
+  lut {master {curve l 0 k x0.35 0.35 s1 x0.49 0.46833 s0.745 x0.765 0.623217 s0.38 x1.38 0.77 s0.148 v0.600091 x2.3 0.864 x3.52 0.9305 s0.038 v0.773561 x6 0.9745 s0.008 x9 0.9895 x13.5 1 s0.001 u1.32291}
+    red {curve C 0 1}
+    green {curve C 0 1}
+    blue {curve C 0 1}
+    alpha {curve C 0 1}}
+  name ColorLookup3
+  tile_color 0xffff0000
+  label "NEW SHOULDER COMPRESSION"
+  xpos 881
+  ypos 938
+ }
+ Keyer {
+  operation "luminance key"
+  range {0 1 1 1}
+  name Keyer18
+  label (alpha)
+  xpos 881
+  ypos 1118
+ }
+ Grade {
+  channels alpha
+  gamma 2
+  name Grade56
+  label (alpha)
+  xpos 881
+  ypos 1190
+ }
+push $N42e3360
+ Keyer {
+  operation "saturation key"
+  range {0 1 1 1}
+  name SaturationKey3
+  label (alpha)
+  xpos 643
+  ypos 1010
+ }
+ Invert {
+  channels alpha
+  name Invert12
+  label (alpha)
+  xpos 643
+  ypos 1154
+ }
+ Merge {
+  inputs 2
+  operation min
+  name Merge30
+  xpos 643
+  ypos 1197
+ }
+ Grade {
+  channels alpha
+  whitepoint 0.66
+  gamma 2
+  name Grade57
+  label (alpha)
+  xpos 643
+  ypos 1226
+ }
+ HueCorrect {
+  hue {sat {curve 0.5 s0 t-0.01 0.7 s0.24 0.89 0.94 0.83 s-0.205 0.58 s-0.17 0.5 s-0.01 t0}
+    lum {curve 1 1 1 1 1 1 1}
+    red {curve 1 1 1 1 1 1 1}
+    green {curve 1 1 1 1 1 1 1}
+    blue {curve 1 1 1 1 1 1 1}
+    r_sup {curve 1 1 1 1 1 1 1}
+    g_sup {curve 1 1 1 1 1 1 1}
+    b_sup {curve 1 1 1 1 1 1 1}
+    sat_thrsh {curve 0 0 0 0 0 0 0}}
+  mask rgba.alpha
+  mix 0.602
+  name HueCorrect3
+  tile_color 0xff00ff00
+  label "(rgb / rgba.alpha)\nUpdated for v1f"
+  xpos 643
+  ypos 1264
+ }
+ Transcode {
+  colorspace RGB->CIEXYZ
+  name Transcode17
+  xpos 523
+  ypos 1269
+ }
+ Transcode {
+  colorspace CIEXYZ->CIEYxy
+  name Transcode18
+  xpos 523
+  ypos 1305
+ }
+ Copy {
+  inputs 2
+  from0 rgba.alpha
+  to0 rgba.alpha
+  name ChannelCopy14
+  xpos 523
+  ypos 1413
+ }
+ ColorLookup {
+  channels {-rgba.red -rgba.green -rgba.blue rgba.alpha}
+  lut {master {curve C 0 1}
+    red {curve C 0 1}
+    green {curve C 0 1}
+    blue {curve C 0 1}
+    alpha {curve C 0 s0 v0.319023 1 s0.2 u1.5987}}
+  mask rgba.alpha
+  name ColorLookup8
+  label "(alpha / rgba.alpha)"
+  xpos 523
+  ypos 1442
+ }
+ Grade {
+  channels {rgba.red -rgba.green -rgba.blue}
+  multiply 0.4
+  mask rgba.alpha
+  invert_mask true
+  name Grade58
+  label "(red / rgba.alpha)"
+  xpos 523
+  ypos 1478
+ }
+ Transcode {
+  colorspace CIEYxy->CIEXYZ
+  name Transcode19
+  xpos 523
+  ypos 1521
+ }
+ Transcode {
+  colorspace CIEXYZ->RGB
+  name Transcode20
+  xpos 523
+  ypos 1521
+ }
+push $N42c7190
+ Dot {
+  name Dot1
+  tile_color 0x9597bf00
+  xpos 974
+  ypos 418
+ }
+ Copy {
+  inputs 2
+  channels rgb
+  name LayerCopy1
+  tile_color 0xc0562800
+  xpos 940
+  ypos 1521
+ }
+ NoOp {
+  name OUT2
+  tile_color 0xff000000
+  xpos 940
+  ypos 1622
+ }
+ Output {
+  name Output1
+  xpos 940
+  ypos 1742
+ }
+end_group

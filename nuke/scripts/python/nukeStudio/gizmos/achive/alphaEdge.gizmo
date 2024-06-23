@@ -1,0 +1,103 @@
+#! /lot/s61/SWDEVL/SOFTWARE/linuxrh9_intel/nuke4.3/15/nuke4.3.15_ -nx
+version 4.3015
+Group {
+ inputs 1
+ addUserKnob { 20 "" User } 
+ addUserKnob { 4 edgetype edgetype M { left right bottom top fromRamp } } 
+ name alphaEdge1
+ selected true
+ xpos -40
+ ypos -81
+ panel {415 310 470 215 0 1}
+ window {334 336 734 435 0 -303 -30 1}
+}
+ Input {
+  inputs 0
+  name Input1
+  xpos 0
+ }
+set N871fd88 [stack 0]
+ ColorLookup {
+  layer rgba
+  lut {master {curve C 0 1}
+    red {curve C 0 1}
+    green {curve C 0 1}
+    blue {curve C 0 1}
+    alpha {curve C 0 L x0.0917969 1 x0.907715 1 C x1 0}}
+  name alphaEdge
+  xpos 247
+  ypos 135
+ }
+push $N871fd88
+add_layer {alpha rgba.alpha}
+ Matrix {
+  channels alpha
+  matrix {
+      {-1 -2 -1}
+      {0 0 0}
+      {1 2 1}
+    }
+  name top_edge
+  tile_color 0xab964300
+  label (alpha)
+  xpos 124
+  ypos 120
+ }
+push $N871fd88
+ Matrix {
+  channels alpha
+  matrix {
+      {1 2 1}
+      {0 0 0}
+      {-1 -2 -1}
+    }
+  name bottom_edge
+  tile_color 0xab964300
+  label (alpha)
+  xpos 11
+  ypos 121
+ }
+push $N871fd88
+ Matrix {
+  channels alpha
+  matrix {
+      {1 0 -1}
+      {2 0 -2}
+      {1 0 -1}
+    }
+  name right_edge
+  tile_color 0xab964300
+  label (alpha)
+  xpos -98
+  ypos 121
+ }
+push $N871fd88
+ Matrix {
+  channels alpha
+  matrix {
+      {-1 0 1}
+      {-2 0 2}
+      {-1 0 1}
+    }
+  name left_edge
+  tile_color 0xab964300
+  label (alpha)
+  selected true
+  xpos -213
+  ypos 122
+ }
+ Dissolve {
+  inputs 5
+  which {{parent.edgetype}}
+  name Dissolve1
+  tile_color 0xc
+  xpos -7
+  ypos 286
+  indicators 2
+ }
+ Output {
+  name Output1
+  xpos -9
+  ypos 323
+ }
+end_group

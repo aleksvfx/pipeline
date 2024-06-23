@@ -1,0 +1,71 @@
+#! C:/Program Files/Nuke6.0v1/Nuke6.0.exe -nx
+version 6.0 v1
+Gizmo {
+ addUserKnob {20 User}
+ addUserKnob {7 depth R 0 1000}
+ depth 200
+}
+ Input {
+  inputs 0
+  name Input1
+  xpos 364
+  ypos -591
+ }
+ Dot {
+  name Dot12
+  xpos 398
+  ypos -538
+ }
+set N2d90b1d0 [stack 0]
+ Clamp {
+  channels {rgba.red -rgba.green -rgba.blue}
+  minimum 1e-005
+  maximum_enable false
+  MinClampTo 1e-005
+  MinClampTo_enable true
+  name Clamp1
+  xpos 463
+  ypos -548
+ }
+push $N2d90b1d0
+ Merge2 {
+  inputs 2
+  operation minus
+  Achannels {rgba.red -rgba.green -rgba.blue -rgba.alpha}
+  Bchannels {rgba.red -rgba.green -rgba.blue -rgba.alpha}
+  output {rgba.red -rgba.green -rgba.blue -rgba.alpha}
+  name Merge12
+  xpos 463
+  ypos -457
+ }
+ Multiply {
+  channels {rgba.red -rgba.green -rgba.blue}
+  value {{"parent.depth.main * 100000" i}}
+  name Multiply12
+  xpos 463
+  ypos -419
+ }
+push $N2d90b1d0
+ Merge2 {
+  inputs 2
+  operation plus
+  Achannels {rgba.red -rgba.green -rgba.blue -rgba.alpha}
+  Bchannels {rgba.red -rgba.green -rgba.blue -rgba.alpha}
+  output {rgba.red -rgba.green -rgba.blue -rgba.alpha}
+  name Merge13
+  xpos 364
+  ypos -339
+ }
+ Shuffle {
+  green red
+  blue red
+  name Shuffle5
+  xpos 364
+  ypos -301
+ }
+ Output {
+  name Output1
+  xpos 364
+  ypos -206
+ }
+end_group

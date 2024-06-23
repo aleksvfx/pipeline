@@ -1,0 +1,5 @@
+I have to admit that some bugs are still in the package.
+
+Sometimes the update upward in the DG in some nodes is broken. To fix this reconnect the nodes or recrate them. I know its anoying and if enybody wants to have a look at the code and tell me go for it :)
+
+Also the specular option on a spot light produces sometimes unpredictable results... again i am in very heavy time constraints right now due to the fact that i am doing my master thesis in the next 2 month ( till september 2007). 

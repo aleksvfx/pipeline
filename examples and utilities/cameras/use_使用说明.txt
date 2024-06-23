@@ -1,0 +1,23 @@
+刚做的一个很简单的gizmo插件   就是将现有的nuke中的插件拼凑了一下 方便于使用:
+
+
+
+
+1、将 toolbars.py  复制粘贴 与现有的结合  nukedir/plugin/nukescript
+
+2、Ste.gizmo   Ste.png   XGCM.png   三个文件放到   nuke安装目录\plugins\     中
+
+
+
+
+谢谢关注 星空动影（北京）国际文化传媒有限公司   www.xgcmcgx.com
+
+
+
+1、put toolbars.py    Ctrl+C V    to  exist toolbars
+
+2、Ste.gizmo   Ste.png   XGCM.png   three guy  to   "nukedir"\plugins\
+
+
+
+welcome to  SKY MOTION PICTURES    www.xgcmcgx.com

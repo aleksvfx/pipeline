@@ -1,0 +1,207 @@
+#! /method/cg/opt/Nuke6.0v7/Nuke6.0 -nx
+version 6.0 v7
+Gizmo {
+ inputs 3
+ help "Combines depth-based light attenuation (tinting) and depth-based light scattering into a single effect.  Reverse mode can be used to remove atmospheric effects, though this will probabaly be imprecise.\n\nTo use, provide an input image, a depth matte, and optionally a light matte to control the amount of scattering."
+ addUserKnob {20 User}
+ addUserKnob {7 depthScale l "Depth Scale" t "Scalar value to apply to depth input." R 0 10}
+ depthScale 3e-05
+ addUserKnob {18 attenuationCoefficient l "Attenuation Coefficient" t "Physical constant for light attenuation through a dense medium.  Works kind of like a tint, but modeled physically to properly account for thickness."}
+ attenuationCoefficient {0.1949999779 0.3449999988 0.4950000048}
+ addUserKnob {6 invert l Invert t "For convenience, it is often easier to tweak the inverted attenuation coefficient, since attenuation is a subtractive process." +STARTLINE}
+ invert true
+ addUserKnob {18 scatteredLightColor l "Scattered Light Color" t "Color of light to be scattered between the viewer and the first visible object."}
+ scatteredLightColor {4.654799938 6 2.460000038}
+ addUserKnob {6 useLightInput l useLightImage t "If enabled, the scattered light will be multiplied by the \"light\" input to simulate shadowing of the light." +STARTLINE}
+ useLightInput true
+ addUserKnob {6 attenuationEnabled l "Attenuation Enabled" t "Enable attenuation effects (make the image darker)." +STARTLINE}
+ attenuationEnabled true
+ addUserKnob {6 scatteringEnabled l "Scattering Enabled" t "Enable scattering effects (make the image brighter)." +STARTLINE}
+ scatteringEnabled true
+ addUserKnob {6 reverse l Reverse t "Attempts to remove atmospheric effects from an image." +STARTLINE}
+}
+ Input {
+  inputs 0
+  name light
+  xpos 732
+  ypos 183
+  number 2
+ }
+ Input {
+  inputs 0
+  name depth
+  xpos 498
+  ypos 183
+  number 1
+ }
+set N1de1b960 [stack 0]
+ Dot {
+  name Dot7
+  xpos 631
+  ypos 188
+ }
+ m_depthScattering {
+  name m_depthScattering2
+  xpos 597
+  ypos 294
+  lightColor {{parent.scatteredLightColor.main.r i} {parent.scatteredLightColor.main.g i} {parent.scatteredLightColor.main.b i}}
+  atten {{"invert * (1.0 - attenuationCoefficient.main.r) + (1 - invert) * attenuationCoefficient.main.r"} {"invert * (1.0 - attenuationCoefficient.main.g) + (1 - invert) * attenuationCoefficient.main.g"} {"invert * (1.0 - attenuationCoefficient.main.b) + (1 - invert) * attenuationCoefficient.main.b"}}
+  depthScale {{parent.depthScale.main i}}
+  attenuationCoefficient {{parent.attenuationCoefficient.main.r i} {parent.attenuationCoefficient.main.g i} {parent.attenuationCoefficient.main.b i}}
+  invert {{parent.invert.main i}}
+ }
+set N1ddb16f0 [stack 0]
+ Merge2 {
+  inputs 2
+  operation multiply
+  name Merge28
+  xpos 732
+  ypos 294
+ }
+ Dot {
+  name Dot6
+  xpos 766
+  ypos 397
+ }
+push $N1ddb16f0
+ Switch {
+  inputs 2
+  which {{parent.useLightInput.main i}}
+  name Switch2
+  xpos 597
+  ypos 392
+ }
+set N1dde18c0 [stack 0]
+ Dot {
+  name Dot2
+  xpos 631
+  ypos 451
+ }
+push $N1de1b960
+ m_depthAttenuation {
+  name m_depthAttenuation2
+  xpos 498
+  ypos 296
+  atten {{"invert * (1.0 - attenuationCoefficient.main.r) + (1 - invert) * attenuationCoefficient.main.r"} {"invert * (1.0 - attenuationCoefficient.main.g) + (1 - invert) * attenuationCoefficient.main.g"} {"invert * (1.0 - attenuationCoefficient.main.b) + (1 - invert) * attenuationCoefficient.main.b"}}
+  depthScale {{parent.depthScale.main i}}
+  attenuationCoefficient {{parent.attenuationCoefficient.main.r i} {parent.attenuationCoefficient.main.g i} {parent.attenuationCoefficient.main.b i}}
+  invert {{parent.invert.main i}}
+ }
+set N1dde5230 [stack 0]
+ Dot {
+  name Dot1
+  xpos 532
+  ypos 423
+ }
+ Input {
+  inputs 0
+  name Input1
+  xpos 374
+  ypos 182
+ }
+set N1de18f20 [stack 0]
+ Merge2 {
+  inputs 2
+  operation multiply
+  Achannels {rgba.red rgba.green rgba.blue -rgba.alpha}
+  Bchannels {rgba.red rgba.green rgba.blue -rgba.alpha}
+  output {rgba.red rgba.green rgba.blue -rgba.alpha}
+  name Merge26
+  xpos 374
+  ypos 418
+  disable {{!parent.attenuationEnabled.main i}}
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  Achannels {rgba.red rgba.green rgba.blue -rgba.alpha}
+  Bchannels {rgba.red rgba.green rgba.blue -rgba.alpha}
+  output {rgba.red rgba.green rgba.blue -rgba.alpha}
+  name Merge27
+  xpos 374
+  ypos 446
+  disable {{!parent.scatteringEnabled.main}}
+ }
+set N1de0eac0 [stack 0]
+push $N1dde18c0
+push $N1de18f20
+ Dot {
+  name Dot3
+  xpos 221
+  ypos 187
+ }
+ Merge2 {
+  inputs 2
+  operation from
+  name Merge1
+  xpos 187
+  ypos 392
+  disable {{!parent.scatteringEnabled.main}}
+ }
+set Nc83cc290 [stack 0]
+push $N1dde5230
+ Dot {
+  name Dot4
+  xpos 320
+  ypos 301
+ }
+ Dot {
+  name Dot5
+  xpos 320
+  ypos 425
+ }
+ Merge2 {
+  inputs 2
+  operation divide
+  name Merge2
+  xpos 187
+  ypos 420
+ }
+push $Nc83cc290
+ Dot {
+  name Dot10
+  xpos 124
+  ypos 397
+ }
+ Dot {
+  name Dot9
+  xpos 124
+  ypos 479
+ }
+ Switch {
+  inputs 2
+  which {{parent.attenuationEnabled.main i}}
+  name Switch3
+  xpos 187
+  ypos 474
+ }
+set N20cb5bd0 [stack 0]
+push $N1de0eac0
+ Viewer {
+  inputs 3
+  frame 1871
+  input_process false
+  name Viewer1
+  xpos -78
+  ypos 331
+ }
+push $N20cb5bd0
+ Dot {
+  name Dot8
+  xpos 221
+  ypos 529
+ }
+push $N1de0eac0
+ Switch {
+  inputs 2
+  which {{parent.reverse.main}}
+  name Switch1
+  xpos 374
+  ypos 524
+ }
+ Output {
+  name Output1
+  xpos 374
+  ypos 577
+ }
+end_group

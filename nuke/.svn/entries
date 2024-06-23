@@ -1,0 +1,56 @@
+10
+
+dir
+5032
+http://solsm01/svn/sw/app/method/tools/trunk/nuke
+http://solsm01/svn/sw
+
+
+
+2010-10-25T20:12:39.629196Z
+4971
+eofferman
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+077fa0d4-b1c3-4bd8-bc04-7a0e48121ea0
+
+plugins
+dir
+
+menu
+dir
+
+scripts
+dir
+
+plugins_src
+dir
+
+resources
+dir
+
+init.py
+file
+
+
+
+
+
+b74ba60d635d856aef67c31be3adfa67
+2010-06-25T18:26:14.291401Z
+4268
+bfriedman
+has-props
+

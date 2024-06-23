@@ -1,0 +1,147 @@
+#! /Applications/Nuke5.2v3/Nuke5.2v3.app/Contents/MacOS/Nuke5.2v3 -nx
+version 5.2300
+Gizmo {
+ help "Damit wird ein CameraPositionPass erzeugt !\n\nEinfach eine (Z)DepthMap oder eine NormaleMap als Input ..."
+ addUserKnob {20 User l PointPosition}
+ addUserKnob {41 in l "in 1" T Shuffle1.in}
+ addUserKnob {41 red T Shuffle1.red}
+ addUserKnob {41 green -STARTLINE T Shuffle1.green}
+ addUserKnob {41 blue -STARTLINE T Shuffle1.blue}
+ addUserKnob {41 alpha -STARTLINE T Shuffle1.alpha}
+ addUserKnob {41 out l INVISIBLE T Shuffle1.out}
+ addUserKnob {41 out_1 l "out 1" T Shuffle2.out}
+ addUserKnob {26 pointtext l "PointPosition from Depth" t "Over, Screen, Atop, Average are the best !\n\nMultiply and Overlay also sometimes OK ...\n\nDefault: Over"}
+ addUserKnob {7 nearPlane t "(Z)Depth from CameraView\n\nNaehe\n\nDefault: 0" R 0 100}
+ addUserKnob {7 farPlane t "(Z)Depth from CameraView\n\nEntfernung\n\nDefault: 30" R 1 100}
+ farPlane 30
+ addUserKnob {7 fieldOfView t "Camera FieldOfView\n\nKameraWinkel\n\nDefault: 32" R 0 100}
+ fieldOfView 32
+ addUserKnob {26 leer l "" +STARTLINE}
+}
+ Input {
+  inputs 0
+  name _DepthPass_
+  label "DepthPass or NormalPass"
+  xpos -28
+  ypos -337
+ }
+set N660cbf0 [stack 0]
+ Dot {
+  name Dot1
+  xpos 345
+  ypos -108
+ }
+push $N660cbf0
+ Shuffle {
+  in depth
+  alpha red
+  out rgb
+  name Shuffle1
+  xpos -28
+  ypos -283
+ }
+ Grade {
+  channels {rgba.red rgba.green -rgba.blue}
+  blackpoint {{nearPlane i}}
+  whitepoint {{farPlane i}}
+  white_clamp true
+  name Grade1
+  xpos -28
+  ypos -257
+ }
+ Invert {
+  channels rgb
+  clamp true
+  name Invert1
+  xpos -28
+  ypos -219
+  disable true
+ }
+set N669e8f0 [stack 0]
+push $N660cbf0
+ Rectangle {
+  area {0 0 {_DepthPass_.width i} {_DepthPass_.height i}}
+  ramp linear
+  color {{-degrees(fieldOfView/2)*height/width i}}
+  p1 {{width/2 i} {height-height i}}
+  color0 {{degrees(fieldOfView/2)*height/width i}}
+  p0 {{width/2 i} {height i}}
+  name Rectangle3
+  xpos 88
+  ypos -228
+ }
+ Merge {
+  inputs 2
+  operation mult
+  name Merge4
+  xpos 45
+  ypos -142
+ }
+push $N669e8f0
+push $N660cbf0
+ Rectangle {
+  area {0 0 {_DepthPass_.width i} {_DepthPass_.height i}}
+  ramp linear
+  color {{-degrees(fieldOfView/2) i}}
+  p1 {0 {height/2 i}}
+  color0 {{degrees(fieldOfView/2) i}}
+  p0 {{width i} {height/2 i}}
+  name Rectangle4
+  xpos -190
+  ypos -224
+ }
+ Merge {
+  inputs 2
+  operation mult
+  name Merge3
+  xpos -123
+  ypos -147
+ }
+push $N669e8f0
+ Copy {
+  inputs 2
+  from0 rgba.red
+  to0 rgba.red
+  name Copy1
+  xpos -93
+  ypos -79
+ }
+ Copy {
+  inputs 2
+  from0 rgba.green
+  to0 rgba.green
+  name Copy2
+  xpos 7
+  ypos -21
+ }
+ Clamp {
+  minimum -100000
+  maximum 100000
+  MinClampTo -100
+  MaxClampTo 100
+  name Clamp2
+  xpos 7
+  ypos 17
+  disable true
+ }
+ Shuffle {
+  name Shuffle2
+  xpos 7
+  ypos 55
+ }
+ Copy {
+  inputs 2
+  from0 -rgba.alpha
+  to0 -rgba.alpha
+  channels rgba
+  name Copy3
+  xpos 7
+  ypos 96
+  disable true
+ }
+ Output {
+  name Output1
+  xpos 7
+  ypos 176
+ }
+end_group

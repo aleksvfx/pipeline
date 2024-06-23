@@ -1,0 +1,46 @@
+Steps to build the GridWard2 plugin:
+
+There are two libraries that are needed. You might check to see if they've been updated and verify that you're compiling using a relatively recent version of each.
+
+The directory you're working with should look something like this:
+    bin (optional, we'll create this below if it's not there - vxl compiles into it)
+    boost_1_44_0  (The version # might be different if you've downloaded a newer version)
+    nuke_6.0v6_linux_64  (We'll create this below)
+    plugins_src   (This is where the actual source code for the plugin is)
+    vxl-1.14.0   (The version # might be different if you've downloaded a newer version)
+
+
+    First is the Boost library. Boost is ready to go once you download it, no compile necessary. The plugin has been successfully built using Boost_1_44_0. It's probably unnecessary to update this.
+
+    Second is VXL (the Vision-something-Libraries) - a collection of C++ libraries designed for computer vision research and implementation.
+    Compile time for VXL version 1.14.0 was about 45 minutes on my workstation. Your time will vary depending on workstation, but understand it's not a quickie compile. It's going to take a few minutes.
+
+    Guide to installation:    http://vxl.sourceforge.net/releases/install-release.html
+
+    short version: (Replace ~/Documents/nukePlugins below with the actual path)
+        mkdir ~/Documents/nukePlugins/bin
+        cmake -i ~/Documents/nukePlugins/vxl_1.14.0/
+        cd ~/Documents/nukePlugins/bin
+        make
+
+    One important thing to note that is missing from the VXL documentation is that VXL needs to be built with shared libraries, otherwise it fails on the MAKE command. For this, when you do the cmake command, tell it to show the advanced compilation options and as you go through the options make sure you change the default for shared libraries to ON. It's tedious and unnecessary and hopefully they fix this in future versions.
+.-=========-.-=========-.-=========-.-=========-.-=========-.-=========-.-=========-.-=========-.
+Now you'll want to get the compile target set up & edit the Makefile for the actual plugin.
+
+    Make the directory the plugin will be built in. The name will be like below, but this is
+    used as an example - you'll need to use your actual version number.
+        mkdir ~/Documents/nukePlugins/nuke_6.0v6_linux_64
+        cd ~/Documents/nukePlugins/plugins_src
+    Now edit ~/Documents/nukePlugins/plugins_src/Makefile with your favorite text editor.
+    Look for this line:
+        NUKE_VERSION ?= nuke_6.1v1_linux_64
+    And change the version numbers there to reflect the actual version number you wish to compile for.
+    
+    And finally:
+    	make
+	
+	This process will be almost instantaneous - building the plugin itself is very fast.
+	
+	Compiled plugins by version live at:
+		/tools/release/nuke/$NUKE_VERSION
+	So install the compiled plugin in the appropriate destination path.

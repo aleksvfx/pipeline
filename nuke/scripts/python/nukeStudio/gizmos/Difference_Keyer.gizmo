@@ -1,0 +1,555 @@
+#! X:/film/apps/nuke4.3.15/nuke4.3.exe -nx
+version 4.3015
+Gizmo {
+ inputs 2
+ addUserKnob { 20 "" Channels } 
+ addUserKnob { 6 UseRed Red } 
+ addUserKnob { 7 Difference_Red_offset Offset R 0 1 } 
+ addUserKnob { 7 Gamma_Red_value Gamma R 0 4 } 
+ addUserKnob { 26 "" "" } 
+ addUserKnob { 6 UseGreen Green } 
+ addUserKnob { 7 Difference_Green_offset Offset R 0 1 } 
+ addUserKnob { 7 Gamma_Green_value Gamma R 0 4 } 
+ addUserKnob { 26 "" "" } 
+ addUserKnob { 6 UseBlue Blue } 
+ addUserKnob { 7 Difference_Blue_offset Offset R 0 1 } 
+ addUserKnob { 7 Gamma_Blue_value Gamma R 0 4 } 
+ addUserKnob { 26 "" "" } 
+ addUserKnob { 6 UseY Y } 
+ addUserKnob { 7 Difference_Y_offset Offset R 0 1 } 
+ addUserKnob { 7 Gamma_Y_value Gamma R 0 4 } 
+ addUserKnob { 26 "" "" } 
+ addUserKnob { 6 UseU u } 
+ addUserKnob { 7 Difference_u_offset Offset R 0 1 } 
+ addUserKnob { 7 Gamma_u_value Gamma R 0 4 } 
+ addUserKnob { 26 "" "" } 
+ addUserKnob { 6 UseV v } 
+ addUserKnob { 7 Difference_v_offset Offset R 0 1 } 
+ addUserKnob { 7 Gamma_v_value Gamma R 0 4 } 
+ addUserKnob { 26 "" "" } 
+ addUserKnob { 20 "" Matte } 
+ addUserKnob { 7 Gain_value Gain R 0 10 } 
+ addUserKnob { 7 Lift_value Lift R -1 1 } 
+ addUserKnob { 26 "" "" } 
+ addUserKnob { 4 matteOut rgba.alpha M { Replace "Merge with A" "Merge with B" } t "Difference matte  replaces the alpha channel \nor merges with A or B imputs" } 
+ addUserKnob { 4 operation operation M { union intersect out stencil xor plus minus from absminus max min "b if not a" } t "union           A+B-A*B\nintersect      A*B\nout              A*(1-B)\nstencil          B*(1-A)\nxor              A+B-2*B*B\nplus             A+B\nminus          A-B\nfrom            B-A\nabsminus    abs(A-B)\nmax            max(A,B)\nmin             man(A,B)\nb if not a    A!=0?A:B" } 
+ addUserKnob { 26 "" "" } 
+ addUserKnob { 25 "" "" M rfx.xpm } 
+ name Difference_Keyer
+ window {1628 64 1230 1057 0 -702 -1112 0.707107}
+ UseRed true
+ Gamma_Red_value 1
+ UseGreen true
+ Gamma_Green_value 1
+ UseBlue true
+ Gamma_Blue_value 1
+ Gamma_Y_value 1
+ Gamma_u_value 1
+ Gamma_v_value 1
+ Gain_value 1
+}
+ Input {
+  inputs 0
+  name A
+  xpos -555
+  ypos -1458
+  number 1
+ }
+set N1dda9b8 [stack 0]
+ Colorspace {
+  name Colorspace1
+  xpos -653
+  ypos -1315
+ }
+ Dot {
+  name Dot2
+  xpos -687
+  ypos -1262
+ }
+ Dot {
+  name Dot3
+  xpos -687
+  ypos -1262
+ }
+set N1ddc7c8 [stack 0]
+ Remove {
+  action keep
+  channels {-rgba.red -rgba.green rgba.blue}
+  name v_A
+  tile_color 0x9e3c6300
+  xpos -629
+  ypos -1172
+ }
+ Input {
+  inputs 0
+  name B
+  xpos 232
+  ypos -1353
+ }
+set N1ddd978 [stack 0]
+ Colorspace {
+  name Colorspace2
+  xpos 156
+  ypos -1307
+ }
+ Dot {
+  name Dot6
+  xpos 127
+  ypos -1254
+ }
+ Dot {
+  name Dot10
+  xpos 127
+  ypos -1254
+ }
+set N1ddf9d0 [stack 0]
+ Remove {
+  action keep
+  channels {-rgba.red -rgba.green rgba.blue}
+  name v_B
+  tile_color 0x9e3c6300
+  xpos 191
+  ypos -1171
+ }
+ Difference {
+  inputs 2
+  offset {{parent.Difference_v_offset}}
+  name Difference_v
+  xpos -287
+  ypos -1064
+  indicators 2
+ }
+ Gamma {
+  value {{parent.Gamma_v_value}}
+  name Gamma_v
+  xpos -287
+  ypos -1040
+  indicators 2
+ }
+push $N1ddc7c8
+ Remove {
+  action keep
+  channels {-rgba.red rgba.green -rgba.blue}
+  name u_A
+  tile_color 0x9e3c6300
+  xpos -721
+  ypos -1172
+ }
+push $N1ddf9d0
+ Remove {
+  action keep
+  channels {-rgba.red rgba.green -rgba.blue}
+  name u_B
+  tile_color 0x9e3c6300
+  xpos 93
+  ypos -1171
+ }
+ Difference {
+  inputs 2
+  offset {{parent.Difference_u_offset}}
+  name Difference_u
+  xpos -432
+  ypos -1063
+  indicators 2
+ }
+ Gamma {
+  value {{parent.Gamma_u_value}}
+  name Gamma_u
+  xpos -432
+  ypos -1039
+  indicators 2
+ }
+push $N1ddc7c8
+ Remove {
+  action keep
+  channels {rgba.red -rgba.green -rgba.blue}
+  name y_A
+  tile_color 0x9e3c6300
+  xpos -811
+  ypos -1173
+ }
+push $N1ddf9d0
+ Remove {
+  action keep
+  channels {rgba.red -rgba.green -rgba.blue}
+  name y_B
+  tile_color 0x9e3c6300
+  xpos -2
+  ypos -1169
+ }
+ Difference {
+  inputs 2
+  offset {{parent.Difference_Y_offset.0}}
+  name Difference_Y
+  xpos -562
+  ypos -1061
+  indicators 2
+ }
+ Gamma {
+  value {{parent.Gamma_Y_value}}
+  name Gamma_Y
+  xpos -562
+  ypos -1037
+  indicators 2
+ }
+push $N1dda9b8
+ Dot {
+  name Dot4
+  xpos -407
+  ypos -1259
+ }
+ Dot {
+  name Dot8
+  xpos -407
+  ypos -1259
+ }
+set N1de83f0 [stack 0]
+ Remove {
+  action keep
+  channels {-rgba.red -rgba.green rgba.blue}
+  name Blue_A
+  tile_color 0x9e3c6300
+  xpos -349
+  ypos -1169
+ }
+push $N1ddd978
+ Dot {
+  name Dot5
+  xpos 417
+  ypos -1256
+ }
+ Dot {
+  name Dot7
+  xpos 417
+  ypos -1256
+ }
+set N1de9c50 [stack 0]
+ Remove {
+  action keep
+  channels {-rgba.red -rgba.green rgba.blue}
+  name Blue_B
+  tile_color 0x9e3c6300
+  xpos 481
+  ypos -1173
+ }
+ Difference {
+  inputs 2
+  offset {{parent.Difference_Blue_offset.0}}
+  name Difference_Blue
+  xpos 111
+  ypos -1062
+  indicators 2
+ }
+ Gamma {
+  value {{parent.Gamma_Blue_value.0}}
+  name Gamma_Blue
+  xpos 111
+  ypos -1038
+  indicators 2
+ }
+push $N1de83f0
+ Remove {
+  action keep
+  channels {-rgba.red rgba.green -rgba.blue}
+  name Green_A
+  tile_color 0x9e3c6300
+  xpos -441
+  ypos -1169
+ }
+push $N1de9c50
+ Remove {
+  action keep
+  channels {-rgba.red rgba.green -rgba.blue}
+  name Green_B
+  tile_color 0x9e3c6300
+  xpos 383
+  ypos -1173
+ }
+ Difference {
+  inputs 2
+  offset {{parent.Difference_Green_offset.0}}
+  name Difference_Green
+  xpos -34
+  ypos -1061
+  indicators 2
+ }
+ Gamma {
+  value {{parent.Gamma_Green_value.0}}
+  name Gamma_Green
+  xpos -34
+  ypos -1037
+  indicators 2
+ }
+push $N1de83f0
+ Remove {
+  action keep
+  channels {rgba.red -rgba.green -rgba.blue}
+  name Red_A
+  tile_color 0x9e3c6300
+  xpos -531
+  ypos -1170
+ }
+push $N1de9c50
+ Remove {
+  action keep
+  channels {rgba.red -rgba.green -rgba.blue}
+  name Red_B
+  tile_color 0x9e3c6300
+  xpos 288
+  ypos -1171
+ }
+ Difference {
+  inputs 2
+  offset {{parent.Difference_Red_offset.0}}
+  name Difference_Red
+  xpos -164
+  ypos -1059
+  indicators 2
+ }
+ Gamma {
+  value {{parent.Gamma_Red_value.0}}
+  name Gamma_Red
+  xpos -164
+  ypos -1035
+  indicators 2
+ }
+ Blend {
+  inputs 6
+  weight0 {{parent.UseRed i}}
+  weight1 {{parent.UseGreen i}}
+  weight2 {{parent.UseBlue i}}
+  weight3 {{parent.UseY i}}
+  weight4 {{parent.UseU i}}
+  weight5 {{root.YUV_Difference6.UseV}}
+  normalize false
+  name Use_Channel
+  xpos -253
+  ypos -906
+  indicators 2
+ }
+ Multiply {
+  value {{parent.Gain_value}}
+  name Gain
+  tile_color 0x7aa9ff00
+  xpos -253
+  ypos -869
+  indicators 2
+ }
+ Add {
+  value {{parent.Lift_value}}
+  name Lift
+  xpos -253
+  ypos -836
+  indicators 2
+ }
+push $N1ddd978
+ Dot {
+  name Dot9
+  xpos 581
+  ypos -1329
+ }
+ Dot {
+  name Dot11
+  xpos 581
+  ypos -803
+ }
+set N1df5e80 [stack 0]
+ ChannelCopy {
+  inputs 2
+  name Replace_Alpha
+  tile_color 0x9e3c6300
+  xpos -253
+  ypos -790
+ }
+set N1df67f0 [stack 0]
+ Dot {
+  name Dot13
+  xpos -219
+  ypos -587
+ }
+set N1e6d250 [stack 0]
+push $N1df5e80
+push $N1dda9b8
+ Dot {
+  name Dot1
+  xpos 694
+  ypos -1455
+ }
+ Dot {
+  name Dot14
+  xpos 694
+  ypos -740
+ }
+push $N1df67f0
+ Switch {
+  inputs 3
+  which {{parent.matteOut i}}
+  name Switch2
+  xpos 224
+  ypos -710
+  indicators 2
+ }
+ Dot {
+  name Dot12
+  selected true
+  xpos 258
+  ypos -599
+ }
+set N1e691a8 [stack 0]
+ ChannelMerge {
+  inputs 2
+  operation "b if not a"
+  name ChannelMerge15
+  tile_color 0x4b5ec600
+  xpos 937
+  ypos -425
+ }
+push $N1e6d250
+push $N1e691a8
+ ChannelMerge {
+  inputs 2
+  operation min
+  name ChannelMerge14
+  tile_color 0x4b5ec600
+  xpos 837
+  ypos -425
+ }
+push $N1e6d250
+push $N1e691a8
+ ChannelMerge {
+  inputs 2
+  operation min
+  name ChannelMerge13
+  tile_color 0x4b5ec600
+  xpos 736
+  ypos -426
+ }
+push $N1e6d250
+push $N1e691a8
+ ChannelMerge {
+  inputs 2
+  operation max
+  name ChannelMerge12
+  tile_color 0x4b5ec600
+  xpos 639
+  ypos -427
+ }
+push $N1e6d250
+push $N1e691a8
+ ChannelMerge {
+  inputs 2
+  operation absminus
+  name ChannelMerge11
+  tile_color 0x4b5ec600
+  xpos 543
+  ypos -426
+ }
+push $N1e6d250
+push $N1e691a8
+ ChannelMerge {
+  inputs 2
+  operation from
+  name ChannelMerge6
+  tile_color 0x4b5ec600
+  xpos 438
+  ypos -428
+ }
+push $N1e6d250
+push $N1e691a8
+ ChannelMerge {
+  inputs 2
+  operation minus
+  name ChannelMerge5
+  tile_color 0x4b5ec600
+  xpos 342
+  ypos -427
+ }
+push $N1e6d250
+push $N1e691a8
+ ChannelMerge {
+  inputs 2
+  operation plus
+  name ChannelMerge4
+  tile_color 0x4b5ec600
+  xpos 242
+  ypos -427
+ }
+push $N1e6d250
+push $N1e691a8
+ ChannelMerge {
+  inputs 2
+  operation xor
+  name ChannelMerge3
+  tile_color 0x4b5ec600
+  xpos 141
+  ypos -428
+ }
+push $N1e6d250
+push $N1e691a8
+ ChannelMerge {
+  inputs 2
+  operation stencil
+  name ChannelMerge10
+  tile_color 0x4b5ec600
+  xpos 44
+  ypos -429
+ }
+push $N1e6d250
+push $N1e691a8
+ ChannelMerge {
+  inputs 2
+  operation out
+  name ChannelMerge9
+  tile_color 0x4b5ec600
+  xpos -52
+  ypos -428
+ }
+push $N1e6d250
+push $N1e691a8
+ ChannelMerge {
+  inputs 2
+  operation intersect
+  name ChannelMerge8
+  tile_color 0x4b5ec600
+  xpos -152
+  ypos -428
+ }
+push $N1e6d250
+push $N1e691a8
+ ChannelMerge {
+  inputs 2
+  name ChannelMerge7
+  tile_color 0x4b5ec600
+  xpos -253
+  ypos -429
+ }
+ Switch {
+  inputs 13
+  which {{parent.operation}}
+  name Switch1
+  xpos -253
+  ypos -189
+  indicators 2
+ }
+set N1e81a48 [stack 0]
+push $N1e81a48
+push $N1df67f0
+ Dot {
+  name Dot15
+  xpos -343
+  ypos -110
+ }
+ Switch {
+  inputs 3
+  which {{parent.matteOut}}
+  name Switch3
+  xpos -253
+  ypos -113
+  indicators 2
+ }
+ Output {
+  name Output1
+  xpos -253
+  ypos -37
+ }
+end_group

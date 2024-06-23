@@ -1,0 +1,316 @@
+#! C:/Program Files/Nuke_4.5.27/nuke4.5.exe -nx
+version 4.5027
+Gizmo {
+ inputs 1
+ addUserKnob {20 "" User}
+ addUserKnob {41 file file T Grain_Read.file}
+ addUserKnob {3 seed seed}
+ seed 10
+ addUserKnob {6 grain_scale "scale grain to format"}
+ grain_scale true
+ addUserKnob {26 "" ""}
+ addUserKnob {6 test test}
+ addUserKnob {41 lookup lookup T ColorCorrect_KEYER.lookup}
+ addUserKnob {26 "" ""}
+ addUserKnob {41 value shadow T Mult_Shad.value}
+ addUserKnob {41 value_1 midtone T Mult_Mid.value}
+ addUserKnob {41 value_2 highlight T Mult_High.value}
+ addUserKnob {26 "" ""}
+ addUserKnob {41 mask mask T Mix.mask}
+ addUserKnob {41 invert_mask invert T Mix.invert_mask}
+ addUserKnob {41 fringe fringe T Mix.fringe}
+ addUserKnob {41 process_mask process T Mix.process_mask}
+ addUserKnob {41 which mix T Mix.which}
+}
+ Read {
+  inputs 0
+  file p:/ToyotaCorolla/_GRAIN/Grain_Raw/Grain_Balanced.%06d.dpx
+  before loop
+  last 215
+  after loop
+  timecode 00:00:00:00
+  name Write1_IRead1
+  xpos -824
+  ypos -866
+ }
+set N8e72e98 [stack 0]
+ Blur {
+  channels rgba
+  size 16
+  filter triangle
+  name Blur3
+  xpos -921
+  ypos -756
+ }
+push $N8e72e98
+ Merge {
+  inputs 2
+  operation from
+  name Merge10
+  xpos -824
+  ypos -686
+ }
+ Read {
+  inputs 0
+  file p:/ToyotaCorolla/_GRAIN/Grain_Clean/Grain_Clean.%04d.dpx
+  format "2048 1556 0 0 2048 1556 1 2k"
+  before loop
+  last 100
+  after loop
+  timecode 00:00:00:00
+  name Write3_IRead3
+  xpos -818
+  ypos -581
+ }
+ Input {
+  inputs 0
+  name Input1
+  xpos -468
+  ypos -309
+ }
+set Nca90e90 [stack 0]
+ Saturation {
+  saturation 0
+  mask -rgba.alpha
+  unpremult -rgba.alpha
+  name Saturation1
+  xpos 178
+  ypos -170
+ }
+ ColorCorrect {
+  gain 0
+  shadows.gain 0
+  shadows.offset {1 0 0 0}
+  midtones.gain 0
+  midtones.offset {0 2 0 0}
+  highlights.gain 0
+  highlights.offset {0 0 1 0}
+  lookup {shadow {curve 1 s0 x0.09 0 s0}
+    midtone {1-shadow-highlight}
+    highlight {curve x0.3 0 s0 x1 1 s0}}
+  mask -rgba.alpha
+  unpremult -rgba.alpha
+  name ColorCorrect_KEYER
+  selected true
+  xpos 178
+  ypos -126
+ }
+ Clamp {
+  channels rgba
+  mask -rgba.alpha
+  unpremult -rgba.alpha
+  name Clamp1
+  xpos 178
+  ypos -81
+ }
+ Expression {
+  expr1 1-(r+b)
+  name Expression1
+  xpos 178
+  ypos -41
+ }
+set N8ad1da8 [stack 0]
+push $Nca90e90
+push $Nca90e90
+ Reformat {
+  to "2048 1556 0 0 2048 1556 1 2k"
+  pbb true
+  name Reformat1
+  xpos -644
+  ypos -17
+  disable {{!grain_scale}}
+ }
+ Constant {
+  inputs 0
+  channels rgb
+  color {0.234 0.234 0.237 0}
+  format "2048 1556 0 0 2048 1556 1 2k"
+  name Constant2
+  xpos -978
+  ypos -232
+ }
+ Read {
+  inputs 0
+  file P:/ToyotaCorolla/_GRAIN/Grain_Clean_Dustbust/Grain_Clean_Dustbust.%04d.cin
+  before loop
+  last 100
+  after loop
+  colorspace sRGB
+  edge_code "00 00 00 0000 0000 00"
+  name Grain_Read
+  xpos -822
+  ypos -417
+ }
+ TimeOffset {
+  time_offset {{int(random(parent.seed)*100)}}
+  name TimeOffset1
+  xpos -822
+  ypos -263
+ }
+ Merge {
+  inputs 2
+  operation from
+  name Merge13
+  xpos -822
+  ypos -107
+ }
+ MergeExpression {
+  inputs 2
+  expr0 (to_sRGB(Ar)/255.0)*Br
+  expr1 (to_sRGB(Ag)/255.0)*Bg
+  expr2 (to_sRGB(Ab)/255.0)*Bb
+  name MergeExpression1
+  xpos -822
+  ypos 191
+ }
+ Reformat {
+  to_format false
+  to_box true
+  box_fixed true
+  box_width {{parent.format.w i}}
+  box_height {{parent.format.h i}}
+  pbb true
+  name Reformat2
+  xpos -822
+  ypos 238
+  disable {{!grain_scale}}
+ }
+ CopyBBox {
+  inputs 2
+  name CopyBBox1
+  xpos -822
+  ypos 284
+ }
+set N226c80c8 [stack 0]
+ Multiply {
+  channels rgba
+  name Mult_High
+  xpos 89
+  ypos 623
+ }
+push $N8ad1da8
+push $Nca90e90
+ Copy {
+  inputs 2
+  from0 rgba.blue
+  to0 rgba.alpha
+  name Copy3
+  label HIGH
+  xpos 178
+  ypos 248
+ }
+ Merge {
+  inputs 2
+  operation plus
+  output {rgba.red rgba.green rgba.blue -rgba.alpha}
+  name Merge5
+  xpos 178
+  ypos 739
+ }
+ Premult {
+  name Premult3
+  xpos 178
+  ypos 863
+ }
+push $N226c80c8
+ Multiply {
+  channels rgba
+  name Mult_Mid
+  xpos -77
+  ypos 620
+ }
+push $N8ad1da8
+push $Nca90e90
+ Copy {
+  inputs 2
+  from0 rgba.green
+  to0 rgba.alpha
+  name Copy2
+  label MID
+  xpos 6
+  ypos 259
+ }
+ Merge {
+  inputs 2
+  operation plus
+  output {rgba.red rgba.green rgba.blue -rgba.alpha}
+  name Merge4
+  xpos 6
+  ypos 735
+ }
+ Premult {
+  name Premult2
+  xpos 6
+  ypos 858
+ }
+push $N226c80c8
+ Multiply {
+  channels rgba
+  name Mult_Shad
+  xpos -268
+  ypos 618
+ }
+push $N8ad1da8
+push $Nca90e90
+ Copy {
+  inputs 2
+  from0 rgba.red
+  to0 rgba.alpha
+  name Copy1
+  label SHAD
+  xpos -165
+  ypos 257
+ }
+ Merge {
+  inputs 2
+  operation plus
+  output {rgba.red rgba.green rgba.blue -rgba.alpha}
+  name Merge2
+  xpos -165
+  ypos 741
+ }
+ Premult {
+  name Premult1
+  xpos -165
+  ypos 862
+ }
+ Merge2 {
+  inputs 3
+  operation plus
+  name Merge3
+  xpos 6
+  ypos 1120
+ }
+ Clamp {
+  channels rgba
+  minimum 1e-005
+  maximum_enable false
+  mask -rgba.alpha
+  unpremult -rgba.alpha
+  name Clamp2
+  label BLACKS
+  xpos 6
+  ypos 1161
+ }
+ Switch {
+  inputs 2
+  which {{parent.test}}
+  name Switch1
+  xpos -236
+  ypos 1304
+ }
+push $Nca90e90
+ Dissolve {
+  inputs 2
+  channels rgb
+  which 1
+  name Mix
+  xpos -468
+  ypos 1694
+ }
+ Output {
+  name Output1
+  xpos -468
+  ypos 1859
+ }
+end_group

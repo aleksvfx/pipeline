@@ -1,0 +1,171 @@
+#! /method/cg/opt/Nuke6.1v3/Nuke6.1 -nx
+version 6.1 v3
+Gizmo {
+ addUserKnob {20 User}
+ addUserKnob {4 fillMode l "Fill Mode" M {Blur Median None ""}}
+ addUserKnob {7 blurSize l "Blur Size" t "Size to blur in order to fill NaN pixels."}
+ blurSize 2
+}
+ Input {
+  inputs 0
+  name Input1
+  xpos -542
+  ypos -346
+ }
+ Dot {
+  name Dot2
+  xpos -508
+  ypos -249
+ }
+set N7475ba0 [stack 0]
+ Dot {
+  name Dot1
+  xpos -508
+  ypos -146
+ }
+set N74905d0 [stack 0]
+ Expression {
+  channel0 {-rgba.red -rgba.green -rgba.blue}
+  channel1 {-rgba.red -rgba.green -rgba.blue}
+  channel2 {-rgba.red -rgba.green -rgba.blue}
+  expr3 "!(isfinite(r) && isfinite(g) && isfinite(b))"
+  name Expression2
+  xpos -542
+  ypos 124
+ }
+set N76d8360 [stack 0]
+push $N7475ba0
+ Dot {
+  name Dot3
+  xpos -690
+  ypos -249
+ }
+set N7478490 [stack 0]
+ Shuffle {
+  red black
+  green black
+  blue black
+  alpha black
+  name Shuffle5
+  selected true
+  xpos -800
+  ypos -254
+ }
+ Dot {
+  name Dot4
+  xpos -766
+  ypos -146
+ }
+set N748d980 [stack 0]
+ Shuffle {
+  alpha white
+  name Shuffle1
+  xpos -800
+  ypos 86
+ }
+push $N76d8360
+ Dissolve {
+  inputs 2+1
+  which 1
+  name Dissolve3
+  xpos -800
+  ypos 117
+ }
+push $N7478490
+ Expression {
+  channel0 {-rgba.red -rgba.green -rgba.blue}
+  channel1 {-rgba.red -rgba.green -rgba.blue}
+  channel2 {-rgba.red -rgba.green -rgba.blue}
+  expr3 "!(isfinite(r) && isfinite(g) && isfinite(b))"
+  name Expression1
+  xpos -724
+  ypos -186
+ }
+set N747b230 [stack 0]
+ Dot {
+  name Dot6
+  xpos -580
+  ypos -181
+ }
+push $N747b230
+push $N748d980
+push $N74905d0
+ Dissolve {
+  inputs 2+1
+  which 1
+  name Dissolve1
+  xpos -724
+  ypos -158
+ }
+set N7493aa0 [stack 0]
+ Dot {
+  name Dot5
+  xpos -690
+  ypos -97
+ }
+set N7eba360 [stack 0]
+ Dot {
+  name Dot7
+  xpos -877
+  ypos -97
+ }
+ Median {
+  size {{parent.blurSize i}}
+  name Median1
+  xpos -911
+  ypos -61
+ }
+ Dot {
+  name Dot8
+  xpos -877
+  ypos 46
+ }
+push $N7eba360
+ Blur {
+  size {{parent.blurSize i}}
+  name Blur1
+  xpos -724
+  ypos -65
+ }
+ Unpremult {
+  name Unpremult1
+  xpos -724
+  ypos -15
+ }
+ Switch {
+  inputs 2
+  which {{parent.fillMode i}}
+  name Switch1
+  xpos -724
+  ypos 41
+ }
+push $N7493aa0
+ Dissolve {
+  inputs 2+1
+  which 1
+  name Dissolve2
+  xpos -614
+  ypos 34
+ }
+ Switch {
+  inputs 2
+  which {{parent.fillMode==2 i}}
+  name Switch2
+  xpos -614
+  ypos 176
+ }
+set Nb1554c0 [stack 0]
+ Output {
+  name Output1
+  xpos -614
+  ypos 223
+ }
+push $Nb1554c0
+ Viewer {
+  frame 7
+  input_process false
+  name Viewer1
+  xpos -1118
+  ypos 29
+ }
+end_group

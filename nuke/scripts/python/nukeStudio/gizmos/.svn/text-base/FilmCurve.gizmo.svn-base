@@ -1,0 +1,43 @@
+#! /S2/3d/farm/nuke/apps/software/Nuke5.0.2/Nuke5.0 -nx
+version 5.0200
+Gizmo {
+ addUserKnob {20 User}
+ addUserKnob {7 value}
+ value 1
+ addUserKnob {7 maxvar l max R 1 10}
+ maxvar 5
+}
+ Input {
+  inputs 0
+  name Input1
+  xpos 360
+  ypos -273
+ }
+ Expression {
+  expr0 "maxval * pow( 1 - exp( - pow(r / maxval,  1/pwr ) ) , pwr )"
+  expr1 "maxval * pow( 1 - exp( - pow(g / maxval,  1/pwr ) ) , pwr )"
+  expr2 "maxval * pow( 1 - exp( - pow(b / maxval,  1/pwr ) ) , pwr )"
+  maskChannel -rgba.alpha
+  name FilmCurver
+  selected true
+  xpos 360
+  ypos -200
+  addUserKnob {20 "" l User}
+  addUserKnob {7 pwr l Value}
+  pwr {{parent.value i}}
+  addUserKnob {7 maxval l "Max Value" R 1 20}
+  maxval {{parent.maxvar i}}
+ }
+set Nb644910 [stack 0]
+ Output {
+  name Output1
+  xpos 360
+  ypos -133
+ }
+push $Nb644910
+ Viewer {
+  name Viewer1
+  xpos 543
+  ypos -170
+ }
+end_group

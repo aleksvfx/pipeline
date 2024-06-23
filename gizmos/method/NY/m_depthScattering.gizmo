@@ -1,0 +1,52 @@
+#! /method/cg/opt/Nuke6.0v7/Nuke6.0 -nx
+version 6.0 v7
+Gizmo {
+ help "This gizmo provides scattered light values, based on a depth value, to simulate haze and overall volumetric effects.  To use, provide depth values as input, and add the result to your image (\"plus\" in a merge node).  Optionally, you can also multiply the result by a matte to produce something like loosly defined caustic effects or cloud shadows.  Note, however, that this effect assumes a constant light density from the viewer to the distant object.  So the results will never be as good as true volumetric scattering renders.\n\nThe equations used are based on the use of an \"attenuation coefficient,\" which is a physical property of the material or gas, such as water or air.  Increasing attenuation coefficients correspond to less light being transmitted to the eye, so colors work subtractively -- i.e., to get a cyan tint, the attenuation coefficient should be red.  By using the \"invert\" mode, you can dial attenuation colors more straightforwardly."
+ addUserKnob {20 User}
+ addUserKnob {18 lightColor l "Light Color" t "Color of light to be scattered between the viewer and the first visible object."}
+ lightColor 1
+ addUserKnob {18 atten l INVISIBLE +INVISIBLE}
+ atten {{"invert * (1.0 - attenuationCoefficient.main.r) + (1 - invert) * attenuationCoefficient.main.r"} {"invert * (1.0 - attenuationCoefficient.main.g) + (1 - invert) * attenuationCoefficient.main.g"} {"invert * (1.0 - attenuationCoefficient.main.b) + (1 - invert) * attenuationCoefficient.main.b"}}
+ addUserKnob {7 depthScale l "Depth Scale" t "Scalar value to apply to depth input." R 0 10}
+ depthScale 0.0001
+ addUserKnob {18 attenuationCoefficient l "Attenuation Coefficient" t "Physical constant for light attenuation through a dense medium.  Works kind of like a tint, but modeled physically to properly account for thickness."}
+ attenuationCoefficient {0.5 0.5 0.5}
+ addUserKnob {6 invert l Invert t "For convenience, it is often easier to tweak the inverted attenuation coefficient, since attenuation is a subtractive process." +STARTLINE}
+ invert true
+}
+ Input {
+  inputs 0
+  name Depth
+  xpos -71
+  ypos 165
+ }
+ Expression {
+  expr0 "(1 / parent.atten.r) * (1.0 - exp(-1.0 * r * parent.depthScale * parent.atten.r))"
+  expr1 "(1 / parent.atten.g) * (1.0 - exp(-1.0 * g * parent.depthScale * parent.atten.g))"
+  expr2 "(1 / parent.atten.b) * (1.0 - exp(-1.0 * b * parent.depthScale * parent.atten.b))"
+  name Expression1
+  xpos -71
+  ypos 251
+ }
+ Multiply {
+  channels rgb
+  value {{parent.lightColor.main.r} {parent.lightColor.main.g} {parent.lightColor.main.b} 0}
+  name Multiply1
+  xpos -71
+  ypos 309
+ }
+set Ne9d2c9e0 [stack 0]
+push $Ne9d2c9e0
+ Output {
+  name Output1
+  xpos -71
+  ypos 395
+ }
+ Viewer {
+  inputs 2
+  input_process false
+  name Viewer1
+  xpos 195
+  ypos 212
+ }
+end_group

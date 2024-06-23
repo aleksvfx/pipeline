@@ -1,0 +1,54 @@
+This is BibTeX, Version 0.99c (Web2C 7.5.4)
+The top-level auxiliary file: zdepthRelight.aux
+The style file: acmsiggraph.bst
+Database file #1: zdepthRelight.bib
+Warning--empty journal in 4D
+Warning--empty journal in fast
+Warning--empty journal in direct
+Warning--empty journal in kautz
+Warning--empty journal in wavelet
+Warning--empty journal in eyes
+Warning--empty journal in Lpics
+Warning--empty journal in devebec
+You've used 8 entries,
+            2748 wiz_defined-function locations,
+            627 strings with 5106 characters,
+and the built_in function-call counts, 2034 in all, are:
+= -- 208
+> -- 72
+< -- 0
++ -- 17
+- -- 24
+* -- 122
+:= -- 386
+add.period$ -- 24
+call.type$ -- 8
+change.case$ -- 40
+chr.to.int$ -- 8
+cite$ -- 16
+duplicate$ -- 88
+empty$ -- 145
+format.name$ -- 24
+if$ -- 394
+int.to.chr$ -- 1
+int.to.str$ -- 0
+missing$ -- 8
+newline$ -- 43
+num.names$ -- 24
+pop$ -- 32
+preamble$ -- 1
+purify$ -- 32
+quote$ -- 0
+skip$ -- 62
+stack$ -- 0
+substring$ -- 41
+swap$ -- 16
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 64
+warning$ -- 8
+while$ -- 24
+width$ -- 12
+write$ -- 90
+(There were 8 warnings)

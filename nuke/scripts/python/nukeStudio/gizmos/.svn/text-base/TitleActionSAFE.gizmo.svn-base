@@ -1,0 +1,110 @@
+#! Z:/INSTALL/Nuke4/5.27/nuke4.5.exe -nx
+version 4.5027
+Gizmo {
+ inputs 1
+ addUserKnob {20 "" User}
+ addUserKnob {7 Border Thickness R 0 10}
+ Border 1
+ addUserKnob {26 "" ""}
+ addUserKnob {6 ActionOpt "Action Safe"}
+ ActionOpt true
+ addUserKnob {7 ActionScale size R 0 1}
+ ActionScale 0.1
+ addUserKnob {41 color color T Action.color}
+ addUserKnob {26 "" ""}
+ addUserKnob {6 TitleOpt "Title Safe"}
+ TitleOpt true
+ addUserKnob {7 TitleScale size R 0 1}
+ TitleScale 0.2
+ addUserKnob {41 color_1 color T Safe.color}
+ addUserKnob {26 "" ""}
+ addUserKnob {41 channel "knob channels \$value" T Mix.channel}
+ addUserKnob {41 which mix T Mix.which}
+ addUserKnob {41 mask mask T Mix.mask}
+ addUserKnob {41 invert_mask invert T Mix.invert_mask}
+ addUserKnob {41 fringe fringe T Mix.fringe}
+ addUserKnob {41 process_mask process T Mix.process_mask}
+}
+ Input {
+  inputs 0
+  name Input1
+  xpos -283
+  ypos -67
+ }
+set N1c01ac8 [stack 0]
+ Dot {
+  name Dot1
+  xpos 34
+  ypos 19
+ }
+set N1c02568 [stack 0]
+ Rectangle {
+  replace true
+  area {{parent.input0.format.x+(parent.input0.format.r*(ActionScale/2)) i} {parent.input0.format.y+(parent.input0.format.t*(ActionScale/2)) i} {"parent.input0.format.r*(1 -(ActionScale/2))" i} {"parent.input0.format.t*(1 -(ActionScale/2))" i}}
+  color {0 1 0 1}
+  p1 {100 400}
+  p0 {100 100}
+  name Action
+  xpos -109
+  ypos 91
+ }
+ Rectangle {
+  area {{parent.Action.area.x+Border i} {parent.Action.area.y+Border i} {parent.Action.area.r-Border i} {parent.Action.area.t-Border}}
+  color 0
+  p1 {100 400}
+  p0 {100 100}
+  name Rectangle1
+  xpos -109
+  ypos 131
+ }
+push $N1c02568
+ Rectangle {
+  replace true
+  area {{parent.input0.format.x+(parent.input0.format.r*(TitleScale/2)) i} {parent.input0.format.y+(parent.input0.format.t*(TitleScale/2)) i} {"parent.input0.format.r*(1 -(TitleScale/2))" i} {"parent.input0.format.t*(1 -(TitleScale/2))"}}
+  color {1 0 0 1}
+  p1 {100 400}
+  p0 {100 100}
+  name Safe
+  xpos 100
+  ypos 81
+ }
+ Rectangle {
+  area {{parent.Safe.area.x+Border i} {parent.Safe.area.y+Border i} {parent.Safe.area.r-Border i} {parent.Safe.area.t-Border}}
+  color 0
+  p1 {100 400}
+  p0 {100 100}
+  name Rectangle2
+  xpos 100
+  ypos 118
+ }
+push $N1c02568
+ Merge {
+  inputs 2
+  name Merge1
+  xpos 0
+  ypos 202
+  disable {{!TitleOpt i x1 1}}
+ }
+ Merge {
+  inputs 2
+  name Merge2
+  xpos 0
+  ypos 280
+  disable {{!ActionOpt}}
+ }
+push $N1c01ac8
+ Dissolve {
+  inputs 2
+  channels rgb
+  which 1
+  mask -rgba.alpha
+  name Mix
+  xpos -283
+  ypos 345
+ }
+ Output {
+  name Output1
+  xpos -283
+  ypos 428
+ }
+end_group

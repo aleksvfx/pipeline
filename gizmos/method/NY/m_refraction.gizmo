@@ -1,0 +1,191 @@
+#! C:/Program Files/Nuke5.2v2/Nuke5.2.exe -nx
+version 5.2200
+Gizmo {
+ inputs 3
+ addUserKnob {20 User}
+ addUserKnob {14 refractionAmount l "Refraction Amount" R 0 100}
+ refractionAmount 1
+}
+ Input {
+  inputs 0
+  name RefractionCoords
+  xpos 321
+  ypos -566
+  number 2
+ }
+ Keyer {
+  operation "luminance key"
+  range {0 4.89021e-005 1 1}
+  name Keyer3
+  xpos 321
+  ypos -526
+ }
+ Dot {
+  name Dot15
+  xpos 355
+  ypos -463
+ }
+set N7d6c690 [stack 0]
+ Dot {
+  name Dot17
+  xpos 245
+  ypos -463
+ }
+ EdgeDetectWrapper {
+  channels {rgba.red rgba.green -rgba.blue}
+  threshold 0.05
+  name EdgeDetectWrapper3
+  xpos 211
+  ypos -350
+ }
+ FilterErode {
+  channels alpha
+  size -3
+  filter gaussian
+  name FilterErode2
+  xpos 211
+  ypos -306
+ }
+push $N7d6c690
+push $N7d6c690
+ Dot {
+  name Dot18
+  xpos 465
+  ypos -463
+ }
+ Ramp {
+  output {-rgba.red rgba.green -rgba.blue -rgba.alpha}
+  replace true
+  maskChannelInput -rgba.alpha
+  p0 {0 0}
+  p1 {0 {actual_format.height i}}
+  name Ramp3
+  xpos 431
+  ypos -428
+ }
+ Ramp {
+  output {rgba.red -rgba.green -rgba.blue -rgba.alpha}
+  replace true
+  maskChannelInput -rgba.alpha
+  p0 {0 0}
+  p1 {{actual_format.width} 0}
+  name Ramp4
+  xpos 431
+  ypos -390
+ }
+set N7d6d6c0 [stack 0]
+ Multiply {
+  channels rgb
+  value 0
+  maskChannelInput rgba.alpha
+  invert_mask true
+  name Multiply2
+  xpos 431
+  ypos -352
+ }
+ Merge2 {
+  inputs 2
+  operation minus
+  Achannels {rgba.red rgba.green -rgba.blue -rgba.alpha}
+  Bchannels {rgba.red rgba.green -rgba.blue -rgba.alpha}
+  output {rgba.red rgba.green -rgba.blue -rgba.alpha}
+  name Merge21
+  xpos 321
+  ypos -346
+ }
+ ColorCorrect {
+  inputs 1+1
+  channels {rgba.red rgba.green -rgba.blue}
+  gain 0
+  name ColorCorrect12
+  xpos 321
+  ypos -306
+ }
+ Multiply {
+  channels {rgba.red rgba.green -rgba.blue}
+  value {{parent.refractionAmount.main.w i} {parent.refractionAmount.main.h i} 1 1}
+  name Multiply1
+  xpos 321
+  ypos -268
+ }
+set N26874650 [stack 0]
+ Dot {
+  name Dot2
+  xpos 455
+  ypos -258
+ }
+ Input {
+  inputs 0
+  name Mask
+  xpos -56
+  ypos -203
+  number 1
+ }
+push $N26874650
+ ColorCorrect {
+  inputs 1+1
+  gain 0
+  invert_mask true
+  name ColorCorrect13
+  xpos 321
+  ypos -203
+ }
+ Switch {
+  inputs 2
+  which {{error i}}
+  name Switch1
+  xpos 421
+  ypos -203
+ }
+set N4bc4b560 [stack 0]
+push $N7d6d6c0
+ Dot {
+  name Dot19
+  xpos 565
+  ypos -380
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  name Merge22
+  xpos 531
+  ypos -203
+ }
+ Clamp {
+  channels rgb
+  name Clamp1
+  xpos 531
+  ypos -165
+ }
+ Input {
+  inputs 0
+  name Image
+  xpos 643
+  ypos -566
+ }
+ Dot {
+  name Dot1
+  xpos 677
+  ypos -105
+ }
+ STMap {
+  inputs 2
+  channels rgba
+  uv rgb
+  name STMap1
+  xpos 531
+  ypos -109
+ }
+ Output {
+  name Output1
+  xpos 531
+  ypos -39
+ }
+push $N4bc4b560
+ Viewer {
+  frame 381
+  name Viewer1
+  xpos 802
+  ypos -161
+ }
+end_group

@@ -1,0 +1,5487 @@
+#! /Applications/Nuke5.2v3/Nuke5.2v3.app/Contents/MacOS/Nuke5.2v3 -nx
+version 5.2300
+define_window_layout_xml {<?xml version="1.0" encoding="UTF-8"?>
+<layout version="1.0">
+    <window x="0" y="22" w="1024" h="742" screen="0">
+        <splitter orientation="1">
+            <split size="646"></split>
+            <splitter orientation="1">
+                <split size="40"></split>
+                <dock id="" hideTitles="1" activePageId="Toolbar.1">
+                    <page id="Toolbar.1"></page>
+                </dock>
+                <split size="602"></split>
+                <splitter orientation="2">
+                    <split size="358"></split>
+                    <dock id="" activePageId="Viewer.1">
+                        <page id="Viewer.1"></page>
+                        <page id="Viewer.3"></page>
+                    </dock>
+                    <split size="358"></split>
+                    <dock id="" activePageId="DAG.1">
+                        <page id="DAG.1"></page>
+                        <page id="Curve Editor.1"></page>
+                        <page id="Script Editor.1"></page>
+                        <page id="DAG.2"></page>
+                    </dock>
+                </splitter>
+            </splitter>
+            <split size="374"></split>
+            <splitter orientation="2">
+                <split size="73"></split>
+                <dock id="" activePageId="Progress.1">
+                    <page id="Progress.1"></page>
+                </dock>
+                <split size="643"></split>
+                <dock id="" activePageId="Properties.1">
+                    <page id="Properties.1"></page>
+                </dock>
+            </splitter>
+        </splitter>
+    </window>
+</layout>
+}
+Root {
+ inputs 0
+ name "/Users/xXx/POINTCACHE3D.nk"
+ mapsize {0.101329 0.115385}
+ fps 25
+ format "720 576 0 0 720 576 1.09 PAL"
+ proxy_type scale
+ proxy_format "1024 778 0 0 1024 778 1 1K_Super_35(full-ap)"
+}
+BackdropNode {
+ inputs 0
+ name BackdropNode1
+ tile_color 0x8e8e3800
+ note_font_size 42
+ xpos -309
+ ypos -677
+ bdwidth 503
+ bdheight 530
+}
+Diffuse {
+ inputs 0
+ name Diffuse1
+ xpos 30
+ ypos -298
+}
+Camera2 {
+ inputs 0
+ translate {0.793147 0.26 1.60473}
+ rotate {0 33.633 0}
+ name Camera1
+ xpos 87
+ ypos -405
+}
+set N623f420 [stack 0]
+Light {
+ inputs 0
+ falloff_type Cubic
+ translate {-0.15 0.298 0.81}
+ uniform_scale 0.042
+ name Point1
+ xpos -254
+ ypos -377
+}
+Scene {
+ name Scene2
+ xpos -254
+ ypos -311
+}
+Read {
+ inputs 0
+ file /Users/xXx/BuddhaN.png
+ format "512 512 0 0 512 512 1 square_512"
+ name Read3
+ xpos -75
+ ypos -587
+}
+Reformat {
+ format "1024 1024 0 0 1024 1024 1 square_1K"
+ name Reformat2
+ xpos -75
+ ypos -501
+}
+Read {
+ inputs 0
+ file /Users/xXx/BuddhaP.png
+ format "512 512 0 0 512 512 1 square_512"
+ name Read2
+ xpos -186
+ ypos -590
+}
+Reformat {
+ format "1024 1024 0 0 1024 1024 1 square_1K"
+ name Reformat1
+ xpos -186
+ ypos -504
+}
+set N18d0b80 [stack 0]
+Read {
+ inputs 0
+ file /Users/xXx/Buddha.png
+ format "1024 1024 0 0 1024 1024 1 square_1K"
+ name Read1
+ xpos -299
+ ypos -590
+}
+set N62be060 [stack 0]
+add_layer {POSITION POSITION.x POSITION.y POSITION.z}
+Copy {
+ inputs 2
+ from0 rgba.red
+ to0 POSITION.x
+ from1 rgba.green
+ to1 POSITION.y
+ from2 rgba.blue
+ to2 POSITION.z
+ name Copy1
+ xpos -236
+ ypos -450
+}
+add_layer {NORMAL NORMAL.u NORMAL.v NORMAL.w}
+Copy {
+ inputs 2
+ from0 rgba.red
+ to0 NORMAL.u
+ from1 rgba.green
+ to1 NORMAL.v
+ from2 rgba.blue
+ to2 NORMAL.w
+ name Copy2
+ xpos -137
+ ypos -391
+}
+ReLight {
+ inputs 4
+ normal NORMAL
+ position POSITION
+ name ReLight1
+ xpos -137
+ ypos -312
+}
+push $N623f420
+push 0
+UVProject {
+ inputs 2
+ selectable false
+ name UVProject1
+ xpos 77
+ ypos -234
+}
+Viewer {
+ inputs 0
+ input_process false
+ name Viewer2
+ xpos -34
+ ypos -192
+}
+push $N623f420
+push $N623f420
+Light2 {
+ inputs 0
+ intensity 0.001
+ cone_angle 112
+ cone_falloff 20
+ falloff_type Cubic
+ translate {0.0742816 0.31042 0.946104}
+ rotate {-6.993 -9.324 0}
+ uniform_scale 0.04
+ name Light1
+ xpos 346
+ ypos -414
+}
+push $N18d0b80
+Dot {
+ name Dot1
+ xpos 101
+ ypos -464
+}
+push $N62be060
+Dot {
+ name Dot2
+ xpos 307
+ ypos -643
+}
+Keyer {
+ operation "luminance key"
+ range {0 0.00560849 0.982456 1}
+ name Keyer1
+ xpos 273
+ ypos -625
+ disable true
+}
+BasicMaterial {
+ name BasicMaterial1
+ xpos 273
+ ypos -560
+ disable true
+}
+Group {
+ inputs 2
+ name POINTCACHE3D
+ help "POINTCACHE3D\n\nWith Input from an PointPosition-Pass \[P]\ncan you make an 3D-PointCloud for better\nReLighting (in 3D) or for representation of\nyour 3D-Scene\n\nOptional with an ImageInput can you\nproject the Image (in UVSpace \[internal with an 3D_UVprojection] to the 'Surface'\nOR when you set the projection to\nperspective and set some settings in CAMERA\nthen you can resample it (better with an imported Camera)\n\n\n=========================\n\nSOME TIPPS:\n\n*) YOU CAN ALSO PUT AN\n>>> SCANLINE-RENDERER <<<\nAFTER THE POINTCACHE3D\n\n!!! This PointCloud is RENDERABLE !!!\n\n*) YOU CAN ALSO PUT AN\n>>> 3D-GeoWrite <<<\nAFTER THE POINTCACHE3D\n\n!!! This PointCloud is SAVEABLE !!!\n\n*) -> WITH THIS OBJ\n(example for each Frame)\nCAN YOU IN YOUR 3D-App\nVISUALIZE YOUR Image in 3D !!!\n\n*) YOU CAN ALSO IMPORT YOUR PointCloud-OBJ\nFOR LATER USE AND CONNECT IT TO YOUR SCENE\n\n\nAND YOU CAN example MAKE AN 3D-PointCloud\nIN FRAME 1 AND THE NEXT IN FRAME 10\nAND SO YOU HAVE A\n>>> 'PLAYABLE'/'MOVING' Preview/PreViz 3D-SCENE ;-) <<<"
+ tile_color 0x115efcff
+ gl_color 0xe4fd3ff
+ label "614 Points\nFRAME: 1"
+ note_font "Verdana Bold Bold Bold Bold Bold"
+ note_font_color 0xffeb17ff
+ xpos 273
+ ypos -501
+ addUserKnob {20 PC3D l PointCache3D}
+ addUserKnob {41 POINTSAMPLE l PointsSample t "DEFAULT : 80\n\nThis means that (100-80=20)\nevery 20thy Pixel will sample." T DummyANZAHL.POINTANZAHL}
+ addUserKnob {22 LAYOUT t "This change your Layout from\n\"Simple\" to \"FULL\"\n\nSimple = only the most Settings\n\nFULL = ALL Settings" -STARTLINE T "#k = nuke.toNode('PointCache3D')\n#k = nuke.selectedNode()\nk = nuke.thisNode()\n\nif k\['LAYOUTtmp'].value() != 'FULL':\n\n    k\['DEPTHCHANGEgroup'].setVisible(False)\n    k\['PROJECTIONgroup'].setVisible(False)\n    k\['TIPPgroup'].setVisible(False)\n    k\['SHADERgroup'].setVisible(False)\n    k\['CAMERAgroup'].setVisible(False)\n    k\['strich1'].setVisible(False)\n    k\['strich2'].setVisible(False)\n    k\['LAYOUTtmp'].setValue('FULL')\n\nelse:\n\n    k\['DEPTHCHANGEgroup'].setVisible(True)\n    k\['PROJECTIONgroup'].setVisible(True)\n    k\['TIPPgroup'].setVisible(True)\n    k\['SHADERgroup'].setVisible(True)\n    k\['CAMERAgroup'].setVisible(True)\n    k\['strich1'].setVisible(True)\n    k\['strich2'].setVisible(True)\n    k\['LAYOUTtmp'].setValue('Simple')"}
+ addUserKnob {26 LAYOUTtmp l INVISIBLE -STARTLINE T FULL}
+ addUserKnob {41 PointSize t "This change the PointCache Point-Size\n\nDEFAULT: 0.01" T DummyCube.uniform_scale}
+ addUserKnob {26 strich1 l "" +STARTLINE}
+ addUserKnob {20 DEPTHCHANGEgroup l Depth n 1}
+ DEPTHCHANGEgroup 0
+ addUserKnob {41 DEPTH_B l "Depth (B)" t "This will change your Depth (B) from your \[Point(P)] Image\n\n0 = Default (like in your Image)\n\n1 = change your Depth/B-Value with Minus (-b)\n\n-> so your Points are \"away\" from Orient(0,0,0)\n\n\nBUT YOU CAN ALSO TO THIS BEFORE POINTCACHE3D\n(with example an (Color)Math-Expression \[in b set it to -b])" T InputPoint.which}
+ addUserKnob {20 DEPTHSETTINGS l SETTINGS n 1}
+ DEPTHSETTINGS 0
+ addUserKnob {41 DEPTH_B_MULT l "Depth (B) Multiply" t "This can the Depth (B) make 'stronger'\n\nSo your Depth(Range) is 'dephter'\n(Before: 0.4 - 1.3 - After: 2.0 - 6.5)\n\n0 = Without MultiplyDepth\n1 = WITH (and change it with the Settings below)\n\nDEFAULT: 0\n\nBUT YOU CAN ALSO TO THIS BEFORE POINTCACHE3D\n(with example an (Color)Grade \[in b])" T Switch1.which}
+ addUserKnob {26 DepthMulti l DepthMultiply}
+ addUserKnob {41 multiply T Grade1.multiply}
+ addUserKnob {41 gamma T Grade1.gamma}
+ addUserKnob {41 white l gain -STARTLINE T Grade1.white}
+ addUserKnob {41 black l lift -STARTLINE T Grade1.black}
+ addUserKnob {41 add l offset -STARTLINE T Grade1.add}
+ addUserKnob {20 endGroup_5 l endGroup n -1}
+ addUserKnob {20 endGroup n -1}
+ addUserKnob {26 strich2 l "" +STARTLINE}
+ addUserKnob {20 PROJECTIONgroup l ProjectionMaterial n 1}
+ PROJECTIONgroup 0
+ addUserKnob {26 PROJ_CAM l INVISIBLE t UVProjection}
+ addUserKnob {41 projection t "Planar = Project Image front (without Camera)\n\nPerspective = Project from CameraImage (UV)\n\tThen go to Tab CAMERA\n\tand change the Settings\n\t(also you can import your Cam)\n\nOff = Disable the UVProjection" T DummyUVProject.projection}
+ addUserKnob {41 selectable -STARTLINE T DummyUVProject.selectable}
+ addUserKnob {41 display T DummyUVProject.display}
+ addUserKnob {41 disable_2 l disable -STARTLINE T DummyUVProject.disable}
+ addUserKnob {20 endGroup_1 l endGroup n -1}
+ addUserKnob {26 strich3 l "" +STARTLINE}
+ addUserKnob {1 HOWMUCH l "Points: " t "This your Points that will be presented.\n\n*) to 2000 (real) are very fast\n*) between 2000 and 5000 is fast\n*) from 5000 to 8000 is \"ok\"\n*) 8000 to 10000 is (very) slow\n*) and up 10000 it's bugy (mostly Nuke will crash or it will run this task \[very] long) !!!!!\n"}
+ HOWMUCH 614
+ addUserKnob {22 CALCULATE t "Preview of your PointNumbers" -STARTLINE T "#k = nuke.selectedNode()\n#print k.name()\n# nuke.thisNode()\n\n#HAUPTgroup = nuke.toNode('PointCache3D') \n#HAUPTgroup = nuke.selectedNode()\nHAUPTgroup = nuke.thisNode()\nHAUPTgroup.begin() \n\n###sn = nuke.selectedNode() #---------------> sn = nuke.selectedNodes()\nInputImage_sn = nuke.toNode('InputPoint').setSelected('True')\nsn = nuke.selectedNode()\n\nwa = nuke.value(sn.name()+\".format.w\")\nha = nuke.value(sn.name()+\".format.h\")\n\nPOINTx = nuke.toNode('DummyANZAHL')\nPOINTS = POINTx\['POINTANZAHL'].value()\n\n#########################\n# Points in Prozent %\n#\n# 500 * (0.5\[*100]) = 250\n#########################\n\n### WIEVIEL = 100/POINTS\n###WIEVIEL = POINTS*100\nWIEVIEL = 100-POINTS\n\nif WIEVIEL <= 1:\n    WIEVIEL = 1\n\nw = int(wa)/WIEVIEL\nh = int(ha)/WIEVIEL\n\nAllePoints=0\n\nfor sampleY in range(int(h)+1):\n\n    for sampleX in range(int(w)+1):\n        svr = sn.sample(\"r\", sampleY*WIEVIEL, sampleX*WIEVIEL, 0.5, 0.5)\n        svg = sn.sample(\"g\", sampleY*WIEVIEL, sampleX*WIEVIEL, 0.5, 0.5)\n        svb = sn.sample(\"b\", sampleY*WIEVIEL, sampleX*WIEVIEL, 0.5, 0.5)\n\n        erg = \[svr + svg + svb]\n\n        if erg != \[0.0] :\n\n            AllePoints=AllePoints+1\n\n\nfor n in nuke.allNodes() :\n        n.setSelected(0)\n\nHAUPTgroup.end()\n\n\n# ERG = int(w*h)\n\nCALCULATE_ERG = str(AllePoints)\n\n#x = nuke.toNode('PointCache3D')\n#x = nuke.selectedNode()\n#x = nuke.thisNode()\nHAUPTgroup\['HOWMUCH'].setValue(CALCULATE_ERG)"}
+ addUserKnob {26 strich4 l "" +STARTLINE}
+ addUserKnob {22 RUN T "### import threading \n### import time \n### def selfDestruct(): \n###   task = nuke.ProgressTask(\"Self Destructing\") \n###   task.setMessage(\"Deleting files\") \n  \n#k = nuke.selectedNode()\n#print k.name()\n# nuke.thisNode()\n\n#HAUPTgroup = nuke.toNode('PointCache3D') \n#HAUPTgroup = nuke.selectedNode()\nHAUPTgroup = nuke.thisNode()\nHAUPTgroup.begin() \n\n###sn = nuke.selectedNode() #---------------> sn = nuke.selectedNodes()\nInputImage_sn = nuke.toNode('InputPoint').setSelected('True')\nsn = nuke.selectedNode()\n\nwa = nuke.value(sn.name()+\".format.w\")\nha = nuke.value(sn.name()+\".format.h\")\n\nPOINTx = nuke.toNode('DummyANZAHL')\nPOINTS = POINTx\['POINTANZAHL'].value()\n\n#########################\n# Points in Prozent %\n#\n# 500 * (0.5\[*100]) = 250\n#########################\n\n### WIEVIEL = 100/POINTS\n###WIEVIEL = POINTS*100\nWIEVIEL = 100-POINTS\n\nif WIEVIEL <= 1:\n    WIEVIEL = 1\n\nw = int(wa)/WIEVIEL\nh = int(ha)/WIEVIEL\n\nmaxB = \[]\n\nAllePoints=0\n\nnuke.nodes.Group()\nGroup = nuke.toNode('Group1')\nGroup.begin()\n\ngIn = nuke.nodes.Input()\ngOut = nuke.nodes.Output()\n\nDeCube = nuke.toNode('DummyANZAHL')\nxXx/ = nuke.toNode('Group1')\nxXx/\['disable'].setExpression(DeCube.name()+\".DISABLE_GROUP\")\n\nfor sampleY in range(int(h)+1):\n\n    \n###     if task.isCancelled(): \n###       nuke.executeInMainThread( nuke.message, args=( \"Phew!\" ) ) \n###       break; \n###     task.setProgress(sampleY)\n    \n    \n    tmp_b = \[]\n    \n    for sampleX in range(int(w)+1):\n        svr = sn.sample(\"r\", sampleY*WIEVIEL, sampleX*WIEVIEL, 0.5, 0.5)\n        svg = sn.sample(\"g\", sampleY*WIEVIEL, sampleX*WIEVIEL, 0.5, 0.5)\n        svb = sn.sample(\"b\", sampleY*WIEVIEL, sampleX*WIEVIEL, 0.5, 0.5)\n        \n        tmp_b.append(svb)\n        \n        erg = \[svr + svg + svb]\n\n        if erg != \[0.0] :\n\n            AllePoints=AllePoints+1\n            ergSTR = str(AllePoints)\n\n            POINTs = nuke.nodes.Cube()\n            \n            DCube = nuke.toNode('DummyCube')\n            ### POINTs\['uniform_scale'].setValue(0.01)\n            POINTs\['uniform_scale'].setExpression(DCube.name()+\".uniform_scale\")\n            POINTs\['rows'].setValue(1)\n            POINTs\['columns'].setValue(1)\n            pos=\[svr,svg,svb]\n            POINTs\['translate'].setValue(pos)\n\n    maxB.append(max(tmp_b))\n    \n#for n in nuke.allNodes() :\n#        n.setSelected(0)\n\n# for n in nuke.allNodes('Cube') :\n#         n.setSelected('True')\n# xInput = nuke.toNode('Input1').setInput(0, nuke.selectedNode())\n\nxInput = nuke.toNode('Input1').setSelected('True')\n\nfor n in nuke.allNodes('Cube') :\n        n.setInput(0, nuke.selectedNode())\n\nxInput = nuke.toNode('Input1').setSelected(0)\n\n###################################################################\n#\n#for n in nuke.allNodes('Cube') :\n#        n.setSelected('True')\n#\n##m = nuke.nodes.MergeGeo()\n##m = nuke.toNode('MergeGeo1').setInput(0, nuke.selectedNode())\n#m = nuke.createNode('MergeGeo', inpanel=False)\n#\n#for n in nuke.allNodes('Cube') :\n#        n.setSelected(0)\n#\n##################################################################\n\n\n\n\nMergeAnzahlx = AllePoints/1000+1\nMergeAnzahl = int(MergeAnzahlx)\n\nSTART = 1\nENDE = 1001\n\nrangelistPoint = range(AllePoints)\nrangelistMerge = range(MergeAnzahl)\n\n\nfor n in rangelistMerge:\n    \n    for number in rangelistPoint\[START:ENDE]:\n        \n        ZAHL = str(number)\n        CUBEnr = nuke.toNode('Cube'+ZAHL)\n        CUBEnr.setSelected('True')\n    \n    g = nuke.createNode('MergeGeo', inpanel=False)\n    g.setSelected(0)\n    \n    for CubeNrDeSel in rangelistPoint\[START:ENDE]:\n        \n        ZAHLx = str(CubeNrDeSel)\n        CUBEnrx = nuke.toNode('Cube'+ZAHLx)\n        CUBEnrx.setSelected(0)\n    \n#    for CubeNrDeSel in nuke.allNodes('Cube') :\n#        CubeNrDeSel.setSelected(0)\n\n    START = START+1000\n    ENDE = ENDE+1000\n\n\n\nfor n in nuke.allNodes('MergeGeo') :\n        n.setSelected('True')\n\n#m = nuke.nodes.Scene()\n#m = nuke.toNode('Scene1').setInput(0, nuke.selectedNode())\nm = nuke.createNode('Scene', inpanel=False)\n\nfor n in nuke.allNodes('MergeGeo') :\n        n.setSelected(0)\n\nx = nuke.toNode('Scene1').setSelected('True')\n\nnOutput = nuke.toNode('Output1').setInput(0, nuke.selectedNode())\n\nx = nuke.toNode('Scene1').setSelected(0)\n\n# for n in nuke.allNodes() :\n#        n.setSelected(0)\n\nGroup.end()\n\n\n\n### m = nuke.toNode('InputImage').setSelected('True')\n\n### n = nuke.createNode('BasicMaterial', inpanel=False)\n\n### for n in nuke.allNodes() :\n###        n.setSelected(0)\n\nm = nuke.toNode('DummyBasicMaterial').setSelected('True')\n\nfor n in nuke.allNodes('Group') :\n        n.setInput(0, nuke.selectedNode())\n\nm = nuke.toNode('DummyBasicMaterial').setSelected(0)\n\nfor n in nuke.allNodes('Group') :\n        n.setSelected('True')\n\nxOutput = nuke.toNode('DummyUVProject').setInput(0, nuke.selectedNode())\n\nfor n in nuke.allNodes() :\n        n.setSelected(0)\n\nCamProj = nuke.toNode('CameraProject')\nCamPos=\[0,0,str(max(maxB)*2)]\nCamProj\['translate'].setValue(CamPos)\n\nCamLabelDepth = str(max(maxB))\nCamLabelDepthCamera = str(max(maxB)*2)\nCamLabelCamera = CamLabelDepthCamera\nCamProj\['label'].setValue(\"Depth: \" + CamLabelDepth + \"\\n\" + \"CameraDepth: \" + CamLabelCamera)\n\nFRAMENR = str(nuke.frame())\n\nprint\nprint\nprint ### \"Maximum Depth(b) PixelValue\"\nprint \">>> Depth(B): \" + str(max(maxB)) + \" <<<\"\nprint \">>> \" + ergSTR + \" POINTS <<<\"\nprint \" ----- FRAME: \" + FRAMENR + \" -----\"\nprint\n\nHAUPTgroup.end()\n\nGroupSTR = str(ergSTR)\n#GroupValue = nuke.toNode('PointCache3D')\n#GroupValue = nuke.selectedNode()\n#GroupValue = nuke.thisNode()\n#GroupLabel = GroupValue\['label'].setValue(GroupSTR+\" Points\"  + \"\\n\" + \"FRAME: \" + FRAMENR)\nGroupLabel = HAUPTgroup\['label'].setValue(GroupSTR+\" Points\"  + \"\\n\" + \"FRAME: \" + FRAMENR)\n\n#k = nuke.toNode('PointCache3D')\n#k = nuke.selectedNode()\n#k = nuke.thisNode()\nHAUPTgroup\['RUN'].setVisible(False)\n\n### threading.Thread( None, selfDestruct ).start()" +STARTLINE}
+ addUserKnob {26 leer l "" -STARTLINE T "  "}
+ addUserKnob {41 DISABLE l Disable -STARTLINE T DummyANZAHL.DISABLE_GROUP}
+ addUserKnob {26 leer_1 l "" -STARTLINE T "  "}
+ addUserKnob {22 DELETE t "DELETE is to delete the complete PointCache\n\nALL Cubes are deleted.\n\n--> THIS IS GOOD FOR MANY Points (over 3000)\nWHEN YOU SAVE YOUR NUKE-Script(.nk)\n\[Size & Loading-Issues]\n\nBUT: when you have under 3000 than you can save it, too !!!\n\[for later (ready-to-go) use]" -STARTLINE T "#k = nuke.selectedNode()\n#print k.name()\n# nuke.thisNode()\n\n#HAUPTgroup = nuke.toNode('PointCache3D') \n#HAUPTgroup = nuke.selectedNode()\nHAUPTgroup = nuke.thisNode()\nHAUPTgroup.begin() \n\nfor n in nuke.allNodes('Group'):\n    nuke.delete(n)\n\nfor n in nuke.allNodes('Cube') :\n        n.setSelected('True')\n\nxOutput = nuke.toNode('DummyUVProject').setInput(0, nuke.selectedNode())\n\nfor n in nuke.allNodes() :\n        n.setSelected(0)\n\nCamProj = nuke.toNode('CameraProject')\nCamPos=\[0,0,0]\nCamProj\['translate'].setValue(CamPos)\n\nCamProj\['label'].setValue(\"\")\n\nHAUPTgroup.end()\n\nGroupSTR = str(ergSTR)\n#GroupValue = nuke.toNode('PointCache3D')\n#GroupValue = nuke.selectedNode()\n#GroupValue = nuke.thisNode()\n#GroupLabel = GroupValue\['label'].setValue(\"\")\nGroupLabel = HAUPTgroup\['label'].setValue(\"\")\n\n#k = nuke.toNode('PointCache3D')\n#k = nuke.selectedNode()\n#k = nuke.thisNode()\nHAUPTgroup\['RUN'].setVisible(True)"}
+ addUserKnob {20 SHADER_Material l SHADER t "This is the Default Material (BasicMaterial)\n\nBUT you can select before PointCache3D and after your Image ANY ShaderMaterial you like ...\n\n-> Then you should deactivate this Material !!!"}
+ addUserKnob {41 disable_1 l disable T DummyBasicMaterial.disable}
+ addUserKnob {26 ""}
+ addUserKnob {20 SHADERgroup l SHADER n 1}
+ SHADERgroup 0
+ addUserKnob {41 channels T DummyBasicMaterial.channels}
+ addUserKnob {41 emission T DummyBasicMaterial.emission}
+ addUserKnob {41 diffuse T DummyBasicMaterial.diffuse}
+ addUserKnob {41 specular T DummyBasicMaterial.specular}
+ addUserKnob {41 min_shininess l "min shininess" T DummyBasicMaterial.min_shininess}
+ addUserKnob {41 max_shininess l "max shininess" T DummyBasicMaterial.max_shininess}
+ addUserKnob {41 shininess_channel l "shininess channel" T DummyBasicMaterial.shininess_channel}
+ addUserKnob {26 ""}
+ addUserKnob {26 TIPPSHADER l "" t TIPP +STARTLINE T "This is your DefaultShader\n(BasicMaterial)\n\nWhen you insert\nany Shader (Phong, Specular, ...)\nbefore PointCache3D\nthen you can disable this one ... !?!"}
+ addUserKnob {20 endGroup_2 l endGroup n -1}
+ addUserKnob {20 TIPPgroup l TIP n 1}
+ TIPPgroup 0
+ addUserKnob {26 TIPP l "" +STARTLINE T "\nBEST RESULTS\n\nKeyout an Alpha\nin your Image for good\nColorImage-Projection\n(when you doesn't have an Alpha)"}
+ addUserKnob {20 endGroup_4 l endGroup n -1}
+ addUserKnob {20 CAMERA_Projection l CAMERA}
+ addUserKnob {20 CAMERAgroup l "CAMERA Projection" n 1}
+ CAMERAgroup 0
+ addUserKnob {41 projection_mode l projection T CameraProject.projection_mode}
+ addUserKnob {41 display_1 l display T CameraProject.display}
+ addUserKnob {41 selectable_1 l selectable -STARTLINE T CameraProject.selectable}
+ addUserKnob {41 focal_1 l "focal length" T CameraProject.focal}
+ addUserKnob {41 haperture_1 l "horiz aperture" T CameraProject.haperture}
+ addUserKnob {41 vaperture_1 l "vert aperture" T CameraProject.vaperture}
+ addUserKnob {41 translate_1 l translate T CameraProject.translate}
+ addUserKnob {41 rotate_1 l rotate T CameraProject.rotate}
+ addUserKnob {41 scaling_1 l scale T CameraProject.scaling}
+ addUserKnob {41 uniform_scale_1 l "uniform scale" T CameraProject.uniform_scale}
+ addUserKnob {26 ""}
+ addUserKnob {41 read_from_file_1 l "read from file" T CameraProject.read_from_file}
+ addUserKnob {41 import_chan_1 l "import chan file" -STARTLINE T CameraProject.import_chan}
+ addUserKnob {41 xform_order l "transform order" T CameraProject.xform_order}
+ addUserKnob {41 rot_order l "rotation order" -STARTLINE T CameraProject.rot_order}
+ addUserKnob {41 file_1 l file T CameraProject.file}
+ addUserKnob {41 reload_1 l reload -STARTLINE T CameraProject.reload}
+ addUserKnob {41 fbx_take_name_1 l "take name" T CameraProject.fbx_take_name}
+ addUserKnob {41 fbx_node_name_1 l "node name" -STARTLINE T CameraProject.fbx_node_name}
+ addUserKnob {41 frame_rate_1 l "frame rate" T CameraProject.frame_rate}
+ addUserKnob {41 use_frame_rate_1 l "use frame rate" -STARTLINE T CameraProject.use_frame_rate}
+ addUserKnob {26 ""}
+ addUserKnob {26 TIPPCAMERA l "" t TIPP +STARTLINE T "YOU CAN ALSO PUT AN\n>>> SCANLINE-RENDERER <<<\nAFTER THE POINTCACHE3D\n\n!!! This PointCloud is RENDERABLE !!!"}
+ addUserKnob {20 endGroup_3 l endGroup n -1}
+ addUserKnob {20 FILE}
+ addUserKnob {26 FILESAVE l "FILE Save/Export"}
+ addUserKnob {41 file l "PointCloud File" T WriteGeo1.file}
+ addUserKnob {26 "" l " "}
+ addUserKnob {41 Execute T WriteGeo1.Execute}
+ addUserKnob {26 ""}
+ addUserKnob {26 leer_3 l INVISIBLE -STARTLINE T "   "}
+ addUserKnob {20 FILETIPPgroup l "" +STARTLINE n 1}
+ FILETIPPgroup 0
+ addUserKnob {26 TIPPFILE l "" t "-> WITH THIS OBJ\n(example for each Frame)\nCAN YOU IN YOUR 3D-App\nVISUALIZE YOUR Image in 3D !!!" +STARTLINE T "YOU CAN ALSO PUT AN\n>>> 3D-GeoWrite <<<\nAFTER THE POINTCACHE3D\n\n!!! This PointCloud is SAVEABLE !!!"}
+ addUserKnob {20 endGroup_6 l endGroup n -1}
+}
+ BackdropNode {
+  inputs 0
+  name BackdropNode1
+  tile_color 0x8e8e3800
+  note_font_size 42
+  xpos -116
+  ypos -65
+  bdwidth 388
+  bdheight 426
+ }
+ Input {
+  inputs 0
+  name InputImage
+  xpos -63
+  ypos -38
+ }
+ BasicMaterial {
+  name DummyBasicMaterial
+  xpos -63
+  ypos 29
+ }
+set N5327430 [stack 0]
+ Cube {
+  display off
+  selectable false
+  render_mode off
+  rows 1
+  columns 1
+  uniform_scale 0.01
+  name DummyCube
+  xpos -63
+  ypos 83
+ }
+ Camera2 {
+  inputs 0
+  display off
+  selectable false
+  translate {0 0 1.24792}
+  name CameraProject
+  label "Depth: 0.623960256577\nCameraDepth: 1.24792051315"
+  xpos -49
+  ypos 143
+ }
+push $N5327430
+ Group {
+  name Group1
+  disable {{DummyANZAHL.DISABLE_GROUP}}
+ }
+  Input {
+   inputs 0
+   name Input1
+  }
+set Na77c440 [stack 0]
+  Cube {
+   rows 1
+   columns 1
+   translate {0.177888 0 0.555176}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube613
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0991426 0 0.312078}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube612
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 7.58817e-05 0}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube611
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0108359 0.00117374 0.034283}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube610
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {7.58817e-05 0.000151763 0}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube609
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.156685 0 0.561526}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube608
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.155935 0 0.553594}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube607
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.155176 0 0.548868}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube606
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.152193 0 0.541041}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube605
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.151443 0 0.536378}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube604
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.152926 0 0.544163}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube603
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0588462 0 0.210987}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube602
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.147036 0.285295 0.605494}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube601
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.146303 0.261234 0.602171}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube600
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.147036 0.240339 0.605494}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube599
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.147036 0.216777 0.605494}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube598
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.146303 0.19291 0.603827}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube597
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.145578 0.168278 0.598858}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube596
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.145578 0.146303 0.600514}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube595
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.147027 0.124114 0.603827}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube594
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.136341 0.0930668 0.559933}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube593
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.134942 0.071316 0.555176}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube592
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.134251 0.0501043 0.555176}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube591
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.13565 0.0292806 0.55834}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube590
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.143421 0.00833743 0.588984}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube589
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.141272 0 0.585724}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube588
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.142696 0 0.584078}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube587
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.136341 0 0.563119}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube586
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.130819 0 0.537929}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube585
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.131502 0 0.542602}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube584
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.130153 0 0.531736}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube583
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.128787 0 0.530196}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube582
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.128787 0 0.530196}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube581
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0136887 0.0519413 0.0663538}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube580
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0716096 0.25952 0.35164}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube579
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.12478 0.427335 0.610495}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube578
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.124772 0.405924 0.610495}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube577
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.124788 0.381336 0.610495}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube576
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.12478 0.3564 0.608828}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube575
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.12478 0.333629 0.607161}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube574
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.124772 0.309478 0.607161}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube573
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.124122 0.285295 0.605494}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube572
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.12478 0.26226 0.605494}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube571
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.124114 0.239368 0.607161}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube570
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.124122 0.216777 0.605494}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube569
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.124122 0.193764 0.607161}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube568
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.12478 0.170657 0.607161}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube567
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.116337 0.137032 0.564711}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube566
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.113184 0.113184 0.552011}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube565
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.112566 0.0914038 0.548868}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube564
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.112558 0.0703676 0.548868}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube563
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.11194 0.0497136 0.547296}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube562
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.11194 0.0287151 0.547296}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube561
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.113184 0.00780242 0.553594}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube560
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.115069 0 0.55834}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube559
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.116345 0 0.567918}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube558
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.120839 0 0.588984}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube557
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0411917 0 0.202337}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube556
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.124772 0 0.607161}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube555
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.125438 0 0.610495}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube554
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0943379 0 0.463487}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube553
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.119538 0 0.584078}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube552
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.115069 0 0.561526}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube551
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.108242 0 0.533276}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube550
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.109462 0 0.536378}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube549
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.108242 0 0.527115}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube548
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.107031 0 0.522525}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube547
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.107641 0 0.524055}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube546
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.00219514 0.000682936 0.0111039}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube545
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0875768 0.430251 0.528011}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube544
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.101656 0.472095 0.608828}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube543
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.101664 0.450786 0.610495}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube542
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.102242 0.42869 0.610495}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube541
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.10107 0.405924 0.612173}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube540
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0941832 0.350325 0.563119}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube539
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0941832 0.328946 0.563119}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube538
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0941832 0.308348 0.563119}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube537
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0981731 0.300553 0.589005}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube536
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0993288 0.282085 0.597202}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube535
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0993288 0.258192 0.597212}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube534
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.098743 0.233598 0.590619}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube533
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.098743 0.209535 0.588984}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube532
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0975873 0.186984 0.587349}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube531
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0941832 0.158202 0.561526}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube530
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0930589 0.134942 0.553594}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube529
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0897486 0.110697 0.539479}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube528
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0897486 0.0897486 0.537929}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube527
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0903029 0.0694191 0.539479}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube526
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0897486 0.0489392 0.539479}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube525
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0903029 0.0284389 0.542602}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube524
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0919503 0.00780242 0.547296}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube523
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0919503 0 0.552011}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube522
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0919503 0 0.55044}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube521
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0925046 0 0.555176}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube520
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0930746 0 0.555176}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube519
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0936289 0 0.559933}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube518
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0936289 0 0.564711}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube517
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0635932 0 0.386785}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube516
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.10107 0 0.608828}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube515
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.10225 0 0.613851}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube514
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0975952 0 0.590619}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube513
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0975873 0 0.585713}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube512
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0936211 0 0.563119}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube511
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0886633 0 0.528655}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube510
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0881245 0 0.527115}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube509
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.087578 0 0.524055}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube508
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0865005 0 0.519476}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube507
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0870392 0 0.519476}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube506
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0854537 0 0.512003}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube505
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0752672 0.478292 0.586221}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube504
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.078195 0.470658 0.607161}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube503
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0797193 0.457827 0.620583}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube502
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0797193 0.435529 0.62396}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube501
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0722868 0.372494 0.561526}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube500
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0717939 0.347911 0.55834}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube499
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0717939 0.326619 0.556758}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube498
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0717939 0.306108 0.555176}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube497
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.071316 0.283149 0.555176}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube496
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0718014 0.261234 0.556758}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube495
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.071316 0.24131 0.555176}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube494
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0732427 0.226031 0.571135}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube493
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0732427 0.205088 0.571125}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube492
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0732427 0.180345 0.567918}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube491
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0722793 0.158202 0.561526}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube490
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.070375 0.132877 0.548868}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube489
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0694191 0.110697 0.537929}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube488
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0694191 0.0897486 0.539479}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube487
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0694191 0.0689561 0.539479}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube486
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0689561 0.0485625 0.539479}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube485
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0694191 0.0281562 0.539479}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube484
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0703676 0.00780242 0.542602}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube483
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0703676 0 0.547296}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube482
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0698971 0 0.542602}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube481
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.071316 0 0.55834}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube480
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0727573 0 0.564711}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube479
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0727573 0 0.564711}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube478
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.071316 0 0.559933}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube477
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0722868 0 0.561526}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube476
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0722793 0 0.563119}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube475
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0737281 0 0.569521}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube474
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0742211 0 0.575966}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube473
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.000682936 0}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube472
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0761929 0 0.592264}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube471
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0751995 0 0.590619}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube470
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0722793 0 0.563119}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube469
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0680225 0 0.528655}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube468
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.067552 0 0.524055}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube467
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.067552 0 0.522525}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube466
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0661703 0 0.517957}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube465
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0666333 0 0.514918}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube464
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.067089 0 0.520995}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube463
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0536705 0.488085 0.597202}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube462
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0561428 0.476426 0.613851}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube461
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0186012 0.14861 0.201224}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube460
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0508858 0.371247 0.55834}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube459
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0500973 0.345507 0.552011}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube458
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.050488 0.324302 0.555176}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube457
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0497136 0.301655 0.55044}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube456
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0497136 0.281021 0.552011}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube455
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0501043 0.261234 0.553594}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube454
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0497206 0.239368 0.552011}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube453
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0505021 0.220452 0.556758}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube452
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0512836 0.204198 0.571125}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube451
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.050488 0.179526 0.559933}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube450
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.050488 0.156685 0.55834}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube449
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0493299 0.132185 0.544163}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube448
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0485625 0.110697 0.537929}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube447
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0485625 0.0897486 0.534827}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube446
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0485625 0.0684856 0.534827}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube445
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0481858 0.0485625 0.534827}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube444
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0485625 0.0281562 0.536378}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube443
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0489532 0.00780242 0.541041}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube442
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0489392 0 0.545724}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube441
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0489532 0 0.542602}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube440
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0500973 0 0.552011}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube439
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.050488 0 0.55834}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube438
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0516743 0 0.571125}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube437
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0512765 0 0.567918}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube436
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0512836 0 0.564711}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube435
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0512836 0 0.564711}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube434
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0512836 0 0.561526}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube433
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0512836 0 0.566315}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube432
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0520792 0 0.574353}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube431
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0536705 0 0.597202}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube430
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0536705 0 0.59391}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube429
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0536847 0 0.590619}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube428
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0512836 0 0.563119}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube427
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0478021 0 0.528655}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube426
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0474185 0 0.519476}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube425
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0470487 0 0.519476}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube424
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0462954 0 0.514918}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube423
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.046679 0 0.511899}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube422
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.046672 0 0.514918}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube421
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0307264 0.480778 0.587349}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube420
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0307199 0.453639 0.584142}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube419
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.00122265 0.0180306 0.0248501}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube418
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0274788 0.367494 0.525849}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube417
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0292806 0.37375 0.563119}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube416
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0290172 0.345507 0.555176}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube415
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0290043 0.321994 0.548868}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube414
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0290043 0.301655 0.548868}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube413
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0290043 0.282085 0.552011}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube412
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0287151 0.2592 0.548868}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube411
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0289914 0.239368 0.55044}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube410
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0290043 0.219526 0.556758}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube409
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0298524 0.202437 0.566315}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube408
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0290172 0.178707 0.55834}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube407
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0284389 0.153676 0.545724}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube406
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0284389 0.132877 0.545724}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube405
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0278735 0.110079 0.539479}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube404
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0281562 0.0892099 0.536378}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube403
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0278735 0.0689561 0.533276}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube402
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0278735 0.0485625 0.534827}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube401
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0281562 0.0284389 0.536378}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube400
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0284389 0.00780242 0.539479}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube399
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0287151 0 0.542602}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube398
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0284389 0 0.541041}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube397
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0289914 0 0.547296}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube396
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0289914 0 0.552011}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube395
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0290043 0 0.55834}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube394
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0292935 0 0.561526}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube393
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0295697 0 0.564711}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube392
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0295697 0 0.563119}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube391
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0295697 0 0.564711}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube390
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0295697 0 0.563119}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube389
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0295697 0 0.55834}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube388
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0298524 0 0.567918}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube387
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0310286 0 0.597202}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube386
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0313047 0 0.597202}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube385
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0295697 0 0.566315}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube384
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.027899 0 0.528655}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube383
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0267811 0 0.517957}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube382
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0273336 0 0.517957}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube381
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0267937 0 0.513409}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube380
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0267937 0 0.511899}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube379
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0267937 0 0.514918}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube378
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0168519 0 0.324813}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube377
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.00835831 0.496943 0.584078}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube376
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.00833743 0.474979 0.584078}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube375
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.00833743 0.455005 0.585713}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube374
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.00831654 0.434154 0.587349}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube373
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.00848422 0.412543 0.590619}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube372
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.00392714 0.161648 0.243057}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube371
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.00806473 0.350325 0.563119}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube370
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.00792325 0.323153 0.552011}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube369
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.00780242 0.301655 0.547296}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube368
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.00778177 0.279958 0.548868}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube367
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.00780242 0.258192 0.548868}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube366
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.00778177 0.239368 0.55044}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube365
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.00806473 0.224162 0.566315}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube364
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.00806473 0.200685 0.561526}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube363
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.0079439 0.176268 0.552011}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube362
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.00782307 0.153676 0.545724}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube361
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.00780242 0.132877 0.544163}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube360
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.00766094 0.110079 0.539479}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube359
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.00754011 0.0886633 0.537929}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube358
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.00768159 0.0694191 0.536378}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube357
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.00766094 0.0481788 0.534827}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube356
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.00754011 0.0281562 0.537929}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube355
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.00768159 0.00766094 0.541041}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube354
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.00768159 0 0.541041}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube353
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.00782307 0 0.544163}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube352
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.00778177 0 0.547296}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube351
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.00778177 0 0.547296}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube350
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.00782307 0 0.548868}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube349
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.00792325 0 0.55044}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube348
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.00806473 0 0.552011}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube347
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.00792325 0 0.553594}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube346
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.00782307 0 0.556758}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube345
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.00806473 0 0.556758}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube344
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.00806473 0 0.555176}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube343
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.00819064 0 0.577665}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube342
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.00861012 0 0.598858}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube341
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.00848422 0 0.598858}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube340
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.00819064 0 0.564711}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube339
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.00754011 0 0.528655}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube338
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.00726764 0 0.516437}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube337
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.00754011 0 0.517957}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube336
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.00728806 0 0.511899}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube335
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.00728806 0 0.511899}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube334
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.00728806 0 0.513409}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube333
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.00754011 0 0.516437}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube332
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.49991 0.585713}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube331
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.473531 0.580829}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube330
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.455005 0.584078}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube329
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.313209 0.424569}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube328
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {7.58817e-05 0.10859 0.174178}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube327
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.333629 0.567918}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube326
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.302765 0.552011}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube325
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.279958 0.548868}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube324
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.260217 0.552011}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube323
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.244241 0.564711}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube322
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.222302 0.564711}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube321
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.198941 0.556758}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube320
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.176268 0.55044}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube319
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.152935 0.544163}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube318
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.132868 0.548868}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube317
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.110697 0.541041}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube316
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.0897486 0.536378}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube315
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.0684856 0.536378}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube314
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.0489392 0.536378}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube313
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.0281562 0.539479}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube312
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.00780242 0.544163}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube311
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.539479}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube310
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.544163}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube309
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.545724}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube308
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.542602}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube307
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.544163}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube306
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.548868}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube305
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.55044}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube304
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.553594}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube303
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.555176}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube302
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.556758}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube301
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.561526}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube300
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.598869}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube299
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.603827}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube298
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.600514}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube297
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.563119}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube296
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.528655}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube295
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.516437}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube294
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.517957}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube293
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.511899}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube292
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.508881}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube291
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.511899}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube290
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.517957}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube289
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {7.58817e-05 0.000919127 0.112285}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube288
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.492499 0.575966}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube287
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.476426 0.584078}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube286
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.46066 0.59391}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube285
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.310599 0.564711}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube284
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.287441 0.563119}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube283
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.267391 0.567918}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube282
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.245221 0.564711}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube281
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.222302 0.561526}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube280
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.198941 0.55834}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube279
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.177078 0.552011}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube278
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.155176 0.552011}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube277
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.134942 0.553594}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube276
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.11194 0.545724}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube275
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.0897486 0.542602}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube274
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.0694191 0.541041}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube273
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.0489392 0.541041}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube272
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.0284389 0.542602}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube271
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.00780242 0.545724}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube270
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.539479}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube269
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.545724}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube268
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.545724}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube267
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.552011}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube266
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.555176}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube265
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.552011}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube264
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.552011}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube263
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.552011}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube262
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.553594}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube261
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.55834}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube260
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.563119}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube259
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.376695}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube258
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.000303527 0.00201236 0}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube257
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.59889}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube256
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.534827}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube255
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.527115}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube254
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.517957}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube253
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.517957}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube252
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.511899}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube251
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.51039}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube250
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.511899}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube249
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.517957}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube248
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.514918}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube247
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.488085 0.571125}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube246
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.482235 0.590619}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube245
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {7.58817e-05 0 0}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube244
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.315082 0.538268}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube243
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.310599 0.567918}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube242
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.287441 0.563119}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube241
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.264303 0.563119}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube240
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.245221 0.564711}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube239
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.221377 0.55834}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube238
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.200685 0.55834}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube237
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.178707 0.55834}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube236
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.157444 0.561526}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube235
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.137032 0.564711}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube234
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.11381 0.555176}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube233
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.0914038 0.548868}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube232
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.0703676 0.544163}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube231
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.0489392 0.542602}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube230
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.0287151 0.547296}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube229
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.00780242 0.548868}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube228
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.539479}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube227
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.548868}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube226
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.547296}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube225
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.545724}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube224
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.542602}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube223
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.548868}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube222
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.552011}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube221
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.552011}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube220
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.553594}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube219
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.556758}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube218
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.556758}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube217
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.556758}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube216
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.548868}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube215
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.539479}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube214
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.530196}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube213
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.524055}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube212
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.517957}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube211
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.519476}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube210
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.514918}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube209
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.511899}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube208
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.514918}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube207
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.520995}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube206
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.514918}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube205
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.398985 0.468169}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube204
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.000303527 0.0338677 0.0415756}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube203
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.35285 0.533574}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube202
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.353966 0.566315}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube201
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.332451 0.566315}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube200
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.308348 0.563119}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube199
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.286368 0.563119}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube198
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.265329 0.561526}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube197
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.243261 0.561526}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube196
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.222302 0.561526}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube195
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.200685 0.563119}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube194
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.180345 0.566315}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube193
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.160495 0.569521}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube192
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.13914 0.574353}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube191
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.116337 0.564711}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube190
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.0930668 0.55834}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube189
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.0694191 0.541041}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube188
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.0489392 0.539479}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube187
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.0281562 0.539479}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube186
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.00780242 0.55044}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube185
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.541041}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube184
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.542602}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube183
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.537929}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube182
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.544163}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube181
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.552011}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube180
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.552011}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube179
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.548868}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube178
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.545724}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube177
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.547296}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube176
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.555176}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube175
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.55834}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube174
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.561526}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube173
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.555176}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube172
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.539479}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube171
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.531736}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube170
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.524055}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube169
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.519476}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube168
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.519476}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube167
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.514918}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube166
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.514918}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube165
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.514918}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube164
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.520995}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube163
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.516437}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube162
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.000151763 0 0}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube161
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.488085 0.569521}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube160
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.463504 0.569521}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube159
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {7.58817e-05 0 0}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube158
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.401978 0.572739}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube157
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.376272 0.567918}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube156
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.351533 0.564711}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube155
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.328946 0.563119}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube154
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.308348 0.561526}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube153
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.28745 0.564711}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube152
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.266356 0.563119}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube151
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.245221 0.564711}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube150
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.224162 0.566315}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube149
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.202437 0.569521}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube148
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.181992 0.574353}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube147
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.0670627 0.235515}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube146
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.000379409 0.0262356 0.159731}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube145
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.0722793 0.563119}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube144
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.0493229 0.544163}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube143
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.0287151 0.544174}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube142
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.00780242 0.545724}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube141
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.55044}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube140
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.552043}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube139
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.55834}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube138
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.555176}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube137
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.555176}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube136
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.555176}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube135
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.553594}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube134
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.55044}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube133
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.545724}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube132
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.548868}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube131
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.548868}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube130
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.563119}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube129
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.000151763 0.00045529 0}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube128
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.595556}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube127
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.533276}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube126
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.527115}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube125
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.522525}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube124
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.520995}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube123
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.517957}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube122
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.516437}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube121
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.517957}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube120
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.522525}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube119
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.519476}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube118
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.48515 0.569521}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube117
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.46066 0.566315}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube116
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.442429 0.567918}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube115
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.419231 0.567918}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube114
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.399366 0.569521}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube113
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.376262 0.567918}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube112
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.352749 0.563119}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube111
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.332451 0.567918}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube110
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.310599 0.567918}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube109
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.289606 0.569521}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube108
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.267391 0.571125}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube107
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.245221 0.567918}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube106
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.224171 0.567918}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube105
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.202437 0.564711}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube104
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.181992 0.569521}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube103
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.161262 0.574353}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube102
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.139148 0.572781}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube101
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.118263 0.579205}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube100
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.0958853 0.574353}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube99
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.0737357 0.572739}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube98
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.0516743 0.571125}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube97
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.0292806 0.561526}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube96
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.00792325 0.55834}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube95
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.545724}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube94
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.564711}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube93
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.555176}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube92
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.548868}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube91
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.545724}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube90
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.564711}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube89
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.556758}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube88
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.552011}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube87
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.548868}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube86
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.555176}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube85
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.548868}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube84
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.548868}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube83
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.000151763 0.000379409 0.105686}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube82
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.602171}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube81
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.563119}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube80
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.530196}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube79
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.528655}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube78
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.527115}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube77
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.520995}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube76
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.519476}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube75
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.524055}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube74
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.525585}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube73
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 7.58817e-05 0}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube72
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.000151763 0.101837 0.120466}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube71
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.463504 0.567918}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube70
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.442429 0.571125}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube69
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.423268 0.572739}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube68
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.401978 0.574353}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube67
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.381356 0.572781}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube66
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.309204 0.493028}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube65
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.337173 0.574353}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube64
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.312859 0.572739}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube63
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.292862 0.574353}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube62
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.271543 0.574353}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube61
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.249169 0.572739}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube60
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.224162 0.569521}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube59
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.205088 0.572739}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube58
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.186148 0.584078}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube57
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.160495 0.571125}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube56
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.139847 0.572739}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube55
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.116979 0.574353}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube54
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.0953153 0.572739}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube53
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.0732427 0.569521}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube52
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.0508858 0.567918}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube51
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.0295697 0.563119}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube50
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0.00806473 0.563119}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube49
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.561526}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube48
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.561526}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube47
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.552011}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube46
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.552011}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube45
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.556769}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube44
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.571125}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube43
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.552011}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube42
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.547296}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube41
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.544163}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube40
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.580829}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube39
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.585724}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube38
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.541041}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube37
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.541041}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube36
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.602171}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube35
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.564722}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube34
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.534827}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube33
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.536378}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube32
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.530196}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube31
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.524055}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube30
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.524055}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube29
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.536378}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube28
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.000986463 0.000227645 0}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube27
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.470784}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube26
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.572739}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube25
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.571125}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube24
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.571125}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube23
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.567918}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube22
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.330593}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube21
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.582464}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube20
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {7.58817e-05 7.58817e-05 7.58817e-05}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube19
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.232655}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube18
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.548868}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube17
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.194454}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube16
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.564711}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube15
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.541041}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube14
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.545724}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube13
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.536378}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube12
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.531736}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube11
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.534827}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube10
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 7.58817e-05 0}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube9
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.564743}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube8
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.000682936 0.00129538 0.152309}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube7
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.555176}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube6
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.544163}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube5
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0 0 0.542602}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube4
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.000151763 0.000379409 0.0515499}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube3
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {7.58817e-05 7.58817e-05 0}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube2
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.000531172 0.000910581 0.0233784}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube1
+  }
+  MergeGeo {
+   inputs 613
+   name MergeGeo1
+  }
+  Scene {
+   name Scene1
+  }
+  Output {
+   name Output1
+  }
+push $Na77c440
+  Cube {
+   rows 1
+   columns 1
+   translate {0.178733 0 0.560007}
+   uniform_scale {{DummyCube.uniform_scale}}
+   name Cube614
+  }
+ end_group
+ UVProject {
+  inputs 2
+  selectable false
+  projection planar
+  name DummyUVProject
+  xpos 102
+  ypos 163
+ }
+set Na6842d0 [stack 0]
+ Viewer {
+  name Viewer1
+  xpos 102
+  ypos 308
+ }
+push $Na6842d0
+ Output {
+  name Output1
+  xpos -26
+  ypos 307
+ }
+ Input {
+  inputs 0
+  name InputPoints
+  xpos 31
+  ypos -36
+  number 1
+ }
+set Na691970 [stack 0]
+ Expression {
+  expr2 -b
+  name InputPointMINUS
+  xpos 130
+  ypos -36
+ }
+set Na6931c0 [stack 0]
+ Grade {
+  channels {-rgba.red -rgba.green rgba.blue}
+  black {{Grade1.black i}}
+  white {{Grade1.white i}}
+  multiply {{Grade1.multiply i}}
+  add {{Grade1.add i}}
+  gamma {{Grade1.gamma i}}
+  black_clamp false
+  name Grade2
+  xpos 181
+  ypos -7
+ }
+push $Na6931c0
+ Switch {
+  inputs 2
+  which {{Switch1.which i}}
+  name Switch2
+  xpos 130
+  ypos 40
+ }
+push $Na691970
+ Grade {
+  channels {-rgba.red -rgba.green rgba.blue}
+  black_clamp false
+  name Grade1
+  xpos 81
+  ypos -8
+ }
+push $Na691970
+ Switch {
+  inputs 2
+  name Switch1
+  xpos 31
+  ypos 42
+ }
+ Switch {
+  inputs 2
+  name InputPoint
+  xpos 106
+  ypos 76
+ }
+push $Na6842d0
+ WriteGeo {
+  file "\[value root.name] POINTCACHE3D_####.obj"
+  name WriteGeo1
+  xpos 152
+  ypos 242
+ }
+ NoOp {
+  inputs 0
+  name DummyANZAHL
+  xpos 106
+  ypos 123
+  addUserKnob {20 User}
+  addUserKnob {7 POINTANZAHL l Points t "In Procent (%)" R 1 100}
+  POINTANZAHL 80
+  addUserKnob {6 DISABLE_GROUP l DisableGroup +STARTLINE}
+ }
+end_group
+Scene {
+ inputs 3
+ name Scene1
+ xpos 259
+ ypos -414
+}
+CheckerBoard2 {
+ inputs 0
+ name CheckerBoard1
+ xpos 439
+ ypos -423
+}
+Grade {
+ multiply 0.1
+ name Grade1
+ xpos 439
+ ypos -351
+}
+ScanlineRender {
+ inputs 3
+ name ScanlineRender1
+ xpos 307
+ ypos -310
+}
+FilmLook {
+ name FilmLook1
+ xpos 307
+ ypos -284
+}
+H_Vignette3 {
+ name H_Vignette3_1
+ label v3.1
+ xpos 307
+ ypos -258
+ Vignette 1
+ DefocusVignette 1
+}
+N_Crop {
+ box {162 0 558 576}
+ softness {0 0 0 0}
+ reformat true
+ name Crop1
+ xpos 307
+ ypos -222
+}
+set Na7386c0 [stack 0]
+Reformat {
+ format "24 24 0 0 24 24 1.09 ggg"
+ name Reformat3
+ xpos 306
+ ypos -166
+}
+Write {
+ file /Users/xXx//POINTCACHE3D.png
+ file_type png
+ checkHashOnRead false
+ version 1
+ name Write2
+ xpos 465
+ ypos -215
+}
+push $N18d0b80
+push $N62be060
+push $Na7386c0
+Viewer {
+ inputs 3
+ input_process false
+ name Viewer1
+ xpos -137
+ ypos -234
+}
+push $Na7386c0
+Write {
+ file /Users/xXx//POINTCACHE3D.tiff
+ file_type tiff
+ compression LZW
+ checkHashOnRead false
+ version 3
+ name Write1
+ xpos 465
+ ypos -268
+}
+Read {
+ inputs 0
+ file /Users/xXx/atriumdepth.png
+ format "512 512 0 0 512 512 1 square_512"
+ name Read4
+ xpos 36
+ ypos -592
+}

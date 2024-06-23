@@ -1,0 +1,144 @@
+#! /Applications/Nuke5.2v3/Nuke5.2v3.app/Contents/MacOS/Nuke5.2v3 -nx
+version 5.2300
+define_window_layout_xml {<?xml version="1.0" encoding="UTF-8"?>
+<layout version="1.0">
+    <window x="0" y="22" w="1024" h="742" screen="0">
+        <splitter orientation="1">
+            <split size="646"></split>
+            <splitter orientation="1">
+                <split size="40"></split>
+                <dock id="" hideTitles="1" activePageId="Toolbar.1">
+                    <page id="Toolbar.1"></page>
+                </dock>
+                <split size="602"></split>
+                <splitter orientation="2">
+                    <split size="358"></split>
+                    <dock id="" activePageId="Viewer.1">
+                        <page id="Viewer.1"></page>
+                    </dock>
+                    <split size="358"></split>
+                    <dock id="" activePageId="DAG.1">
+                        <page id="DAG.1"></page>
+                        <page id="Curve Editor.1"></page>
+                        <page id="Script Editor.1"></page>
+                        <page id="Viewer.2"></page>
+                        <page id="DAG.2"></page>
+                    </dock>
+                </splitter>
+            </splitter>
+            <split size="374"></split>
+            <splitter orientation="2">
+                <split size="73"></split>
+                <dock id="" activePageId="Progress.1">
+                    <page id="Progress.1"></page>
+                </dock>
+                <split size="643"></split>
+                <dock id="" activePageId="Properties.1">
+                    <page id="Properties.1"></page>
+                </dock>
+            </splitter>
+        </splitter>
+    </window>
+</layout>
+}
+Root {
+ inputs 0
+ name "/Users/xXx/NUKE - Grayscale Image to NormalMap/GrayScaleImage2NormalMap.nk"
+ format "2048 1556 0 0 2048 1556 1 2K_Super_35(full-ap)"
+ proxy_type scale
+ proxy_format "1024 778 0 0 1024 778 1 1K_Super_35(full-ap)"
+}
+Constant {
+ inputs 0
+ channels rgb
+ name Constant1
+ xpos 125
+ ypos -79
+}
+Radial {
+ area {160 70 1932 1494}
+ name Radial1
+ xpos 125
+ ypos -7
+}
+set N6824de0 [stack 0]
+push $N6824de0
+Group {
+ inputs 2
+ name GrayScaleImage2NormalMap
+ help "Create a NORMAL-Map\nfrom an GrayScale-Image"
+ tile_color 0x1222ffff
+ gl_color 0x1222ffff
+ xpos 125
+ ypos 94
+ addUserKnob {20 GrayScaleImage2NormalMap t "Creates a NORMAL-Map\nfrom an GrayScale-Image"}
+ addUserKnob {41 value l Staerke t "Staerke der RGB(xyz)-Farben\n\nDefault: 50 (bis ca. 75 ist OK)" T Multiply1.value}
+ addUserKnob {41 mix l NORMAL-Value t "Staerke der NORMAL-Value\n\nDefault: 1" T Multiply1.mix}
+}
+ Input {
+  inputs 0
+  name Input1
+  xpos -87
+  ypos -18
+ }
+set N7964a40 [stack 0]
+ Matrix {
+  channels {-rgba.red rgba.green -rgba.blue}
+  matrix {
+      {-1 -1 -1}
+      {0 0 0}
+      {1 1 1}
+    }
+  name Matrix2
+  xpos -23
+  ypos 29
+ }
+push $N7964a40
+ Matrix {
+  channels {rgba.red -rgba.green -rgba.blue}
+  matrix {
+      {1 0 -1}
+      {1 0 -1}
+      {1 0 -1}
+    }
+  name Matrix1
+  xpos -146
+  ypos 29
+ }
+ ShuffleCopy {
+  inputs 2
+  green green
+  name ShuffleCopy1
+  xpos -91
+  ypos 83
+ }
+ Multiply {
+  value 50
+  name Multiply1
+  selected true
+  xpos -91
+  ypos 107
+ }
+ Expression {
+  channel0 {-rgba.red -rgba.green rgba.blue}
+  expr0 "sqrt(1 - (r*r) - (g*g))"
+  channel1 none
+  channel2 none
+  channel3 none
+  name Expression1
+  xpos -91
+  ypos 141
+ }
+ Output {
+  name Output1
+  xpos -91
+  ypos 241
+ }
+end_group
+Viewer {
+ channels rgb
+ translate {0.172 0.002}
+ name Viewer1
+ xpos 106
+ ypos 219
+}

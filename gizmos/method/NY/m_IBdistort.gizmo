@@ -1,0 +1,136 @@
+#! /method/cg/opt/Nuke6.0v3/Nuke6.0 -nx
+version 6.0 v3
+Gizmo {
+ inputs 3
+ help "m_IBdistort v0.1\n\n- distort image with a distortion map"
+ lock_connections true
+ addUserKnob {20 User l "Control Panel"}
+ addUserKnob {41 channels T IDistort1.channels}
+ addUserKnob {41 uv_offset l "map offset" t "offset distortion map" T IDistort1.uv_offset}
+ addUserKnob {41 uv_scale l "map scale" t "scale distortion map" T IDistort1.uv_scale}
+ addUserKnob {26 ""}
+ addUserKnob {41 maskbutton l "disable or no mask?" T maskSwitch.maskbutton}
+ addUserKnob {41 from0 l "mask channel" T Copy1.from0}
+}
+ Input {
+  inputs 0
+  name mask
+  xpos 471
+  ypos -139
+ }
+set N20373d70 [stack 0]
+ Input {
+  inputs 0
+  name map
+  xpos 81
+  ypos -138
+  number 2
+ }
+ Keyer {
+  operation "luminance key"
+  range {0 0.9888372967 1 1}
+  name Keyer1
+  xpos 81
+  ypos -88
+ }
+ Copy {
+  inputs 2
+  from0 rgba.alpha
+  to0 rgba.alpha
+  name Copy1
+  xpos 81
+  ypos -24
+  disable {{parent.maskSwitch.maskbutton.main i}}
+ }
+ Premult {
+  name Premult1
+  xpos 81
+  ypos 29
+  disable {{parent.maskSwitch.maskbutton.main i}}
+ }
+ Blur {
+  name Blur1
+  xpos 81
+  ypos 75
+ }
+set N21e9abc0 [stack 0]
+ Dot {
+  name Dot1
+  xpos 115
+  ypos 135
+ }
+ Input {
+  inputs 0
+  name image
+  xpos 225
+  ypos -140
+  number 1
+ }
+ Shuffle {
+  alpha white
+  name Shuffle1
+  xpos 225
+  ypos 20
+ }
+set N21632e10 [stack 0]
+ ShuffleCopy {
+  inputs 2
+  red red
+  green green
+  out forward
+  name ShuffleCopy1
+  xpos 225
+  ypos 130
+ }
+ IDistort {
+  uv forward
+  uv_scale 10
+  name IDistort1
+  xpos 225
+  ypos 190
+ }
+ Dot {
+  name Dot4
+  xpos 259
+  ypos 329
+ }
+push $N21632e10
+ Dot {
+  name Dot3
+  xpos 388
+  ypos 25
+ }
+ Merge2 {
+  inputs 2
+  name Merge1
+  xpos 354
+  ypos 324
+ }
+ Output {
+  name Output1
+  xpos 354
+  ypos 438
+ }
+push $N20373d70
+ Dot {
+  name Dot2
+  xpos 505
+  ypos 329
+ }
+push $N21e9abc0
+ Viewer {
+  input_process false
+  name Viewer1
+  xpos 354
+  ypos 549
+ }
+ NoOp {
+  inputs 0
+  name maskSwitch
+  xpos -102
+  ypos -3
+  addUserKnob {20 User}
+  addUserKnob {6 maskbutton l "disable or no mask?" t "check this box if you want to disable or have no mask" +STARTLINE}
+  maskbutton true
+ }
+end_group

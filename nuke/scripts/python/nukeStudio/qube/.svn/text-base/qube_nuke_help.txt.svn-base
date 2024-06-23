@@ -1,0 +1,194 @@
+  #import sys
+  #sys.path.append('..')
+  
+  #from simplecmd import SimpleCmd
+  
+  #Nuke5.0 --help
+  #Usage: nuke <switches> <script> <argv> <ranges>
+    #-a       formats default to anamorphic
+    #-b       background (no terminal, fork)
+    #-c size  limit cache memory usage. Size is in bytes, or append k, M or G
+    #-d name  set X display name
+    #-f       run full-size (turn off proxy)
+    #-g       gui only (no terminal)
+    #-help    print this help and exit
+    #-i       start up iconized (with -x or -t use interactive, not render, license)
+    #-l       apply linear transfer to the file read in
+    #-m n     set threads to n
+    #-n       don't run postagestamps, don't open windows
+    #-p       turn on proxy mode
+    #-q       quiet (don't print stuff)
+    #-s n     sets the minimum stack size for each thread in bytes, this defaults
+            #to 16777216 (16MB) the smallest allowed value is 1048576 (1MB)
+    #-t       terminal only (no gui)
+    #-V       verbosity (print more stuff)
+    #-v       nukev (rest of command line is image files to view)
+    #-view V  views to execute for (V is comma-separated list: e.g. 'left,right')
+    #-version print version information and exit
+    #-x       execute the script (rather than edit it)
+    #-X node  execute only this node
+    #--       end switches, allowing script to start with a dash
+  #<script>:
+    #name of a .nuke script to create, edit, or execute
+    #"-" means stdin
+  #<argv>:
+    #All words between the script name and the frame ranges can be used by
+    #[argv n] expressions to provide changing arguments to the script.
+    #Each must start with a non-digit to avoid confusion with frame ranges.
+  #<ranges>:
+    #Frame numbers to execute the script at.
+    #A       single frame number A
+    #A,B     all frames from A through B
+    #A,B,C   every C'th frame from A to last one less or equal to B
+  #'''
+
+
+#Qube! - version: 5.2-2
+#QB(1)
+                        #Qube! - Command Line API
+
+#NAME
+        #qbsub - submit a command line job to Qube!
+
+#SYNOPSIS
+        #qbsub [options] <command>
+
+#DESCRIPTION
+        #qbsub  submits a command for the Qube! supervisor to schedule
+
+        #Example:
+                #qbsub --name myjob1 --cpus 2 ls -l
+                        #submit "ls -l" job named "myjob1" to run on 2 cpus
+
+                #qbsub -priority 1 --reservations host.maya=1  \
+                                #Render -s 1 -e 30 myscene.ma
+                        #submit maya render to machine that has maya installed
+
+                #qbsub -priority 1 --requirements host.name=qb003 \
+                                #Render -s 1 -e 30 myscene.ma
+                        #submit a render job at priority 1 which matches host qb003.
+
+                #qbsub --mail --address "testuser@example.com" ls
+                        #submit a simple ls job and send testuser@example.com
+                        #notification when the job is complete.
+
+                #qbsub --priority 5 --export job.qja dir
+                        #export to job.qja template file a simple dir command with
+                        #priority set to 5.
+
+                #qbsub --cluster /example --import job.qja
+                        #import job.qja template and submit this template with the
+                        #cluster overridden as /example.
+
+
+        #Note: reservations are of the form of
+                #host.<name>=<count>
+
+#OPTIONS
+        #options modify what and how qbsub submits a job
+
+        #ACTION
+                #Switch                  Description
+                #--name                  job name
+                #--priority [priority]   priority
+                #--requirements  [req]   job requirements
+                #--reservations  [res]   job reservations
+                #--restrictions  [rst]   job restrictions
+                #--pid   [pid]           parent job to submitted job
+                #--pgrp  [pgrp]          process group
+                #--label [label]         job label
+                #--cluster [cluster]     cluster
+                #--kind [kind]           kind
+                #--account [account]     account information - extra data tagged to job
+                #--notes [notes]         notes information - extra data tagged to job
+                #--user [user]           user account to use - must have admin or impersonation privilege
+                #--domain [domain]       domain to use - must have admin or impersonation privilege
+                #--cpus [#cpus]          number of cpus to run
+                #--processors [#procs]   number of processors to reserve per host
+                #--status [status]       job in "blocked" or "pending" state
+                #--hosts [hosts]         list of comma delimited hosts to run job on
+                #--omithosts [hosts]     list of comma delimited hosts to omit
+                #--groups [groups]       list of comma delimited groups to run job on
+                #--omitgroups [groups]   list of comma delimited groups to omit
+                #--hostorder [hostorder] order in which the hosts are preferred
+                #--flags [flags]         flags
+
+        #EVENT
+                #--mail                  email job owner when job is complete.
+                #--dependency [trigger]  wait until [trigger] has been met before starting.
+                #--preexec [command]     execute this command on the supervisor when the job starts running.
+                #--postexec [command]    execute this command on the supervisor when the job completes.
+                #--waitfor [jobid]       wait until job with [jobid] is done before starting.
+                #--timelimit [time]      automatically kill the job if it runs longer than [time] seconds.
+                #--waiton                qbsub will block until the submitted job completes.
+
+        #RANGE
+                #--range [frame range]   uses frame range to replace QB_FRAME_NUMBER
+                #--padding [padding]     range pad value.
+                #--reverse               reverse the frame range
+                #--binary                use binary decent for frame range
+                #--partition [parts]     number of partitions to use (default: #frames).
+                                        #replaces QB_FRAME_START, QB_FRAME_END, QB_FRAME_STEP
+                                        #mutually exclusive from --chunk, --reverse, --binary
+                #--chunk [number]        number of frames to use per partition (default: 1).
+                                        #replaces QB_FRAME_START, QB_FRAME_END, QB_FRAME_STEP
+                                        #mutually exclusive from --partition, --reverse, --binary
+
+        #FILE
+                #--xml                   uses xml for export or import.
+                #--export [filename]     export job to *.qja file.
+                #--import [filename]     import job from *.qja file.
+
+        #DISPLAY
+                #Switch                  Description.
+                #--help                  help for qbsub.
+                #--version               version of Qube!
+
+        #MISC
+                #--address [email]       email addresses to use when --mail has been enabled.
+                #--prototype [name]      job type to use.
+                #--type [name]           job type to use (same as --prototype).
+                #--data [data]           data raw package data (use only with --type).
+                #--retrysubjob [#retry]  number of times Qube will retry a subjob.
+                #--retrywork [#retry]    number of times Qube will retry a work item.
+
+#MACROS
+        #These are macro variables which are available when the job is run.
+
+                #range jobs
+                        #QB_FRAME_NUMBER
+                        #QB_FRAME_START
+                        #QB_FRAME_END
+                        #QB_FRAME_STEP
+                        #QB_FRAME_RANGE
+
+                #grid jobs
+                        #QB_IP
+                        #QB_IP_COMMA
+                        #QB_IP_DELIMIT
+                        #QB_HOSTS
+                        #QB_HOSTS_COMMA
+                        #QB_HOSTS_DELIMIT
+
+#SEE ALSO
+        #Qube!
+
+#REPORT BUGS
+        #support@pipelinefx.com
+
+#COPYRIGHT
+        #Copyright @ 2007 PipelineFX, L.L.C.
+        #All rights reserved.
+
+#VERSION:
+        #5.2-2
+
+#BUILD:
+        #bld-5-2-2007-11-05-0
+
+
+  #'''
+  
+
+
+qbsub --name jobName  --priority jobPriority --requirements jobRequirements --reservations jobReservations --restrictions jobDependencies --pgrp jobGroups --cluster 

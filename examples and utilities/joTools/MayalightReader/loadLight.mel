@@ -1,0 +1,381 @@
+global string $lightsUI;
+global string $lightsUIFileName = "lightsUIFileName";
+global string $lightsUISceneMult = "lightsUISceneMult";
+
+global proc printn( string $arg )
+{
+	print ( $arg + "\n");
+}
+	
+global proc loadLight()
+{
+	global string $lightsUI;
+	global string $lightsUIFileName;
+	global string $lightsUISceneMult;
+	
+	if( `window -exists $lightsUI` )
+	{
+		deleteUI -window $lightsUI;		
+	}	
+	$lightsUI = `window -title "light creator" -iconName "lightsUI" -widthHeight 200 200`;
+	columnLayout -adjustableColumn true;
+		    textFieldGrp
+		 			-label ".light file"
+ 					-text  "c:\\" $lightsUIFileName;
+ 			textFieldGrp
+		 			-label "Scene scale"
+ 					-text  "2.0" $lightsUISceneMult;
+ 			
+ 			button -label "Create Light" -command ( "joCreateMeFire();" );
+		    button -label "Close" -command ( "deleteUI -window " + $lightsUI );
+	setParent ..;
+	
+	showWindow $lightsUI;	
+	
+	
+}
+
+
+global proc joCreateMeFire()
+{
+	global string $lightsUIFileName;
+	global string $lightsUISceneMult;
+	
+	string $fileName = `textFieldGrp -q -text $lightsUIFileName`;
+	float $sceneMult = `textFieldGrp -q -text $lightsUISceneMult`;
+	$sel = `ls -sl`;
+	
+	string $cleanFileName = substituteAllString( $fileName, "\\", "/" );
+	
+	print ( "creating light for " + $cleanFileName + "\n" );
+	
+	$fileId=`fopen $cleanFileName "r"`;
+	
+	string $nextLine = `fgetline $fileId`;
+
+	string $buffer[];
+		
+	int $numTokens = `tokenize $nextLine "\n" $buffer`;
+	
+	$sceneMult = 1 / $sceneMult;
+	if( size($sel) == 1 )
+	{
+
+		if( $buffer[0] == "POINTLIGHT" )
+		{
+			float $posX = 0;
+			float $posY = 0;
+			float $posZ = 0;
+			
+			float $intensity = 0;
+			float $roughness = 0;
+			
+			float $colorR = 0;
+			float $colorG = 0;
+			float $colorB = 0;
+			
+			string $attenuate = "NO";
+			
+			
+			while ( size( $nextLine ) > 0 ) 
+			{ 
+				$nextLine = `fgetline $fileId`;
+				$numTokens = `tokenize $nextLine " " $buffer`;
+				switch ( $buffer[0] ) 
+				{ 
+	    			case "PositionX": 
+	        			$posX = $buffer[1]; 
+	        			break; 
+	        		case "PositionY": 
+	        			$posY = $buffer[1]; 
+	        			break; 
+	        		case "PositionZ": 
+	        			$posZ = $buffer[1]; 
+	        			break;
+	        		case "Intensity": 
+	        			$intensity = $buffer[1]; 
+	        			break; 
+	        		case "Roughness": 
+	        			$roughness = $buffer[1]; 
+	        			break; 
+	        		case "ColorR": 
+	        			$colorR = $buffer[1]; 
+	        			break; 
+					case "ColorG": 
+	        			$colorG = $buffer[1]; 
+	        			break; 
+	        		case "ColorB": 
+	        			$colorB = $buffer[1]; 
+	        			break;    
+	        		case "Attenuate": 
+	        			$attenuate = $buffer[1]; 
+	        			break;         			
+				} 
+			}
+			$light = `shadingNode -asLight pointLight`;
+			$lightShape = `listRelatives -s $light`;
+			
+			$matrixMult = `createNode vectorProduct`;
+			setAttr ( $matrixMult + ".operation" ) 4;
+			setAttr ( $matrixMult + ".input1X" ) ($posX * $sceneMult );
+			setAttr ( $matrixMult + ".input1Y" ) ($posY * $sceneMult );
+			setAttr ( $matrixMult + ".input1Z" ) ( ( $posZ * -1 ) * $sceneMult );
+			
+			connectAttr -f ( $sel[0] + ".worldMatrix[0]" ) ( $matrixMult + ".matrix" );
+			
+			connectAttr -f ( $matrixMult + ".outputX" ) ( $light + ".translateX" );
+			connectAttr -f ( $matrixMult + ".outputY" ) ( $light + ".translateY" );
+			connectAttr -f ( $matrixMult + ".outputZ" ) ( $light + ".translateZ" );
+			
+			setAttr ( $lightShape[0] + ".intensity" ) $intensity;
+			setAttr ( $lightShape[0] + ".colorR" ) $colorR;
+			setAttr ( $lightShape[0] + ".colorG" ) $colorG;
+			setAttr ( $lightShape[0] + ".colorB" ) $colorB;
+			
+			if( $attenuate == "Yes\n") 
+			{
+				setAttr ( $lightShape[0] + ".decayRate" ) 2;
+			}
+			
+			if( $roughness > 0.001 )
+			{
+				setAttr ( $lightShape[0] + ".emitSpecular" ) 1;
+			} else
+			{
+				setAttr ( $lightShape[0] + ".emitSpecular" ) 0;
+			}
+			
+			dgeval $matrixMult;
+			dgeval $light;
+			
+			delete $matrixMult;
+			
+			
+		}
+		
+		if( $buffer[0] == "DIRLIGHT" )
+		{
+			float $phi = 0;
+			float $theta = 0;
+			
+			float $intensity = 0;
+			float $roughness = 0;
+			
+			float $colorR = 0;
+			float $colorG = 0;
+			float $colorB = 0;
+			
+			
+			while ( size( $nextLine ) > 0 ) 
+			{ 
+				$nextLine = `fgetline $fileId`;
+				$numTokens = `tokenize $nextLine " " $buffer`;
+				switch ( $buffer[0] ) 
+				{ 
+	    			case "Phi": 
+	        			$phi = $buffer[1]; 
+	        			break; 
+	        		case "Theta": 
+	        			$theta = $buffer[1]; 
+	        			break; 
+	        		case "Intensity": 
+	        			$intensity = $buffer[1]; 
+	        			break; 
+	        		case "Roughness": 
+	        			$roughness = $buffer[1]; 
+	        			break; 
+	        		case "ColorR": 
+	        			$colorR = $buffer[1]; 
+	        			break; 
+					case "ColorG": 
+	        			$colorG = $buffer[1]; 
+	        			break; 
+	        		case "ColorB": 
+	        			$colorB = $buffer[1]; 
+	        			break;         			
+				} 
+			}
+			$light = `shadingNode -asLight directionalLight`;
+			$lightShape = `listRelatives -s $light`;
+			
+			setAttr ( $lightShape[0] + ".intensity" ) $intensity;
+			setAttr ( $lightShape[0] + ".colorR" ) $colorR;
+			setAttr ( $lightShape[0] + ".colorG" ) $colorG;
+			setAttr ( $lightShape[0] + ".colorB" ) $colorB;
+			
+			if( $roughness > 0.001 )
+			{
+				setAttr ( $lightShape[0] + ".emitSpecular" ) 1;
+			} else
+			{
+				setAttr ( $lightShape[0] + ".emitSpecular" ) 0;
+			}
+			
+			$constraint = `aimConstraint -offset 0 0 0 -weight 1 -aimVector 0 0 1 -upVector 0 1 0 -worldUpType "vector" -worldUpVector 0 1 0 $sel[0] $light`;
+			
+			dgeval $constraint;
+			
+			float $oldRotX = `getAttr ( $light + ".rotateX" )`;
+			float $oldRotY = `getAttr ( $light + ".rotateY" )`;
+			
+			float $rotX = rad_to_deg( $theta ) + $oldRotX;
+			float $rotY = rad_to_deg( $phi ) + $oldRotY;
+			
+			setAttr ( $light + ".rotateX" ) $rotX;
+			setAttr ( $light + ".rotateY" ) $rotY;
+					
+			delete $constraint; 			
+		}
+		
+		if( $buffer[0] == "SPOTLIGHT" )
+		{
+			float $posX = 0;
+			float $posY = 0;
+			float $posZ = 0;
+			
+			float $TPosX = 0;
+			float $TPosY = 0;
+			float $TPosZ = 0;
+			
+			float $intensity = 0;
+			float $roughness = 0;
+			
+			float $colorR = 0;
+			float $colorG = 0;
+			float $colorB = 0;
+			
+			float $coneAngle = 0;
+			float $coneDeltaAngle = 0;
+			
+			string $attenuate = "No";
+			
+			
+			while ( size( $nextLine ) > 0 ) 
+			{ 
+				$nextLine = `fgetline $fileId`;
+				$numTokens = `tokenize $nextLine " " $buffer`;
+				switch ( $buffer[0] ) 
+				{ 
+	    			case "PositionX": 
+	        			$posX = $buffer[1]; 
+	        			break; 
+	        		case "PositionY": 
+	        			$posY = $buffer[1]; 
+	        			break; 
+	        		case "PositionZ": 
+	        			$posZ = $buffer[1]; 
+	        			break;
+	        			
+	        		case "TargetPositionX": 
+	        			$TPosX = $buffer[1]; 
+	        			break; 
+	        		case "TargetPositionY": 
+	        			$TPosY = $buffer[1]; 
+	        			break; 
+	        		case "TargetPositionZ": 
+	        			$TPosZ = $buffer[1]; 
+	        			break;
+	        			
+	        		
+	        		case "Intensity": 
+	        			$intensity = $buffer[1]; 
+	        			break; 
+	        			
+	        		case "ConeAngle": 
+	        			$coneAngle = $buffer[1]; 
+	        			break; 
+	        		case "ConeDeltaAngle": 
+	        			$coneDeltaAngle = $buffer[1]; 
+	        			break; 
+	        			
+	        		case "Roughness": 
+	        			$roughness = $buffer[1]; 
+	        			break; 
+	        		case "ColorR": 
+	        			$colorR = $buffer[1]; 
+	        			break; 
+					case "ColorG": 
+	        			$colorG = $buffer[1]; 
+	        			break; 
+	        		case "ColorB": 
+	        			$colorB = $buffer[1]; 
+	        			break;
+	        		case "Attenuate": 
+	        			$attenuate = $buffer[1]; 
+	        			break;        			
+				} 
+			}
+			$light = `shadingNode -asLight spotLight`;
+			$target = `spaceLocator`;
+			$lightShape = `listRelatives -s $light`;
+			
+			$matrixMult1 = `createNode vectorProduct`;
+			$matrixMult2 = `createNode vectorProduct`;
+			setAttr ( $matrixMult1 + ".operation" ) 4;
+			setAttr ( $matrixMult2 + ".operation" ) 4;
+			
+			setAttr ( $matrixMult1 + ".input1X" ) ( $posX * $sceneMult );
+			setAttr ( $matrixMult1 + ".input1Y" ) ( $posY * $sceneMult );
+			setAttr ( $matrixMult1 + ".input1Z" ) ( ( $posZ * -1 ) * $sceneMult );
+			
+			setAttr ( $matrixMult2 + ".input1X" ) ( $TPosX * $sceneMult );
+			setAttr ( $matrixMult2 + ".input1Y" ) ( $TPosY * $sceneMult );
+			setAttr ( $matrixMult2 + ".input1Z" ) ( ( $TPosZ * -1 ) * $sceneMult );
+			
+			connectAttr -f ( $sel[0] + ".worldMatrix[0]" ) ( $matrixMult1 + ".matrix" );
+			connectAttr -f ( $sel[0] + ".worldMatrix[0]" ) ( $matrixMult2 + ".matrix" );
+			
+			connectAttr -f ( $matrixMult1 + ".outputX" ) ( $light + ".translateX" );
+			connectAttr -f ( $matrixMult1 + ".outputY" ) ( $light + ".translateY" );
+			connectAttr -f ( $matrixMult1 + ".outputZ" ) ( $light + ".translateZ" );
+			
+			connectAttr -f ( $matrixMult2 + ".outputX" ) ( $target[0] + ".translateX" );
+			connectAttr -f ( $matrixMult2 + ".outputY" ) ( $target[0] + ".translateY" );
+			connectAttr -f ( $matrixMult2 + ".outputZ" ) ( $target[0] + ".translateZ" );
+			
+			setAttr ( $lightShape[0] + ".intensity" ) $intensity;
+			setAttr ( $lightShape[0] + ".colorR" ) $colorR;
+			setAttr ( $lightShape[0] + ".colorG" ) $colorG;
+			setAttr ( $lightShape[0] + ".colorB" ) $colorB;
+			setAttr ( $lightShape[0] + ".coneAngle" ) $coneAngle;
+			setAttr ( $lightShape[0] + ".penumbraAngle" ) $coneDeltaAngle;
+			
+			if( $roughness > 0.001 )
+			{
+				setAttr ( $lightShape[0] + ".emitSpecular" ) 1;
+			} else
+			{
+				setAttr ( $lightShape[0] + ".emitSpecular" ) 0;
+			}
+			
+			if( $attenuate == "Yes\n") 
+			{
+				setAttr ( $lightShape[0] + ".decayRate" ) 2;
+			}
+			
+			dgeval $matrixMult1;
+			dgeval $matrixMult2;
+			dgeval $light;
+			dgeval $target[0];
+			
+			delete $matrixMult1;
+			delete $matrixMult2;
+			
+			$constraint = `aimConstraint -offset 0 0 0 -weight 1 -aimVector 0 0 -1 -upVector 0 1 0 -worldUpType "vector" -worldUpVector 0 1 0 $target[0] $light`;
+			
+			dgeval $constraint;
+			
+			delete $constraint;
+		}
+		
+		
+	} else
+	{
+		error "Please select a transform node that inherits the camera position! ";
+	}
+	
+	
+	
+	fclose $fileId;
+
+}

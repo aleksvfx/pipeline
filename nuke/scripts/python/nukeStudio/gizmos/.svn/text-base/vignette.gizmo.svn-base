@@ -1,0 +1,174 @@
+#! //Swaydas/z/INSTALL/Nuke4/5.21/nuke4.5.exe -nx
+version 4.5021
+Gizmo {
+ inputs 1
+ tile_color 0x64554b00
+ addUserKnob {20 "" User}
+ addUserKnob {7 amount amount R 0 1}
+ amount 0.6
+ addUserKnob {7 scale size R 0 2}
+ scale 1.31
+ addUserKnob {7 softness softness R 0 1}
+ softness 0.335
+ addUserKnob {41 tint tint T Grade1.add}
+ addUserKnob {26 "" ""}
+ addUserKnob {7 bl "bottom left mix" R 0 1}
+ bl 1
+ addUserKnob {7 br "bottom right mix" R 0 1}
+ br 1
+ addUserKnob {7 tl "top left mix" R 0 1}
+ tl 1
+ addUserKnob {7 tr "top right mix" R 0 1}
+ tr 1
+}
+ Input {
+  inputs 0
+  name Input1
+  xpos 112
+  ypos -28
+ }
+set N7c2ce80 [stack 0]
+ Radial {
+  replace true
+  area {{curve i} {curve} {input.width i} {input.width*(1/(input.width/input.height)) i}}
+  softness {{parent.softness i}}
+  plinear {{parent.Radial1_plinear i}}
+  p1 {100 400}
+  p0 {100 100}
+  name Radial1
+  tile_color 0x34343400
+  xpos 294
+  ypos 26
+ }
+ Transform {
+  scale {{parent.scale i}}
+  center {{input.width/2 i} {input.height/2}}
+  name Transform1
+  tile_color 0xa378a800
+  xpos 294
+  ypos 65
+ }
+ Grade {
+  mask rgba.red
+  invert_mask true
+  unpremult -rgba.alpha
+  name Grade1
+  xpos 295
+  ypos 100
+ }
+set N7bcc760 [stack 0]
+ Invert {
+  channels rgba
+  mask -rgba.alpha
+  unpremult -rgba.alpha
+  name Invert1
+  xpos 297
+  ypos 170
+ }
+set N6634bc0 [stack 0]
+ Crop {
+  box {{curve-(input.width/7) i x35 0} {curve-(input.width/7) i x35 0} {input.width/2 i x35 720} {input.height/2 x35 405}}
+  softness 100
+  name Crop1
+  label BL
+  xpos 179
+  ypos 279
+ }
+push $N6634bc0
+ Crop {
+  box {{input.width/2 i x35 0} {curve-(input.width/7) i x35 0} {input.width+(input.width/7) i x35 720} {input.height/2 x35 405}}
+  softness 100
+  name Crop2
+  label BR
+  xpos 320
+  ypos 271
+ }
+push $N6634bc0
+ Crop {
+  box {{curve-(input.width/7) i x35 0} {input.height/2 i x35 0} {input.width/2 i x35 720} {input.height+(input.width/7) x35 405}}
+  softness 100
+  name Crop4
+  label TL
+  xpos 419
+  ypos 271
+ }
+push $N6634bc0
+ Crop {
+  box {{input.width/2 i x35 0} {input.height/2 i x35 0} {input.width+(input.width/7) i x35 720} {input.height+(input.width/7) i x35 405}}
+  softness 100
+  name Crop3
+  label TR
+  xpos 535
+  ypos 271
+ }
+push $N7bcc760
+ Merge {
+  inputs 2
+  operation plus
+  bbox B
+  mix {{1-parent.tr}}
+  name Merge1
+  tile_color 0xc
+  note_font_size 16
+  xpos 666
+  ypos 276
+ }
+ Merge {
+  inputs 2
+  operation plus
+  bbox B
+  mix {{1-parent.tl}}
+  name Merge2
+  tile_color 0xc
+  note_font_size 16
+  xpos 668
+  ypos 348
+ }
+ Merge {
+  inputs 2
+  operation plus
+  bbox B
+  mix {{1-parent.br}}
+  name Merge3
+  tile_color 0xc
+  note_font_size 16
+  xpos 680
+  ypos 420
+ }
+ Merge {
+  inputs 2
+  operation plus
+  bbox B
+  mix {{1-parent.bl}}
+  name Merge4
+  tile_color 0xc
+  note_font_size 16
+  xpos 680
+  ypos 465
+ }
+ Clamp {
+  channels rgba
+  mask -rgba.alpha
+  unpremult -rgba.alpha
+  name Clamp1
+  xpos 680
+  ypos 509
+ }
+push $N7c2ce80
+ Merge {
+  inputs 2
+  operation mult
+  output {rgba.red rgba.green rgba.blue -rgba.alpha}
+  bbox B
+  mix {{parent.amount}}
+  name Multiply5
+  tile_color 0x7171c600
+  xpos 111
+  ypos 546
+ }
+ Output {
+  name Output1
+  xpos 93
+  ypos 602
+ }
+end_group

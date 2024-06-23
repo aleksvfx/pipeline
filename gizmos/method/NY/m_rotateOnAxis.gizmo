@@ -1,0 +1,83 @@
+#! C:/Program Files/Nuke5.2v1/Nuke5.2.exe -nx
+version 5.2100
+Gizmo {
+ label "\[value rotation] degrees on \[value axis] axis"
+ note_font_color 0xff
+ addUserKnob {20 User}
+ addUserKnob {18 origin l Origin t "The center of rotation."}
+ origin {0 0 0}
+ addUserKnob {7 rotation l Rotation t "Amount of rotation" R 0 360}
+ addUserKnob {4 axis l Axis t "The axis of rotation." M {X Y Z}}
+ axis Y
+}
+ Input {
+  inputs 0
+  name Input1
+  xpos 360
+  ypos -503
+ }
+ Add {
+  value {{-parent.origin.main.r i} {-parent.origin.main.g i} {-parent.origin.main.b i} 0}
+  name Add_shiftAxisToOrigin
+  xpos 360
+  ypos -456
+ }
+set N1c938d70 [stack 0]
+ ColorMatrix {
+  matrix {
+      {{"cos(parent.rotation * pi / 180)" i} 0 {"-sin(parent.rotation * pi / 180)" i}}
+      {0 1 0}
+      {{"sin(parent.rotation * pi / 180)" i} 0 {"cos(parent.rotation * pi / 180)" i}}
+    }
+  name ColorMatrix_Y
+  xpos 360
+  ypos -375
+ }
+set N1cbb3070 [stack 0]
+ Viewer {
+  name Viewer1
+  xpos 364
+  ypos -5
+ }
+push $N1c938d70
+ ColorMatrix {
+  matrix {
+      {{"cos(parent.rotation * pi / 180)" i} {"-sin(parent.rotation * pi / 180)" i} 0}
+      {{"sin(parent.rotation * pi / 180)" i} {"cos(parent.rotation * pi / 180)" i} 0}
+      {0 0 1}
+    }
+  name ColorMatrix_Z
+  xpos 463
+  ypos -374
+ }
+push $N1cbb3070
+push $N1c938d70
+ ColorMatrix {
+  matrix {
+      {1 0 0}
+      {0 {"cos(parent.rotation * pi / 180)" i} {"-sin(parent.rotation * pi / 180)" i}}
+      {0 {"sin(parent.rotation * pi / 180)" i} {"cos(parent.rotation * pi / 180)" i}}
+    }
+  name ColorMatrix_X
+  xpos 250
+  ypos -374
+ }
+ Switch {
+  inputs 3
+  which {{parent.axis i}}
+  name Switch
+  xpos 360
+  ypos -310
+ }
+ Add {
+  value {{parent.origin.main.r i} {parent.origin.main.g i} {parent.origin.main.b i} 0}
+  name Add_restoreAxis
+  xpos 360
+  ypos -264
+ }
+ Output {
+  name Output1
+  xpos 360
+  ypos -211
+ }
+end_group

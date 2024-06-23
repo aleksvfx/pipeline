@@ -1,0 +1,186 @@
+#! Z:/INSTALL/Nuke4/5.27/nuke4.5.exe -nx
+version 4.5027
+Gizmo {
+ inputs 1
+ addUserKnob {20 "" User}
+ addUserKnob {41 in Output T ShuffleCopy1.in}
+ addUserKnob {26 "" Normals}
+ addUserKnob {41 in2 Channel T Shuffle8.in2}
+ addUserKnob {6 premult premult}
+ premult true
+ addUserKnob {26 "" "Light Position"}
+ addUserKnob {7 rot rot R 0 1}
+ rot 0.375
+ addUserKnob {7 angle angle R -1 1}
+ angle 0.87
+ addUserKnob {26 "" Diffuse}
+ addUserKnob {18 cD color R 0 1}
+ cD {0.775 0.81 0.845}
+ addUserKnob {7 kD intensity R 0 1}
+ kD 0.024
+ addUserKnob {26 "" Specular}
+ addUserKnob {18 cS color R 0 1}
+ cS {0.795 0.78 0.765}
+ addUserKnob {7 kS intensity R 0 2}
+ kS 1.01
+ addUserKnob {7 nS roughness R 0 1}
+ nS 0.285
+}
+ Input {
+  inputs 0
+  name Input1
+  xpos 489
+  ypos -381
+ }
+set N5759e98 [stack 0]
+add_layer {VRayNormals VRayNormals.X VRayNormals.Y VRayNormals.Z}
+ Shuffle {
+  in2 VRayNormals
+  red red2
+  green green2
+  blue blue2
+  name Shuffle8
+  label "\[knob in2 ]"
+  xpos 248
+  ypos -234
+ }
+ NoOp {
+  name LightPos2
+  xpos 248
+  ypos -189
+  addUserKnob {20 "" User}
+  addUserKnob {7 x x R -1 1}
+  x {{cos(parent.rot*pi*2) i}}
+  addUserKnob {7 y y R -1 1}
+  y {{sin(parent.rot*pi*2) i}}
+  addUserKnob {7 z z R -1 1}
+  z {{sin((parent.angle/2)*pi)}}
+  addUserKnob {7 rot rot R -360 360}
+  rot -90
+ }
+set N238bed8 [stack 0]
+ Unpremult {
+  channels {rgba.red rgba.green -rgba.blue}
+  name Unpremult2
+  xpos 147
+  ypos -93
+ }
+set N7afee78 [stack 0]
+add_layer {alpha rgba.alpha}
+ Invert {
+  channels alpha
+  mask -rgba.alpha
+  unpremult -rgba.alpha
+  name Invert1
+  xpos 66
+  ypos -40
+ }
+push $N7afee78
+ ChannelMerge {
+  inputs 2
+  operation from
+  B rgba.blue
+  output rgba.blue
+  name ChannelMerge1
+  xpos 147
+  ypos 18
+ }
+push $N238bed8
+ Switch {
+  inputs 2
+  which {{parent.premult}}
+  name Switch1
+  xpos 248
+  ypos 92
+ }
+set N1b25dd8 [stack 0]
+ Expression {
+  temp_name0 mag
+  temp_expr0 sqrt(pow((cos(parent.rot*pi*2)),2)+pow((sin(parent.rot*pi*2)),2)+pow((sin((parent.angle/2)*pi)),2))
+  temp_name1 LX
+  temp_expr1 (cos(parent.rot*pi*2))/mag
+  temp_name2 LY
+  temp_expr2 (sin(parent.rot*pi*2))/mag
+  temp_name3 LZ
+  temp_expr3 (sin((parent.angle/2)*pi))/mag
+  channel0 {rgba.red rgba.green rgba.blue -rgba.alpha}
+  expr0 "((1 - (acos( ( (LX*r)+(LY*g)+(LZ*b) )/ ( sqrt(pow(LZ,2)+pow(LY,2)+pow(LX,2))* sqrt(pow(r,2)+pow(g,2)+pow(b,2)) ) ) / pi))*parent.kD)"
+  channel1 none
+  expr1 mag
+  channel2 none
+  channel3 none
+  name PhongDiffuse
+  xpos 317
+  ypos 178
+ }
+ Grade {
+  white {{parent.cD.r i} {parent.cD.g i} {parent.cD.b i} 1}
+  mask -rgba.alpha
+  unpremult -rgba.alpha
+  name Grade1
+  tile_color 0x7aa9ff00
+  xpos 317
+  ypos 216
+ }
+push $N1b25dd8
+ Expression {
+  temp_name0 mag
+  temp_expr0 sqrt(pow((cos(parent.rot*pi*2)),2)+pow((sin(parent.rot*pi*2)),2)+pow((sin((parent.angle/2)*pi)),2))
+  temp_name1 LX
+  temp_expr1 (cos(parent.rot*pi*2))/mag
+  temp_name2 LY
+  temp_expr2 (sin(parent.rot*pi*2))/mag
+  temp_name3 LZ
+  temp_expr3 (sin((parent.angle/2)*pi))/mag
+  channel0 {rgba.red rgba.green rgba.blue -rgba.alpha}
+  expr0 "pow(((1 - (acos( ( (LX*r)+(LY*g)+(LZ*b) )/ ( sqrt(pow(LZ,2)+pow(LY,2)+pow(LX,2))* sqrt(pow(r,2)+pow(g,2)+pow(b,2)) ) ) / pi))*parent.kS), ((5/parent.nS)-1))"
+  channel1 none
+  expr1 mag
+  channel2 none
+  channel3 none
+  name PhongSpecular
+  xpos 175
+  ypos 180
+ }
+ Grade {
+  white {{parent.cS.r i} {parent.cS.g i} {parent.cS.b i} 1}
+  mask -rgba.alpha
+  unpremult -rgba.alpha
+  name Grade5
+  tile_color 0x7aa9ff00
+  xpos 175
+  ypos 218
+ }
+ Merge {
+  inputs 2
+  operation plus
+  output {rgba.red rgba.green rgba.blue -rgba.alpha}
+  name Merge1
+  tile_color 0x4b5ec600
+  note_font_size 16
+  xpos 250
+  ypos 275
+ }
+ Premult {
+  name Premult7
+  xpos 250
+  ypos 327
+  disable {{!parent.premult}}
+ }
+push $N5759e98
+ ShuffleCopy {
+  inputs 2
+  red red
+  green green
+  blue blue
+  alpha alpha2
+  name ShuffleCopy1
+  xpos 489
+  ypos 327
+ }
+ Output {
+  name Output1
+  xpos 489
+  ypos 477
+ }
+end_group

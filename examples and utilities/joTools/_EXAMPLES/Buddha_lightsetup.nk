@@ -1,0 +1,69 @@
+#! C:/Program Files/Nuke4.6/Nuke4.6.exe -nx
+version 4.6000
+define_window_layout -1 {  {4 0 0 0 0.683333 0.713726 0 1 {-566 -335 1 0.28271 0}}  {2 0 0.683333 0 0.999405 1 0 1 {0}}  {3 0 0 0.713726 0.683333 1 0 0 {}} }
+restore_window_layout_from_script -1
+Root {
+ inputs 0
+ name "C:\\Users\\Johannes\\Desktop/joTools/_EXAMPLES/Buddha_lightsetup.nk"
+ frame 3
+ format "640 480 0 0 640 480 1 PC_Video"
+ proxy_format "640 480 0 0 640 480 1 PC_Video"
+ lookup {lookup {to_sRGB(x) C 0 255}}
+}
+Read {
+ inputs 0
+ file C:/Users/Johannes/Desktop/joTools/_EXAMPLES/Buddha_Depth.exr
+ format "1024 1024 0 0 1024 1024 1 square_1K"
+ name Read1
+ xpos -138
+ ypos -217
+}
+z2Pos {
+ name z2Pos1
+ xpos -141
+ ypos -62
+}
+set N4b63c90 [stack 0]
+push $N4b63c90
+pos2Normal {
+ "FLIP X\n" true
+ "FLIP Y\n" true
+ "FLIP Z\n" true
+ name pos2Normal1
+ xpos -285
+ ypos -62
+}
+set N4b63de8 [stack 0]
+joLight {
+ inputs 2
+ phi 1.8
+ theta 0.35
+ intensity 0.38
+ colorR 0.99
+ colorG 0.525
+ colorB 0.34
+ name joLight1
+ xpos -285
+ ypos 22
+}
+push $N4b63c90
+push $N4b63de8
+joLight {
+ inputs 2
+ pointLight true
+ posX {{curve x1 -10 x40 10}}
+ posY 20
+ posZ 30
+ intensity 3
+ specular true
+ name joLight2
+ xpos -141
+ ypos 23
+}
+Merge2 {
+ inputs 2
+ operation plus
+ name Merge1
+ xpos -192
+ ypos 89
+}

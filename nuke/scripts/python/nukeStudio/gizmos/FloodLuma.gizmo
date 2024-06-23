@@ -1,0 +1,40 @@
+#! z:/job/SWDEVL/SOFTWARE/w2k_intel/nuke4.2/31/nuke4.2.31.exe -nx
+version 4.2031
+Gizmo {
+  inputs 1
+  name FloodLuma
+  window {70 89 500 400 0 -250 -200 1}
+}
+  Input {
+    inputs 0
+    name Input1
+    tile_color 0xc
+    xpos 52
+    ypos 99
+  }
+  Keyer {
+    keyer luminance
+    range {0 1 1 1}
+    name Keyer2
+    tile_color 0x83c78300
+    label (alpha)
+    xpos -160
+    ypos 92
+  }
+  Shuffle {
+    red alpha
+    green alpha
+    blue alpha
+    name FloodAlpha1
+    tile_color 6
+    xpos -160
+    ypos 142
+  }
+  Output {
+    name Output1
+    tile_color 0xc
+    selected true
+    xpos -160
+    ypos 178
+  }
+end_group

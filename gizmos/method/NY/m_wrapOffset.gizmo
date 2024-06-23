@@ -1,0 +1,148 @@
+#! C:/Program Files/Nuke5.2v2/Nuke5.2.exe -nx
+version 5.2200
+Gizmo {
+ addUserKnob {20 User}
+ addUserKnob {12 offset l Offset t "Where to position lower left corner."}
+ addUserKnob {6 centerVertical l "Center Vertical" t "Center the vertical offset." +STARTLINE}
+ addUserKnob {6 centerHorizontal l "Center Horizontal" t "Center the horizontal offset." +STARTLINE}
+}
+ Input {
+  inputs 0
+  name Input1
+  xpos 364
+  ypos 464
+ }
+ Dot {
+  name Dot4
+  xpos 398
+  ypos 518
+ }
+set N2997cab0 [stack 0]
+ Transform {
+  translate {{"fmod(parent.offset.main.x + (parent.centerHorizontal) * (actual_format.width - 1) / 2, (actual_format.width - 1))" i} 0}
+  center {1024 778}
+  name Transform3
+  xpos 364
+  ypos 536
+ }
+push $N2997cab0
+ Dot {
+  name Dot7
+  xpos 499
+  ypos 518
+ }
+ Transform {
+  translate {{"parent.Transform3.translate.main.x - actual_format.width"} 0}
+  center {1024 778}
+  name Transform4
+  xpos 465
+  ypos 536
+ }
+ Dot {
+  name Dot8
+  xpos 499
+  ypos 566
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  name Merge10
+  xpos 364
+  ypos 562
+ }
+ Crop {
+  box {0 0 {actual_format.width} {actual_format.height}}
+  reformat true
+  name Crop3
+  xpos 364
+  ypos 588
+ }
+push $N2997cab0
+ Dot {
+  name Dot1
+  xpos 299
+  ypos 518
+ }
+ Switch {
+  inputs 2
+  which {{"(parent.Transform3.translate.main.x != 0)" i}}
+  name Switch2
+  xpos 265
+  ypos 588
+ }
+ Dot {
+  name Dot3
+  xpos 299
+  ypos 644
+ }
+set N2997aef0 [stack 0]
+ Dot {
+  name Dot5
+  xpos 398
+  ypos 644
+ }
+set N2997ba80 [stack 0]
+ Dot {
+  name Dot6
+  xpos 500
+  ypos 644
+ }
+ Transform {
+  translate {0 {"parent.Transform6.translate.main.y - actual_format.height"}}
+  center {1024 778}
+  name Transform7
+  xpos 466
+  ypos 662
+ }
+ Dot {
+  name Dot9
+  xpos 500
+  ypos 695
+ }
+push $N2997ba80
+ Transform {
+  translate {0 {"fmod(parent.offset.main.y + (parent.centerVertical) * (actual_format.height - 1) / 2, actual_format.height - 1)" i}}
+  center {1254.5 1074}
+  name Transform6
+  xpos 364
+  ypos 665
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  name Merge11
+  xpos 364
+  ypos 691
+ }
+ Crop {
+  box {0 0 {actual_format.width} {actual_format.height}}
+  reformat true
+  name Crop4
+  xpos 364
+  ypos 717
+ }
+ Dot {
+  name Dot2
+  xpos 398
+  ypos 743
+ }
+push $N2997aef0
+ Switch {
+  inputs 2
+  which {{"(parent.Transform6.translate.main.y != 0)" i}}
+  name Switch3
+  xpos 265
+  ypos 739
+ }
+ Output {
+  name Output1
+  selected true
+  xpos 265
+  ypos 811
+ }
+ Viewer {
+  name Viewer1
+  xpos 265
+  ypos 837
+ }
+end_group

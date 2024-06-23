@@ -1,0 +1,489 @@
+#! /method/cg/opt/Nuke6.0v4/Nuke6.0 -nx
+version 6.0 v4
+define_window_layout_xml {<?xml version="1.0" encoding="UTF-8"?>
+<layout version="1.0">
+    <window x="319" y="174" w="1920" h="1150" screen="0">
+        <splitter orientation="1">
+            <split size="40"></split>
+            <dock id="" hideTitles="1" activePageId="Toolbar.1">
+                <page id="Toolbar.1"></page>
+            </dock>
+            <split size="1874"></split>
+            <splitter orientation="1">
+                <split size="1307"></split>
+                <splitter orientation="2">
+                    <split size="753"></split>
+                    <dock id="" activePageId="Viewer.1">
+                        <page id="Script Editor.1"></page>
+                        <page id="Viewer.1"></page>
+                    </dock>
+                    <split size="339"></split>
+                    <dock id="" activePageId="DAG.1">
+                        <page id="DAG.1"></page>
+                        <page id="Curve Editor.1"></page>
+                    </dock>
+                </splitter>
+                <split size="563"></split>
+                <splitter orientation="2">
+                    <split size="1096"></split>
+                    <dock id="" activePageId="Properties.1">
+                        <page id="Properties.1"></page>
+                    </dock>
+                </splitter>
+            </splitter>
+        </splitter>
+    </window>
+</layout>
+}
+Root {
+ inputs 0
+ name /home/adjordjevic/nuke/gizmos/sasha/comp/icons_all.nk
+ last_frame 1
+ format "512 512 0 0 512 512 1 square_512"
+ proxy_type scale
+ proxy_format "1024 778 0 0 1024 778 1 1K_Super_35(full-ap)"
+}
+BackdropNode {
+ inputs 0
+ name BackdropNode4
+ label m_dropShadow
+ note_font_size 32
+ xpos 832
+ ypos -168
+ bdwidth 453
+ bdheight 571
+}
+BackdropNode {
+ inputs 0
+ name BackdropNode3
+ label m_glow
+ note_font_size 32
+ xpos 382
+ ypos -167
+ bdwidth 369
+ bdheight 573
+}
+BackdropNode {
+ inputs 0
+ name BackdropNode2
+ label m_IBdistort
+ note_font_size 32
+ xpos -80
+ ypos -177
+ bdwidth 377
+ bdheight 571
+}
+BackdropNode {
+ inputs 0
+ name BackdropNode1
+ tile_color 0x8e8e3800
+ label m_aimcam
+ note_font_size 32
+ xpos -759
+ ypos -277
+ bdwidth 563
+ bdheight 683
+}
+BackdropNode {
+ inputs 0
+ name BackdropNode5
+ label m_dropShadow
+ note_font_size 32
+ xpos 1363
+ ypos -169
+ bdwidth 453
+ bdheight 571
+}
+Radial {
+ inputs 0
+ area {58.65809664 46 442 444.6534229}
+ color {1 0.633097291 0.2418383956 1}
+ name Radial3
+ xpos 572
+ ypos -110
+}
+m_glow {
+ name m_glow1
+ xpos 572
+ ypos 12
+ channels rgba
+ tint 1.62
+ brightness 1.54
+ size 38.5
+ maskChannelMask -rgba.alpha
+}
+Constant {
+ inputs 0
+ channels rgb
+ color {0 0 0 1}
+ name Constant2
+ xpos 435
+ ypos 64
+}
+Merge2 {
+ inputs 2
+ name Merge2
+ xpos 572
+ ypos 87
+}
+Reformat {
+ format "24 24 0 0 24 24 1 icon"
+ name Reformat3
+ xpos 572
+ ypos 228
+}
+Write {
+ file /home/adjordjevic/nuke/gizmos/sasha/icons/m_glow.png
+ file_type png
+ checkHashOnRead false
+ version 2
+ name Write3
+ xpos 572
+ ypos 324
+}
+Text {
+ inputs 0
+ message A
+ font /usr/share/fonts/bitstream-vera/Vera.ttf
+ size 250
+ yjustify center
+ box {160 120 480 360}
+ translate {170 140}
+ center {320 240}
+ name Text1
+ xpos -353
+ ypos 127
+}
+Radial {
+ inputs 0
+ area {402 210 475.1778422 285.7470847}
+ softness 0
+ name Radial5
+ xpos -345
+ ypos -123
+}
+Radial {
+ area {222 210 295.1778422 285.7470847}
+ softness 0
+ name Radial4
+ xpos -345
+ ypos -95
+}
+Radial {
+ area {41 210 114.1778422 285.7470847}
+ softness 0
+ name Radial6
+ xpos -345
+ ypos -67
+}
+Transform {
+ translate {239.5 -101}
+ scale {0.309 0.309}
+ center {380 365}
+ name Transform4
+ xpos -345
+ ypos -22
+}
+Radial {
+ inputs 0
+ area {176 294 297.7698237 414.4778454}
+ softness 0
+ name Radial1
+ xpos -537
+ ypos -187
+}
+Radial {
+ area {304 294 425.7698237 414.4778454}
+ softness 0
+ name Radial2
+ xpos -537
+ ypos -134
+}
+Rectangle {
+ area {180 167 424 282.5}
+ name Rectangle1
+ xpos -537
+ ypos -93
+}
+RotoPaint {
+ toolbar_brush_hardness 0.200000003
+ toolbar_lifetime_type all
+ toolbar_source_transform_scale {1 1}
+ toolbar_source_transform_center {360 270}
+ curves {AnimTree: "" {
+ Version: 1.2
+ Flag: 0
+ RootNode: 1
+ Node: {
+  NodeName: "Root" {
+   Flag: 512
+   NodeType: 1
+   NumOfAttributes: 10
+   "vis" S 0 1 "opc" S 0 1 "mbo" S 0 1 "mb" S 0 1 "mbs" S 0 0.5 "fo" S 0 1 "fx" S 0 0 "fy" S 0 0 "ff" S 0 1 "ft" S 0 0 
+  }
+  NumOfChildren: 1
+  Node: {
+   NodeName: "Shape1" {
+    Flag: 576
+    NodeType: 3
+    CurveGroup: "" {
+     Transform: 0 0 L 0 4096 0.5 2 0 0 "" 0 1 "" 1 -0.5 0 1 0 1 256 0 L 0 4096 0.5 2 0 0 "" 0 1 "" 1 -9.5 0 1 0 1 256 0 S 1 1 0 L 0 4096 0.5 2 0 0 "" 0 1 "" 1 1 0 1 0 1 256 0 L 0 4096 0.5 2 0 0 "" 0 1 "" 1 1 0 1 0 1 256 0 S 1 1 0 S 1 1 464.167 S 1 1 235.5 
+     Flag: 0
+     NumOfCubicCurves: 2
+     CubicCurve: "" {
+      Type: 0 Flag: 8192 Dim: 2
+      NumOfPoints: 9
+      0 S 1 1 0 S 1 1 0 0 0 S 1 1 416 S 1 1 236.5 0 0 S 1 1 0 S 1 1 0 0 0 S 1 1 -1 S 1 1 0 0 0 S 1 1 487.5 S 1 1 287.5 0 0 S 1 1 1 S 1 1 0 0 0 S 1 1 0 S 1 1 0 0 0 S 1 1 488 S 1 1 182.5 0 0 S 1 1 0 S 1 1 0 0 
+     }
+     CubicCurve: "" {
+      Type: 0 Flag: 8192 Dim: 2
+      NumOfPoints: 9
+      0 S 1 1 0 S 1 1 0 0 0 S 1 1 0 S 1 1 0 0 0 S 1 1 0 S 1 1 0 0 0 S 1 1 -1 S 1 1 0 0 0 S 1 1 0 S 1 1 0 0 0 S 1 1 1 S 1 1 0 0 0 S 1 1 0 S 1 1 0 0 0 S 1 1 0 S 1 1 0 0 0 S 1 1 0 S 1 1 0 0 
+     }
+     NumOfAttributes: 27
+     "vis" S 0 1 "r" S 0 1 "g" S 0 1 "b" S 0 1 "a" S 0 1 "ro" S 0 0 "go" S 0 0 "bo" S 0 0 "ao" S 0 0 "opc" S 0 1 "bm" S 0 0 "inv" S 0 0 "mbo" S 0 0 "mb" S 0 1 "mbs" S 0 0.5 "mbsot" S 0 0 "mbso" S 0 0 "fo" S 0 1 "fx" S 0 0 "fy" S 0 0 "ff" S 0 1 "ft" S 0 0 "nv" S 0 1 "view1" S 0 1 "ltn" S 0 1 "ltm" S 0 1 "ltt" S 0 0 
+    }
+   }
+   NumOfChildren: 0
+  }
+ }
+}
+}
+ lifetime_type "all frames"
+ translate {{curve x1 -0.5} {curve x1 -9.5}}
+ rotate {{curve x1 0}}
+ scale {{curve x1 1}}
+ skew {{curve x1 0}}
+ center {{curve x1 464.1666565} {curve x1 235.5}}
+ motionblur_shutter_offset_type centred
+ source_transform_center {360 270}
+ aspect_ignore_compatibility11 true
+ name RotoPaint1
+ xpos -537
+ ypos -65
+}
+Merge2 {
+ inputs 2
+ name Merge4
+ xpos -537
+ ypos -22
+}
+Transform {
+ translate {-206 -106}
+ scale {1.138 1.138}
+ center {360 270}
+ name Transform1
+ xpos -537
+ ypos 6
+}
+Constant {
+ inputs 0
+ channels rgb
+ color {0.3049870133 0.006048830226 0 1}
+ name Constant1
+ xpos -735
+ ypos 25
+}
+Merge2 {
+ inputs 2
+ name Merge1
+ xpos -537
+ ypos 48
+}
+Merge2 {
+ inputs 2
+ name Merge3
+ xpos -537
+ ypos 127
+}
+Reformat {
+ format "24 24 0 0 24 24 1 icon"
+ name Reformat2
+ xpos -537
+ ypos 185
+}
+Write {
+ file /home/adjordjevic/nuke/gizmos/sasha/icons/aimcam.png
+ file_type png
+ checkHashOnRead false
+ version 3
+ name Write2
+ xpos -537
+ ypos 287
+}
+Noise {
+ inputs 0
+ size 190
+ center {256 256}
+ name Noise1
+ xpos 162
+ ypos 85
+}
+CheckerBoard2 {
+ inputs 0
+ boxsize 128
+ color0 {0 0 0 1}
+ color1 {1 1 1 1}
+ color2 {0 0 0 1}
+ color3 {1 1 1 1}
+ centerlinewidth 0
+ name CheckerBoard1
+ xpos 1
+ ypos -29
+}
+push 0
+m_IBdistort {
+ inputs 3
+ name m_IBdistort1
+ xpos 1
+ ypos 78
+ channels all
+ uv_scale 100
+ from0 rgba.alpha
+}
+Reformat {
+ format "24 24 0 0 24 24 1 icon"
+ name Reformat1
+ xpos 1
+ ypos 170
+}
+Write {
+ file /home/adjordjevic/nuke/gizmos/sasha/icons/m_IBdistort.png
+ file_type png
+ checkHashOnRead false
+ version 2
+ name Write1
+ xpos 1
+ ypos 264
+}
+Rectangle {
+ inputs 0
+ area {44 192 386 446}
+ name Rectangle2
+ xpos 1020
+ ypos -85
+}
+Rectangle {
+ inputs 0
+ area {98 44 485 332}
+ color {0 0 0 1}
+ name Rectangle3
+ xpos 1163
+ ypos -52
+}
+Blur {
+ size 67
+ name Blur1
+ xpos 1163
+ ypos -16
+}
+Merge2 {
+ inputs 2
+ name Merge5
+ xpos 1020
+ ypos -9
+}
+Constant {
+ inputs 0
+ channels rgb
+ color {0.3049870133 0.006048830226 0 1}
+ name Constant3
+ xpos 858
+ ypos 71
+}
+Merge2 {
+ inputs 2
+ name Merge6
+ xpos 1020
+ ypos 94
+}
+Reformat {
+ format "24 24 0 0 24 24 1 icon"
+ name Reformat4
+ xpos 1020
+ ypos 223
+}
+Write {
+ file /home/adjordjevic/nuke/gizmos/sasha/icons/DropShadow.png
+ file_type png
+ checkHashOnRead false
+ version 5
+ name Write4
+ xpos 1020
+ ypos 326
+}
+Text {
+ inputs 0
+ message ++
+ font /usr/share/fonts/bitstream-vera/VeraMoBd.ttf
+ size 260
+ yjustify center
+ box {128 128 614 384}
+ translate {63 17}
+ center {256 256}
+ name Text3
+ xpos 1661
+ ypos 10
+}
+Text {
+ inputs 0
+ message C
+ font /usr/share/fonts/bitstream-vera/Vera.ttf
+ size 500
+ yjustify center
+ box {9 8 329 503}
+ center {256 256}
+ name Text2
+ xpos 1551
+ ypos -68
+}
+Merge2 {
+ inputs 2
+ name Merge7
+ xpos 1551
+ ypos 10
+}
+Transform {
+ translate {0 -10}
+ center {256 256}
+ name Transform2
+ xpos 1551
+ ypos 38
+}
+Constant {
+ inputs 0
+ channels rgb
+ color {0.3049870133 0.006048830226 0 1}
+ name Constant4
+ xpos 1389
+ ypos 70
+}
+Merge2 {
+ inputs 2
+ name Merge8
+ xpos 1551
+ ypos 93
+}
+Reformat {
+ format "24 24 0 0 24 24 1 icon"
+ name Reformat5
+ xpos 1551
+ ypos 221
+}
+set N20fcf240 [stack 0]
+Viewer {
+ input_process false
+ name Viewer2
+ xpos -538
+ ypos 545
+}
+push $N20fcf240
+Write {
+ file /home/adjordjevic/nuke/gizmos/sasha/icons/plugins.png
+ file_type png
+ checkHashOnRead false
+ version 6
+ name Write5
+ xpos 1551
+ ypos 323
+}

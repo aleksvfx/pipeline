@@ -1,0 +1,5 @@
+# move Particles.gizmo and particles.py into your .nuke folder, then add the following lines to your menu.py
+
+import particles
+nuke.menu('Nodes').addCommand('3D/Geometry/Particles', 'nuke.tcl( "Particles" )')
+nuke.addKnobChanged(particles.ParticlesCallback, nodeClass = 'Particles')

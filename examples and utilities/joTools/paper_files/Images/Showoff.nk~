@@ -1,0 +1,180 @@
+#! /usr/local/Nuke4.6/Nuke4.6 -nx
+version 4.6000
+define_window_layout -1 {  {4 0 0 0 0.684375 0.717659 0 1 {-324 -202 0.76005 0.173835 1}}  {1 0 0 0.392197 0.646094 1 0 1 {408.5 236.5 320}}  {2 0 0.6375 0 1 1 0 1 {0}} }
+restore_window_layout_from_script -1
+Root {
+ inputs 0
+ name /msc/jsaam/Desktop/zdepthRelight/Images/Showoff.nk
+ frame 76
+ first_frame 76
+ last_frame 300
+ lock_range true
+ format "640 480 0 0 640 480 1 PC_Video"
+ proxy_format "640 480 0 0 640 480 1 PC_Video"
+ lookup {lookup {to_sRGB(x) C 0 255}}
+}
+Read {
+ inputs 0
+ file /msc/jsaam/maya/projects/default/images/Wolf_Bent.%03d.tif
+ format "720 576 0 0 720 576 1.067 PAL"
+ first 76
+ last 300
+ name Read1
+ xpos -249
+ ypos -286
+}
+Read {
+ inputs 0
+ file /msc/jsaam/maya/projects/default/images/Wolf_Depth.%03d.tif
+ format "720 576 0 0 720 576 1.067 PAL"
+ first 76
+ last 300
+ name Read2
+ xpos -113
+ ypos -280
+}
+Read {
+ inputs 0
+ file /msc/jsaam/maya/projects/default/images/Wolf_Occl.%03d.tif
+ format "720 576 0 0 720 576 1.067 PAL"
+ first 76
+ last 300
+ name Read3
+ xpos -3
+ ypos -276
+}
+Read {
+ inputs 0
+ file /msc/jsaam/maya/projects/default/images/Buddha_Depth_TIFF.tif
+ format "1024 1024 0 0 1024 1024 1 square_1K"
+ name Read4
+ xpos 145
+ ypos -279
+}
+set N872c4b8 [stack 0]
+z2Pos {
+ name z2Pos1
+ xpos 118
+ ypos -171
+}
+set N872d9f8 [stack 0]
+push $N872d9f8
+pos2Normal {
+ "FLIP X\n" true
+ "FLIP Y\n" true
+ "FLIP Z\n" true
+ name pos2Normal1
+ xpos -26
+ ypos -171
+}
+set N872ea70 [stack 0]
+joSpotLight {
+ inputs 2
+ posY 20
+ posZ 15
+ TPosY 16
+ TPosZ 30
+ coneAngle 34.5
+ coneDeltaAngle 19
+ beamDistribution 4.2
+ attenuate true
+ distanceScale 10
+ colorR 0.73
+ colorG 0.52
+ specular true
+ roughness 94
+ name joSpotLight1
+ xpos -102
+ ypos -91
+}
+Viewer {
+ frame_range 76,300
+ channels {rgba.red rgba.green rgba.blue rgba.red}
+ roi {-0.5 -0.3 0.5 0.3}
+ window {5 431 817 563 1 0 0 0}
+ name Viewer1
+ xpos 67
+ ypos 174
+}
+push $N872d9f8
+push $N872ea70
+joLight {
+ inputs 2
+ phi 3.15
+ theta -1.4
+ posX -7
+ posY -1
+ posZ 30
+ specular true
+ roughness 146
+ name joLight1
+ xpos 47
+ ypos -94
+}
+push $N872c4b8
+Clamp {
+ name Clamp1
+ xpos 366
+ ypos -249
+}
+Dilate {
+ size -1
+ name Dilate1
+ xpos 366
+ ypos -209
+}
+ShuffleCopy {
+ inputs 2
+ red red
+ green green
+ blue blue
+ alpha red2
+ name ShuffleCopy1
+ xpos 117
+ ypos -20
+}
+Premult {
+ name Premult1
+ xpos 117
+ ypos 64
+}
+Constant {
+ inputs 0
+ channels rgb
+ format {"1024 1024 0 0 1024 1024 1 square_1K" 0}
+ name Constant1
+ xpos 403
+ ypos -162
+}
+Merge2 {
+ inputs 2
+ name Merge1
+ xpos 310
+ ypos 116
+}
+push $N872d9f8
+Expression {
+ expr0 r/60
+ expr1 g/60
+ expr2 b/60
+ name Expression1
+ xpos 266
+ ypos -174
+}
+push 0
+Reformat {
+ type scale
+ scale 0.5
+ resize fit
+ filter Mitchell
+ name Reformat1
+ xpos 176
+ ypos 214
+}
+Write {
+ file /msc/jsaam/Desktop/zdepthRelight/Images/BuddhaN.png
+ file_type png
+ name Write1
+ xpos 176
+ ypos 252
+}

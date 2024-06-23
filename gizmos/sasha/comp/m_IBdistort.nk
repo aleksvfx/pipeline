@@ -1,0 +1,263 @@
+#! /method/cg/opt/Nuke6.0v3/Nuke6.0 -nx
+version 6.0 v3
+define_window_layout_xml {<?xml version="1.0" encoding="UTF-8"?>
+<layout version="1.0">
+    <window x="0" y="0" w="1920" h="1150" screen="0">
+        <splitter orientation="1">
+            <split size="40"></split>
+            <dock id="" hideTitles="1" activePageId="Toolbar.1">
+                <page id="Toolbar.1"></page>
+            </dock>
+            <split size="1868"></split>
+            <splitter orientation="1">
+                <split size="1156"></split>
+                <splitter orientation="2">
+                    <split size="665"></split>
+                    <dock id="" activePageId="Viewer.1">
+                        <page id="Script Editor.1"></page>
+                        <page id="Viewer.1"></page>
+                    </dock>
+                    <split size="428"></split>
+                    <dock id="" activePageId="DAG.1">
+                        <page id="DAG.1"></page>
+                        <page id="Curve Editor.1"></page>
+                    </dock>
+                </splitter>
+                <split size="708"></split>
+                <splitter orientation="2">
+                    <split size="1097"></split>
+                    <dock id="" activePageId="Properties.1">
+                        <page id="Properties.1"></page>
+                    </dock>
+                </splitter>
+            </splitter>
+        </splitter>
+    </window>
+</layout>
+}
+Root {
+ inputs 0
+ name /home/adjordjevic/nuke/gizmos/sasha/comp/m_IBdistort.nk
+ frame 21
+ format "800 600 0 0 800 600 1 "
+ proxy_type scale
+ proxy_format "1024 778 0 0 1024 778 1 1K_Super_35(full-ap)"
+}
+Noise {
+ inputs 0
+ size 14
+ center {400 300}
+ name Noise1
+ xpos -212
+ ypos -189
+}
+Read {
+ inputs 0
+ file /home/adjordjevic/pictures/wallpapers/complaintDept.jpg
+ format "800 600 0 0 800 600 1 "
+ name Read1
+ xpos -54
+ ypos -346
+}
+RotoPaint {
+ inputs 0
+ toolbar_brush_hardness 0.200000003
+ toolbar_lifetime_type all
+ toolbar_source_transform_scale {1 1}
+ toolbar_source_transform_center {400 300}
+ output alpha
+ curves {AnimTree: "" {
+ Version: 1.1
+ Flag: 0
+ RootNode: 1
+ Node: {
+  NodeName: "Root" {
+   Flag: 512
+   NodeType: 1
+   NumOfAttributes: 10
+   "vis" S 0 1 "opc" S 0 1 "mbo" S 0 1 "mb" S 0 1 "mbs" S 0 0.5 "fo" S 0 1 "fx" S 0 0 "fy" S 0 0 "ff" S 0 1 "ft" S 0 0 
+  }
+  NumOfChildren: 1
+  Node: {
+   NodeName: "Shape1" {
+    Flag: 576
+    NodeType: 3
+    CurveGroup: "" {
+     Transform: 0 0 S 1 1 0 S 1 1 0 S 1 1 0 S 1 1 1 S 1 1 1 S 1 1 0 S 1 1 399.5 S 1 1 285.5 
+     Flag: 0
+     NumOfCubicCurves: 2
+     CubicCurve: "" {
+      Type: 0 Flag: 8192 Dim: 2
+      NumOfPoints: 12
+      0 S 1 1 5.8002 S 1 1 -5.33644 0 0 S 1 1 283.8 S 1 1 217.6 0 0 S 1 1 -10 S 1 1 9.2 0 0 S 1 1 -3.97433 S 1 1 -2.98068 0 0 S 1 1 299 S 1 1 356 0 0 S 1 1 5.60001 S 1 1 4.20001 0 0 S 1 1 -7.79999 S 1 1 7.39999 0 0 S 1 1 495 S 1 1 350 0 0 S 1 1 3.24448 S 1 1 -3.07797 0 0 S 1 1 3.93854 S 1 1 4.48192 0 0 S 1 1 510 S 1 1 218 0 0 S 1 1 -5.79999 S 1 1 -6.60001 0 
+     }
+     CubicCurve: "" {
+      Type: 0 Flag: 8192 Dim: 2
+      NumOfPoints: 12
+      0 S 1 1 5.8002 S 1 1 -5.33644 0 0 S 1 1 -21.1867 S 1 1 -23.0284 0 0 S 1 1 -10 S 1 1 9.2 0 0 S 1 1 -3.97433 S 1 1 -2.98068 0 0 S 1 1 -120.5 S 1 1 141 0 0 S 1 1 5.60001 S 1 1 4.20001 0 0 S 1 1 -7.80011 S 1 1 7.39996 0 0 S 1 1 132 S 1 1 127.5 0 0 S 1 1 3.24445 S 1 1 -3.07797 0 0 S 1 1 3.93854 S 1 1 4.48192 0 0 S 1 1 17.2147 S 1 1 -15.1281 0 0 S 1 1 -5.79999 S 1 1 -6.60001 0 
+     }
+     NumOfAttributes: 27
+     "vis" S 0 1 "r" S 0 1 "g" S 0 1 "b" S 0 1 "a" S 0 1 "ro" S 0 0 "go" S 0 0 "bo" S 0 0 "ao" S 0 0 "opc" S 0 1 "bm" S 0 0 "inv" S 0 0 "mbo" S 0 0 "mb" S 0 1 "mbs" S 0 0.5 "mbsot" S 0 0 "mbso" S 0 0 "fo" S 0 1 "fx" S 0 0 "fy" S 0 0 "ff" S 0 1.64 "ft" S 0 0 "nv" S 0 1 "view1" S 0 1 "ltn" S 0 1 "ltm" S 0 1 "ltt" S 0 0 
+    }
+   }
+   NumOfChildren: 0
+  }
+ }
+}
+}
+ lifetime_type "all frames"
+ translate {{curve x1 0} {curve x1 0}}
+ rotate {{curve x1 0}}
+ scale {{curve x1 1}}
+ skew {{curve x1 0}}
+ center {{curve x1 399.5} {curve x1 285.5}}
+ feather_falloff 1.639999986
+ motionblur_shutter_offset_type centred
+ source_transform_center {400 300}
+ name RotoPaint1
+ xpos 104
+ ypos -196
+}
+Group {
+ inputs 3
+ name m_IBdistort
+ help "m_IBdistort v0.1\n\n- distort image with a distortion map"
+ xpos -54
+ ypos -196
+ lock_connections true
+ addUserKnob {20 User l "Control Panel"}
+ addUserKnob {41 channels T IDistort1.channels}
+ addUserKnob {41 uv_offset l "map offset" t "offset distortion map" T IDistort1.uv_offset}
+ addUserKnob {41 uv_scale l "map scale" t "scale distortion map" T IDistort1.uv_scale}
+ addUserKnob {26 ""}
+ addUserKnob {41 maskbutton l "disable or no mask?" T maskSwitch.maskbutton}
+ addUserKnob {41 from0 l "mask channel" T Copy1.from0}
+}
+ Input {
+  inputs 0
+  name mask
+  xpos 471
+  ypos -139
+ }
+set N20373d70 [stack 0]
+ Input {
+  inputs 0
+  name map
+  xpos 81
+  ypos -138
+  number 2
+ }
+ Keyer {
+  operation "luminance key"
+  range {0 0.9888372967 1 1}
+  name Keyer1
+  xpos 81
+  ypos -88
+ }
+ Copy {
+  inputs 2
+  from0 rgba.alpha
+  to0 rgba.alpha
+  name Copy1
+  xpos 81
+  ypos -24
+  disable {{parent.maskSwitch.maskbutton.main i}}
+ }
+ Premult {
+  name Premult1
+  xpos 81
+  ypos 29
+  disable {{parent.maskSwitch.maskbutton.main i}}
+ }
+ Blur {
+  name Blur1
+  xpos 81
+  ypos 75
+ }
+set N21e9abc0 [stack 0]
+ Dot {
+  name Dot1
+  xpos 115
+  ypos 135
+ }
+ Input {
+  inputs 0
+  name image
+  xpos 225
+  ypos -140
+  number 1
+ }
+ Shuffle {
+  alpha white
+  name Shuffle1
+  xpos 225
+  ypos 20
+ }
+set N21632e10 [stack 0]
+ ShuffleCopy {
+  inputs 2
+  red red
+  green green
+  out forward
+  name ShuffleCopy1
+  xpos 225
+  ypos 130
+ }
+ IDistort {
+  uv forward
+  uv_scale 10
+  name IDistort1
+  xpos 225
+  ypos 190
+ }
+ Dot {
+  name Dot4
+  xpos 259
+  ypos 329
+ }
+push $N21632e10
+ Dot {
+  name Dot3
+  xpos 388
+  ypos 25
+ }
+ Merge2 {
+  inputs 2
+  name Merge1
+  xpos 354
+  ypos 324
+ }
+ Output {
+  name Output1
+  xpos 354
+  ypos 438
+ }
+push $N20373d70
+ Dot {
+  name Dot2
+  xpos 505
+  ypos 329
+ }
+push $N21e9abc0
+ Viewer {
+  input_process false
+  name Viewer1
+  xpos 354
+  ypos 549
+ }
+ NoOp {
+  inputs 0
+  name maskSwitch
+  xpos -102
+  ypos -3
+  addUserKnob {20 User}
+  addUserKnob {6 maskbutton l "disable or no mask?" t "check this box if you want to disable or have no mask" +STARTLINE}
+  maskbutton true
+ }
+end_group
+Viewer {
+ input_process false
+ name Viewer1
+ xpos -54
+ ypos -43
+}

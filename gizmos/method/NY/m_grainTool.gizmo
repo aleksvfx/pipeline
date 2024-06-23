@@ -1,0 +1,372 @@
+#! /method/cg/opt/Nuke6.1v3/Nuke6.1 -nx
+version 6.1 v3
+Gizmo {
+ inputs 3
+ addUserKnob {20 User}
+ addUserKnob {4 algorithm l "Neutralization Algorithm" M {"Densities Squared (film)"}}
+ addUserKnob {4 mode l Mode M {"Extract Normalized Grain" "Test New Grain" "New Grain" "Apply New Grain" "" "" ""}}
+ mode "Apply New Grain"
+ addUserKnob {3 seed l Seed t "Randomization seed for grain pattern."}
+ seed 134
+ addUserKnob {26 Size}
+ addUserKnob {14 redSize l red t "Size of red grain." R 0 100}
+ redSize 3
+ addUserKnob {14 greenSize l green t "Size of green grain." R 0 100}
+ greenSize 3
+ addUserKnob {14 blueSize l blue t "Size of blue grain." R 0 100}
+ blueSize 3
+ addUserKnob {26 Irregularity}
+ addUserKnob {7 redIrregularity l red t "Irregularity of red grain."}
+ redIrregularity 0.6
+ addUserKnob {7 greenIrregularity l green t "Irregularity of green grain."}
+ greenIrregularity 0.6
+ addUserKnob {7 blueIrregularity l blue t "Irregularity of blue grain."}
+ blueIrregularity 0.6
+ addUserKnob {26 IntensityTweak l "Tweak Intensity"}
+ addUserKnob {7 tweakRed l red t "Boost/suppress red grain." R 0 5}
+ tweakRed 1
+ addUserKnob {7 tweakGreen l green t "Boost/suppress green grain." R 0 5}
+ tweakGreen 1
+ addUserKnob {7 tweakBlue l blue t "Boost/suppress blue grain." R 0 5}
+ tweakBlue 1
+}
+ Input {
+  inputs 0
+  name Ungrained
+  xpos 1740
+  ypos -425
+  number 2
+ }
+ Dot {
+  name Dot12
+  xpos 1774
+  ypos -347
+ }
+set N2e08ecf0 [stack 0]
+push $N2e08ecf0
+ Dot {
+  name Dot13
+  xpos 1707
+  ypos -347
+ }
+ Colorspace {
+  colorspace_out Cineon
+  name Colorspace9
+  xpos 1673
+  ypos -289
+ }
+ set C2f190dc0 [stack 0]
+ ColorCorrect {
+  gamma 0.5
+  name ColorCorrect63
+  xpos 1673
+  ypos -261
+ }
+ set C1b6463a0 [stack 0]
+ Input {
+  inputs 0
+  name Degrained
+  xpos 657
+  ypos -412
+ }
+ Dot {
+  name Dot2
+  xpos 691
+  ypos -349
+ }
+set N1f294dd0 [stack 0]
+ Dot {
+  name Dot82
+  xpos 691
+  ypos -317
+ }
+set N115054d0 [stack 0]
+ Input {
+  inputs 0
+  name Original
+  xpos 488
+  ypos -412
+  number 1
+ }
+ Dot {
+  name Dot1
+  xpos 522
+  ypos -206
+ }
+ Merge2 {
+  inputs 2
+  operation from
+  name Merge52
+  xpos 657
+  ypos -211
+ }
+push $N115054d0
+clone $C2f190dc0 {
+  xpos 812
+  ypos -322
+  selected false
+ }
+clone $C1b6463a0 {
+  xpos 812
+  ypos -294
+  selected false
+ }
+set N1b6463a0 [stack 0]
+ Merge2 {
+  inputs 2
+  operation divide
+  name Merge53
+  xpos 812
+  ypos -211
+ }
+set Nfb7d170 [stack 0]
+ Multiply {
+  value -1
+  name Multiply1
+  xpos 958
+  ypos -218
+ }
+push $Nfb7d170
+ Dot {
+  name Dot10
+  xpos 846
+  ypos -139
+ }
+set Nb27f870 [stack 0]
+ Merge2 {
+  inputs 2
+  operation max
+  name Merge1
+  xpos 958
+  ypos -144
+ }
+ Blur {
+  size 150
+  name Blur1
+  xpos 958
+  ypos -58
+ }
+ set C62b01f0 [stack 0]
+ Multiply {
+  value {{parent.tweakRed} {parent.tweakGreen} {parent.tweakBlue} 1}
+  name Multiply2
+  xpos 1057
+  ypos -58
+ }
+set N20132a70 [stack 0]
+push $N1f294dd0
+ Dot {
+  name Dot5
+  xpos 1247
+  ypos -349
+ }
+set Nc82d7a80 [stack 0]
+ Noise {
+  output {rgba.red -rgba.green -rgba.blue -rgba.alpha}
+  cliptype none
+  replace true
+  size {{parent.redSize.w i} {parent.redSize.h i}}
+  zoffset {{frame+seed+pi i}}
+  octaves 2
+  gamma 1
+  xrotate {{redIrregularity*45 i}}
+  yrotate {{redIrregularity*45 i}}
+  name red
+  xpos 1545
+  ypos -361
+ }
+ Noise {
+  output {-rgba.red rgba.green -rgba.blue -rgba.alpha}
+  cliptype none
+  replace true
+  size {{parent.greenSize.w i} {parent.greenSize.h i}}
+  zoffset {{"frame+2*seed + pi * 2" i}}
+  octaves 2
+  gamma 1
+  xrotate {{greenIrregularity*45 i}}
+  yrotate {{greenIrregularity*45 i}}
+  name green
+  xpos 1545
+  ypos -318
+ }
+ Noise {
+  output {-rgba.red -rgba.green rgba.blue -rgba.alpha}
+  cliptype none
+  replace true
+  size {{parent.blueSize.w i} {parent.blueSize.h i}}
+  zoffset {{"frame+3*seed+pi * 3" i}}
+  octaves 2
+  gamma 1
+  xrotate {{blueIrregularity*45 i}}
+  yrotate {{blueIrregularity*45 i}}
+  name blue
+  xpos 1545
+  ypos -275
+ }
+set Nd3ebf7b0 [stack 0]
+push $Nd3ebf7b0
+ Blur {
+  size 150
+  name Blur2
+  xpos 1333
+  ypos -228
+ }
+ Merge2 {
+  inputs 2
+  operation divide
+  name Merge4
+  xpos 1545
+  ypos -221
+ }
+ Add {
+  value -1
+  name Add1
+  xpos 1545
+  ypos -173
+ }
+set N1a7f4190 [stack 0]
+ Multiply {
+  value -1
+  name Multiply3
+  xpos 1341
+  ypos -173
+ }
+push $N1a7f4190
+ Dot {
+  name Dot11
+  xpos 1579
+  ypos -116
+ }
+set Ne3c1f570 [stack 0]
+ Merge2 {
+  inputs 2
+  operation max
+  name Merge5
+  xpos 1341
+  ypos -121
+ }
+clone $C62b01f0 {
+  xpos 1341
+  ypos -93
+  selected false
+ }
+ Merge2 {
+  inputs 2
+  operation divide
+  name Merge6
+  xpos 1341
+  ypos -51
+ }
+push $Ne3c1f570
+ Merge2 {
+  inputs 2
+  operation multiply
+  name Merge7
+  xpos 1545
+  ypos -51
+ }
+set Nb52bada0 [stack 0]
+ Merge2 {
+  inputs 2
+  operation multiply
+  name Merge9
+  xpos 1673
+  ypos -51
+ }
+ Dot {
+  name Dot8
+  xpos 1707
+  ypos 122
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  name Merge2
+  xpos 1740
+  ypos 117
+ }
+ Dot {
+  name Dot7
+  xpos 1774
+  ypos 331
+ }
+push $Nb52bada0
+ Dot {
+  name Dot14
+  xpos 1656
+  ypos 20
+ }
+ Dot {
+  name Dot15
+  xpos 1656
+  ypos 331
+ }
+push $N1b6463a0
+ Dot {
+  name Dot3
+  xpos 1134
+  ypos -289
+ }
+ Dot {
+  name Dot4
+  xpos 1134
+  ypos 34
+ }
+push $Nb52bada0
+ Merge2 {
+  inputs 2
+  operation multiply
+  name Merge3
+  xpos 1545
+  ypos 29
+ }
+push $Nc82d7a80
+ Dot {
+  name Dot6
+  xpos 1247
+  ypos 130
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  name Merge8
+  xpos 1545
+  ypos 125
+ }
+set Nff82cb40 [stack 0]
+push $Nb27f870
+ Dot {
+  name Dot9
+  xpos 846
+  ypos 331
+ }
+ Dot {
+  name Dot16
+  xpos 1516
+  ypos 331
+ }
+ Switch {
+  inputs 4
+  which {{parent.mode}}
+  name Switch1
+  xpos 1545
+  ypos 380
+ }
+ Output {
+  name Output1
+  xpos 1545
+  ypos 506
+ }
+push $Nff82cb40
+push $N20132a70
+ Viewer {
+  inputs 2
+  gamma 2.2
+  viewerProcess rec709
+  input_process false
+  translate {0.5224999785 0.07999999821}
+  name Viewer1
+  xpos 1851
+  ypos 197
+ }
+end_group

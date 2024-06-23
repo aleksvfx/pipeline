@@ -1,0 +1,422 @@
+################################################################################
+##
+##
+##              R U N   (the PointCache-'Hearth'
+##
+##
+##                  when you use it as Group !!!!!
+##           but when as Gizmo than you must remove the '##### '
+##                  HAUTgroup.begin() & HAUPTgroup.end()
+##
+##                  T H I S   I S   B Y   A L L   S C R I P T S
+##                 [ where ##### HAUPTgroup.begin() & xxx.end() ]
+##
+##
+################################################################################
+
+### import threading 
+### import time 
+### def selfDestruct(): 
+###   task = nuke.ProgressTask("Self Destructing") 
+###   task.setMessage("Deleting files") 
+  
+#k = nuke.selectedNode()
+#print k.name()
+# nuke.thisNode()
+
+#HAUPTgroup = nuke.toNode('PointCache3D') 
+#HAUPTgroup = nuke.selectedNode()
+HAUPTgroup = nuke.thisNode()
+##### HAUPTgroup.begin() 
+
+###sn = nuke.selectedNode() #---------------> sn = nuke.selectedNodes()
+InputImage_sn = nuke.toNode('InputPoint').setSelected('True')
+sn = nuke.selectedNode()
+
+wa = nuke.value(sn.name()+".format.w")
+ha = nuke.value(sn.name()+".format.h")
+
+POINTx = nuke.toNode('DummyANZAHL')
+POINTS = POINTx['POINTANZAHL'].value()
+
+#########################
+# Points in Prozent %
+#
+# 500 * (0.5[*100]) = 250
+#########################
+
+### WIEVIEL = 100/POINTS
+###WIEVIEL = POINTS*100
+WIEVIEL = 100-POINTS
+
+if WIEVIEL <= 1:
+    WIEVIEL = 1
+
+w = int(wa)/WIEVIEL
+h = int(ha)/WIEVIEL
+
+maxB = []
+
+AllePoints=0
+
+nuke.nodes.Group()
+Group = nuke.toNode('Group1')
+Group.begin()
+
+gIn = nuke.nodes.Input()
+gOut = nuke.nodes.Output()
+
+DeCube = nuke.toNode('DummyANZAHL')
+xxx = nuke.toNode('Group1')
+xxx['disable'].setExpression(DeCube.name()+".DISABLE_GROUP")
+
+for sampleY in range(int(h)+1):
+
+    
+###     if task.isCancelled(): 
+###       nuke.executeInMainThread( nuke.message, args=( "Phew!" ) ) 
+###       break; 
+###     task.setProgress(sampleY)
+    
+    
+    tmp_b = []
+    
+    for sampleX in range(int(w)+1):
+        svr = sn.sample("r", sampleY*WIEVIEL, sampleX*WIEVIEL, 0.5, 0.5)
+        svg = sn.sample("g", sampleY*WIEVIEL, sampleX*WIEVIEL, 0.5, 0.5)
+        svb = sn.sample("b", sampleY*WIEVIEL, sampleX*WIEVIEL, 0.5, 0.5)
+        
+        tmp_b.append(svb)
+        
+        erg = [svr + svg + svb]
+
+        if erg != [0.0] :
+
+            AllePoints=AllePoints+1
+            ergSTR = str(AllePoints)
+
+            POINTs = nuke.nodes.Cube()
+            
+            DCube = nuke.toNode('DummyCube')
+            ### POINTs['uniform_scale'].setValue(0.01)
+            POINTs['uniform_scale'].setExpression(DCube.name()+".uniform_scale")
+            POINTs['rows'].setValue(1)
+            POINTs['columns'].setValue(1)
+            pos=[svr,svg,svb]
+            POINTs['translate'].setValue(pos)
+
+    maxB.append(max(tmp_b))
+    
+#for n in nuke.allNodes() :
+#        n.setSelected(0)
+
+# for n in nuke.allNodes('Cube') :
+#         n.setSelected('True')
+# xInput = nuke.toNode('Input1').setInput(0, nuke.selectedNode())
+
+xInput = nuke.toNode('Input1').setSelected('True')
+
+for n in nuke.allNodes('Cube') :
+        n.setInput(0, nuke.selectedNode())
+
+xInput = nuke.toNode('Input1').setSelected(0)
+
+###################################################################
+#
+#for n in nuke.allNodes('Cube') :
+#        n.setSelected('True')
+#
+##m = nuke.nodes.MergeGeo()
+##m = nuke.toNode('MergeGeo1').setInput(0, nuke.selectedNode())
+#m = nuke.createNode('MergeGeo', inpanel=False)
+#
+#for n in nuke.allNodes('Cube') :
+#        n.setSelected(0)
+#
+##################################################################
+
+
+
+
+MergeAnzahlx = AllePoints/1000+1
+MergeAnzahl = int(MergeAnzahlx)
+
+START = 1
+ENDE = 1001
+
+rangelistPoint = range(AllePoints)
+rangelistMerge = range(MergeAnzahl)
+
+
+for n in rangelistMerge:
+    
+    for number in rangelistPoint[START:ENDE]:
+        
+        ZAHL = str(number)
+        CUBEnr = nuke.toNode('Cube'+ZAHL)
+        CUBEnr.setSelected('True')
+    
+    g = nuke.createNode('MergeGeo', inpanel=False)
+    g.setSelected(0)
+    
+    for CubeNrDeSel in rangelistPoint[START:ENDE]:
+        
+        ZAHLx = str(CubeNrDeSel)
+        CUBEnrx = nuke.toNode('Cube'+ZAHLx)
+        CUBEnrx.setSelected(0)
+    
+#    for CubeNrDeSel in nuke.allNodes('Cube') :
+#        CubeNrDeSel.setSelected(0)
+
+    START = START+1000
+    ENDE = ENDE+1000
+
+
+
+for n in nuke.allNodes('MergeGeo') :
+        n.setSelected('True')
+
+#m = nuke.nodes.Scene()
+#m = nuke.toNode('Scene1').setInput(0, nuke.selectedNode())
+m = nuke.createNode('Scene', inpanel=False)
+
+for n in nuke.allNodes('MergeGeo') :
+        n.setSelected(0)
+
+x = nuke.toNode('Scene1').setSelected('True')
+
+nOutput = nuke.toNode('Output1').setInput(0, nuke.selectedNode())
+
+x = nuke.toNode('Scene1').setSelected(0)
+
+# for n in nuke.allNodes() :
+#        n.setSelected(0)
+
+Group.end()
+
+
+
+### m = nuke.toNode('InputImage').setSelected('True')
+
+### n = nuke.createNode('BasicMaterial', inpanel=False)
+
+### for n in nuke.allNodes() :
+###        n.setSelected(0)
+
+m = nuke.toNode('DummyBasicMaterial').setSelected('True')
+
+for n in nuke.allNodes('Group') :
+        n.setInput(0, nuke.selectedNode())
+
+m = nuke.toNode('DummyBasicMaterial').setSelected(0)
+
+for n in nuke.allNodes('Group') :
+        n.setSelected('True')
+
+xOutput = nuke.toNode('DummyUVProject').setInput(0, nuke.selectedNode())
+
+for n in nuke.allNodes() :
+        n.setSelected(0)
+
+CamProj = nuke.toNode('CameraProject')
+CamPos=[0,0,str(max(maxB)*2)]
+CamProj['translate'].setValue(CamPos)
+
+CamLabelDepth = str(max(maxB))
+CamLabelDepthCamera = str(max(maxB)*2)
+CamLabelCamera = CamLabelDepthCamera
+CamProj['label'].setValue("Depth: " + CamLabelDepth + "\n" + "CameraDepth: " + CamLabelCamera)
+
+FRAMENR = str(nuke.frame())
+
+print
+print
+print ### "Maximum Depth(b) PixelValue"
+print ">>> Depth(B): " + str(max(maxB)) + " <<<"
+print ">>> " + ergSTR + " POINTS <<<"
+print " ----- FRAME: " + FRAMENR + " -----"
+print
+
+##### HAUPTgroup.end()
+
+GroupSTR = str(ergSTR)
+#GroupValue = nuke.toNode('PointCache3D')
+#GroupValue = nuke.selectedNode()
+#GroupValue = nuke.thisNode()
+#GroupLabel = GroupValue['label'].setValue(GroupSTR+" Points"  + "\n" + "FRAME: " + FRAMENR)
+GroupLabel = HAUPTgroup['label'].setValue(GroupSTR+" Points"  + "\n" + "FRAME: " + FRAMENR)
+
+#k = nuke.toNode('PointCache3D')
+#k = nuke.selectedNode()
+#k = nuke.thisNode()
+HAUPTgroup['RUN'].setVisible(False)
+
+### threading.Thread( None, selfDestruct ).start()
+
+
+
+
+
+################################################################################
+##
+##
+##              D E L E T E
+##
+##
+################################################################################
+
+#k = nuke.selectedNode()
+#print k.name()
+# nuke.thisNode()
+
+#HAUPTgroup = nuke.toNode('PointCache3D') 
+#HAUPTgroup = nuke.selectedNode()
+HAUPTgroup = nuke.thisNode()
+##### HAUPTgroup.begin() 
+
+for n in nuke.allNodes('Group'):
+    nuke.delete(n)
+
+for n in nuke.allNodes('Cube') :
+        n.setSelected('True')
+
+xOutput = nuke.toNode('DummyUVProject').setInput(0, nuke.selectedNode())
+
+for n in nuke.allNodes() :
+        n.setSelected(0)
+
+CamProj = nuke.toNode('CameraProject')
+CamPos=[0,0,0]
+CamProj['translate'].setValue(CamPos)
+
+CamProj['label'].setValue("")
+
+##### HAUPTgroup.end()
+
+GroupSTR = str(ergSTR)
+#GroupValue = nuke.toNode('PointCache3D')
+#GroupValue = nuke.selectedNode()
+#GroupValue = nuke.thisNode()
+#GroupLabel = GroupValue['label'].setValue("")
+GroupLabel = HAUPTgroup['label'].setValue("")
+
+#k = nuke.toNode('PointCache3D')
+#k = nuke.selectedNode()
+#k = nuke.thisNode()
+HAUPTgroup['RUN'].setVisible(True)
+
+
+
+
+
+################################################################################
+##
+##
+##              C A L C U L A T E
+##
+##
+################################################################################
+
+#k = nuke.selectedNode()
+#print k.name()
+# nuke.thisNode()
+
+#HAUPTgroup = nuke.toNode('PointCache3D') 
+#HAUPTgroup = nuke.selectedNode()
+HAUPTgroup = nuke.thisNode()
+##### HAUPTgroup.begin() 
+
+###sn = nuke.selectedNode() #---------------> sn = nuke.selectedNodes()
+InputImage_sn = nuke.toNode('InputPoint').setSelected('True')
+sn = nuke.selectedNode()
+
+wa = nuke.value(sn.name()+".format.w")
+ha = nuke.value(sn.name()+".format.h")
+
+POINTx = nuke.toNode('DummyANZAHL')
+POINTS = POINTx['POINTANZAHL'].value()
+
+#########################
+# Points in Prozent %
+#
+# 500 * (0.5[*100]) = 250
+#########################
+
+### WIEVIEL = 100/POINTS
+###WIEVIEL = POINTS*100
+WIEVIEL = 100-POINTS
+
+if WIEVIEL <= 1:
+    WIEVIEL = 1
+
+w = int(wa)/WIEVIEL
+h = int(ha)/WIEVIEL
+
+AllePoints=0
+
+for sampleY in range(int(h)+1):
+
+    for sampleX in range(int(w)+1):
+        svr = sn.sample("r", sampleY*WIEVIEL, sampleX*WIEVIEL, 0.5, 0.5)
+        svg = sn.sample("g", sampleY*WIEVIEL, sampleX*WIEVIEL, 0.5, 0.5)
+        svb = sn.sample("b", sampleY*WIEVIEL, sampleX*WIEVIEL, 0.5, 0.5)
+
+        erg = [svr + svg + svb]
+
+        if erg != [0.0] :
+
+            AllePoints=AllePoints+1
+
+
+for n in nuke.allNodes() :
+        n.setSelected(0)
+
+##### HAUPTgroup.end()
+
+
+# ERG = int(w*h)
+
+CALCULATE_ERG = str(AllePoints)
+
+#x = nuke.toNode('PointCache3D')
+#x = nuke.selectedNode()
+#x = nuke.thisNode()
+HAUPTgroup['HOWMUCH'].setValue(CALCULATE_ERG)
+
+
+
+
+
+################################################################################
+##
+##
+##              L A Y O U T E
+##
+##
+################################################################################
+
+#k = nuke.toNode('PointCache3D')
+#k = nuke.selectedNode()
+k = nuke.thisNode()
+
+if k['LAYOUTtmp'].value() != 'FULL':
+
+    k['DEPTHCHANGEgroup'].setVisible(False)
+    k['PROJECTIONgroup'].setVisible(False)
+    k['TIPPgroup'].setVisible(False)
+    k['SHADERgroup'].setVisible(False)
+    k['CAMERAgroup'].setVisible(False)
+    k['strich1'].setVisible(False)
+    k['strich2'].setVisible(False)
+    k['LAYOUTtmp'].setValue('FULL')
+
+else:
+
+    k['DEPTHCHANGEgroup'].setVisible(True)
+    k['PROJECTIONgroup'].setVisible(True)
+    k['TIPPgroup'].setVisible(True)
+    k['SHADERgroup'].setVisible(True)
+    k['CAMERAgroup'].setVisible(True)
+    k['strich1'].setVisible(True)
+    k['strich2'].setVisible(True)
+    k['LAYOUTtmp'].setValue('Simple')

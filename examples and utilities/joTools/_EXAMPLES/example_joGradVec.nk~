@@ -1,0 +1,252 @@
+#! C:/Program Files/Nuke4.6/Nuke4.6.exe -nx
+version 4.6000
+define_window_layout -1 {  {4 0 0.5 0 1 0.962891 0 1 {-611 -297 0.884726 0.138751 0}}  {2 0 0.819531 0.405273 1 1.0957 0 1 {0}}  {1 0 0 0 0.501562 0.962891 0 1 {632.633 213.003 2112}} }
+restore_window_layout_from_script -1
+Root {
+ inputs 0
+ name H:/joGradVec_example.nk
+ frame 5
+ last_frame 78
+ lock_range true
+ format "1920 1080 0 0 1920 1080 1 HD"
+ proxy_format "640 480 0 0 640 480 1 PC_Video"
+ lookup {lookup {to_sRGB(x) C 0 255}}
+}
+BackdropNode {
+ inputs 0
+ name VectorBlur_Prep
+ label "the rgb is premulted\nby the choked matte.\nEdge blur is added to\nhelp the blend with\nthe vector blur that\nhappens next."
+ xpos -568
+ ypos 120
+ bdwidth 275
+ bdheight 110
+}
+BackdropNode {
+ inputs 0
+ name Basic_Edge_key
+ label "Preserves edge detail\n(Note: this is very rough but \nserves to illustrate the point)."
+ xpos -43
+ ypos -221
+ bdwidth 305
+ bdheight 121
+}
+BackdropNode {
+ inputs 0
+ name General_Note
+ label "This is a proof of \nconcept only.\nPut a ROI round the\nface to really see\nwhat effect it has. \n"
+ note_font_size 36
+ selected true
+ xpos 363
+ ypos -255
+ bdwidth 333
+ bdheight 310
+}
+BackdropNode {
+ inputs 0
+ name Create_Vecblur_layer
+ label "The vectors are shuffled into\na new VecBlur layer.\n"
+ xpos -546
+ ypos 25
+ bdwidth 242
+ bdheight 86
+}
+BackdropNode {
+ inputs 0
+ name Edge_To_Vector
+ label "The basic matte edge is heavily blurred\n then fed into joGradVec.\n"
+ xpos -491
+ ypos -158
+ bdwidth 258
+ bdheight 173
+}
+BackdropNode {
+ inputs 0
+ name Further_keying_stuff
+ label "Spill removal and matte erode \nbut ideally we would like \nto use the softer edge."
+ xpos -27
+ ypos -89
+ bdwidth 353
+ bdheight 136
+}
+BackdropNode {
+ inputs 0
+ name Before
+ label "What the edges looked like\nbefore extending the\nrgb value outwards."
+ xpos -123
+ ypos 431
+ bdwidth 300
+ bdheight 112
+}
+BackdropNode {
+ inputs 0
+ name After
+ label "the soft edge matte is restored.\n"
+ xpos -494
+ ypos 431
+ bdwidth 359
+ bdheight 120
+}
+BackdropNode {
+ inputs 0
+ name VectorBlur
+ label "This repeats the rgb pixel outward at the\nchoked matte edge.  The vector is perpendicular \nto the matte edge.  The matte is used as an\ninverse holdout mask for the vector blur operation.\n"
+ xpos -639
+ ypos 236
+ bdwidth 367
+ bdheight 150
+}
+ColorBars {
+ inputs 0
+ format {"1920 1080 0 0 1920 1080 1 HD" 0}
+ name ColorBars1
+ label "Download footage from\nhttp://www.siliconimaging.com/DigitalCinema/Gallery/greenscreen.zip"
+ xpos 133
+ ypos -323
+}
+HueKeyer {
+ lut {amount {curve 0 x1.32 0 x2.85 1.14 s0 x4.3 0 x6 0}
+   sat_thrsh {curve 0.1 0.1 0.1 0.1 0.1 0.1 0.1}}
+ name HueKeyer1
+ label "Basic Matte"
+ xpos 133
+ ypos -156
+}
+set N1229230 [stack 0]
+CheckerBoard2 {
+ inputs 0
+ format {"1920 1080 0 0 1920 1080 1 HD" 0}
+ color0 0.1
+ color2 0.1
+ centerlinecolor {1 1 0 1}
+ name CheckerBoardBG
+ xpos -57
+ ypos 296
+}
+Premult {
+ name Premult1
+ xpos -57
+ ypos 365
+}
+set N267ff008 [stack 0]
+AddMix {
+ inputs 2
+ lut {A {curve 0 1}
+   B {curve 1 0}}
+ name AddMix3
+ xpos 93
+ ypos 514
+}
+push $N1229230
+push $N1229230
+add_layer {alpha rgba.alpha}
+Blur {
+ channels alpha
+ size 14.5
+ name Blur1
+ xpos -405
+ ypos -101
+}
+Shuffle {
+ red alpha
+ green alpha
+ blue alpha
+ name Shuffle1
+ xpos -405
+ ypos -61
+}
+joGradVec {
+ name joGradVec1
+ xpos -405
+ ypos -35
+}
+push $N1229230
+HueCorrect {
+ hue {sat {curve 1 1 x1.3 1 x2 0.3923200026 x2.4 0.04 x3 1 x4 1 1 1}
+   lum {curve 1 1 1 1 1 1 1}
+   red {curve 1 1 1 1 1 1 1}
+   green {curve 1 1 1 1 1 1 1}
+   blue {curve 1 1 1 1 1 1 1}
+   r_sup {curve 1 1 1 1 1 1 1}
+   g_sup {curve 1 1 1 1 1 1 1}
+   b_sup {curve 1 1 1 1 1 1 1}
+   sat_thrsh {curve 0 0 0 0 0 0 0}}
+ name HueCorrect1
+ xpos 133
+ ypos -55
+}
+Erode {
+ channels alpha
+ size 5.5
+ blur 0.315
+ name Erode3
+ xpos 133
+ ypos -1
+}
+add_layer {vecblur vecblur.x vecblur.y}
+ShuffleCopy {
+ inputs 2
+ alpha alpha2
+ black red
+ white green
+ out2 vecblur
+ name ShuffleCopy1
+ xpos -405
+ ypos 84
+}
+Premult {
+ name Premult2
+ selected true
+ xpos -405
+ ypos 153
+}
+EdgeBlur {
+ channels rgba
+ size 8.5
+ edge_mult 10
+ name EdgeBlur1
+ xpos -405
+ ypos 179
+}
+VectorBlur {
+ channels rgba
+ uv vecblur
+ scale 7.5
+ offset 0
+ alpha -rgba.alpha
+ mask rgba.alpha
+ invert_mask true
+ name VectorBlur1
+ xpos -405
+ ypos 315
+}
+Unpremult {
+ name Unpremult2
+ xpos -405
+ ypos 355
+}
+Copy {
+ inputs 2
+ from0 rgba.alpha
+ to0 rgba.alpha
+ name Copy2
+ xpos -233
+ ypos 456
+}
+push $N267ff008
+AddMix {
+ inputs 2
+ lut {A {curve 0 1}
+   B {curve 1 0}}
+ name AddMix2
+ xpos -233
+ ypos 517
+}
+Viewer {
+ inputs 2
+ frame_range 1,78
+ roi {-0.175 -0.212 0.336 0.58}
+ window {-1276 30 1276 952 1 0 0 0}
+ name Viewer1
+ xpos 106
+ ypos 679
+}

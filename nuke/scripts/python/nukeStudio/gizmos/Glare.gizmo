@@ -1,0 +1,204 @@
+#! Z:/job/SWDEVL/SOFTWARE/w2k_intel/nuke4.3/27/nuke4.3.27.exe -nx
+version 4.3027
+Gizmo {
+ inputs 1
+ addUserKnob { 20 "" User } 
+ addUserKnob { 26 "" "Glare Creation Options" } 
+ addUserKnob { 7 glaretol Tolerance R 0 1 } 
+ addUserKnob { 7 glaresize "Glare Size" R 0 3 t "" } 
+ addUserKnob { 7 glareaspect Aspect R 0 2 } 
+ addUserKnob { 6 nonlinear "Non Linear Glare" } 
+ addUserKnob { 26 "" "Chromatic Abberation Options" } 
+ addUserKnob { 7 glarespread "Chroma Spread" R 0 2 } 
+ addUserKnob { 7 Flare1_chroma_shift "Chroma Shift" R -20 20 } 
+ addUserKnob { 7 Flare1_chroma_shift_angle "Chroma Shift Angle" R -180 180 } 
+ addUserKnob { 26 "" "Multipoint Options" } 
+ addUserKnob { 3 Flare1_asym_repeat "Glare Points" R 0 1 } 
+ addUserKnob { 7 Flare1_asym_falloff "Glare Point Falloff" R 0.1 10 } 
+ addUserKnob { 7 Flare1_asym_angle "Glare Point Rotation" R -180 180 } 
+ addUserKnob { 26 "" "Shape Options" } 
+ addUserKnob { 3 Flare1_corners "Shape Corners" R 0 1 } 
+ addUserKnob { 7 Flare1_flattening "Shape Adherance" R 0 5 } 
+ addUserKnob { 7 Flare1_corners_angle "Shape Angle" R -180 180 } 
+ addUserKnob { 26 "" "Color Options" } 
+ addUserKnob { 19 Grade1_multiply Mult R 0 4 t "" } 
+ addUserKnob { 19 Grade1_gamma Gamma R 0.2 5 t "" } 
+ addUserKnob { 7 Saturation1_saturation Saturation R 0 4 } 
+ addUserKnob { 6 effect_only "Output Effect Only" } 
+ name Glare
+ label v1.0
+ window {32 79 884 657 0 33 226 1}
+ glaretol 0.5
+ glaresize 1
+ glareaspect 1
+ Grade1_multiply 1
+ Grade1_gamma 1
+ Saturation1_saturation 1
+}
+ Constant {
+  inputs 0
+  format "100 100 0 0 100 100 1 Glare"
+  name Constant1
+  xpos 20
+  ypos 420
+ }
+ Flare {
+  position {50 50}
+  radius {8.26 28.26 48.26}
+  size_mult {{parent.glaresize i}}
+  anamorph {{parent.glareaspect i}}
+  inner_color 0.22
+  chroma_spread {{parent.glarespread i}}
+  chroma_shift {{parent.Flare1_chroma_shift i}}
+  chroma_shift_angle {{parent.Flare1_chroma_shift_angle i}}
+  corners {{parent.Flare1_corners==1?2:parent.Flare1_corners i}}
+  flattening {{parent.Flare1_flattening*5 i}}
+  sharpness 1
+  corners_angle {{parent.Flare1_corners_angle}}
+  asym_repeat {{parent.Flare1_asym_repeat i}}
+  asym_multiplier {{asym_repeat==0?1:0 i}}
+  asym_falloff {{parent.Flare1_asym_falloff i}}
+  asym_angle {{parent.Flare1_asym_angle i}}
+  name Flare1
+  xpos 20
+  ypos 501
+  indicators 2
+ }
+ Keyer {
+  keyer luminance
+  range {0 1 1 1}
+  name Keyer2
+  tile_color 0xff0000
+  label (alpha)
+  xpos 20
+  ypos 524
+ }
+ Transform {
+  scale {{parent.glaresize/5} {w/glareaspect}}
+  center {50 50}
+  name Transform1
+  xpos 20
+  ypos 561
+  indicators 2
+ }
+ Input {
+  inputs 0
+  name img
+  xpos 560
+  ypos 291
+ }
+ Grade {
+  gamma 2.2
+  unpremult -rgba.alpha
+  name Grade2
+  tile_color 0x7aa9ff00
+  xpos 560
+  ypos 341
+  indicators 2
+  disable {{!parent.nonlinear}}
+ }
+ Dot {
+  name Dot1
+  xpos 594
+  ypos 414
+ }
+set Nb3d48f8 [stack 0]
+ Transform {
+  scale 0.2
+  center {{input.width/2} {input.height/2}}
+  filter Parzen
+  name Transform2
+  xpos 380
+  ypos 411
+  indicators 2
+ }
+ Keyer {
+  keyer luminance
+  range {{parent.glaretol} 1 1 1}
+  name Keyer1
+  tile_color 0xff0000
+  label (alpha)
+  xpos 200
+  ypos 404
+  indicators 2
+ }
+ Shuffle {
+  red alpha
+  green alpha
+  blue alpha
+  name Shuffle1
+  tile_color 0x9e3c6300
+  xpos 200
+  ypos 441
+ }
+ Convolve {
+  inputs 2
+  name Convolve1
+  label (all)
+  xpos 200
+  ypos 554
+ }
+ Grade {
+  multiply {{parent.Grade1_multiply.r} {parent.Grade1_multiply.g} {parent.Grade1_multiply.b} {parent.Grade1_multiply.a}}
+  add 0.035
+  gamma {{parent.Grade1_gamma.r} {parent.Grade1_gamma.g} {parent.Grade1_gamma.b} {parent.Grade1_gamma.a}}
+  unpremult rgba.alpha
+  name Grade1
+  tile_color 0x7aa9ff00
+  label "(rgb / - / rgba.alpha)"
+  xpos 200
+  ypos 614
+ }
+ Saturation {
+  saturation {{parent.Saturation1_saturation}}
+  name Saturation1
+  tile_color 0x7aa9ff00
+  xpos 200
+  ypos 651
+ }
+ Transform {
+  scale 5
+  center {{input.width/2} {input.height/2}}
+  filter Parzen
+  name Transform3
+  xpos 380
+  ypos 651
+  indicators 2
+ }
+set Nb3dac18 [stack 0]
+push $Nb3dac18
+push $Nb3d48f8
+ Merge {
+  inputs 2
+  A {rgba.red rgba.green rgba.blue -rgba.alpha}
+  operation plus
+  name Merge1
+  tile_color 0x4b5ec600
+  xpos 560
+  ypos 651
+ }
+ Switch {
+  inputs 2
+  which {{parent.effect_only}}
+  name Switch1
+  xpos 560
+  ypos 711
+  indicators 2
+ }
+ Grade {
+  gamma 2.2
+  reverse true
+  unpremult -rgba.alpha
+  name Grade3
+  tile_color 0x7aa9ff00
+  xpos 560
+  ypos 757
+  indicators 2
+  disable {{!parent.nonlinear}}
+ }
+ Output {
+  name Output1
+  xpos 560
+  ypos 808
+ }
+end_group

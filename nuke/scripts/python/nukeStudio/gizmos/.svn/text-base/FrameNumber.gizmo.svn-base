@@ -1,0 +1,95 @@
+#! Z:/INSTALL/Nuke4/5.27/nuke4.5.exe -nx
+version 4.5027
+Gizmo {
+ inputs 1
+ addUserKnob {20 "" User}
+ addUserKnob {41 font font T Text.font}
+ addUserKnob {41 size size T Text.size}
+ addUserKnob {7 transBG "Background Opacity" R 0 1}
+ transBG 0.5
+ addUserKnob {26 "" ""}
+ addUserKnob {4 justify justify M {top bottom}}
+ justify bottom
+ addUserKnob {7 Placement offset R 0 1}
+ Placement 0.1
+ addUserKnob {26 "" ""}
+ addUserKnob {41 mask mask T Mix.mask}
+ addUserKnob {41 invert_mask invert T Mix.invert_mask}
+ addUserKnob {41 fringe fringe T Mix.fringe}
+ addUserKnob {41 mix mix T Mix.mix}
+}
+push 0
+ Text {
+  message "FRAME\n\[format %04d \[frame] ]"
+  font C:/WINDOWS/Fonts/arial.ttf
+  size 20
+  xjustify center
+  yjustify bottom
+  translate {100 100}
+  p1 {100 400}
+  p0 {100 100}
+  name Text
+  selected true
+  xpos -171
+  ypos 14
+ }
+set N1be52e8 [stack 0]
+ Rectangle {
+  area {{input0.bbox.x-2 i} {input0.bbox.y-2 i} {input0.bbox.r+2 i} {input0.bbox.t+2 i}}
+  color {0 0 0 {1-transBG}}
+  p1 {100 400}
+  p0 {100 100}
+  name Background
+  xpos -281
+  ypos 83
+ }
+push $N1be52e8
+ Merge {
+  inputs 2
+  operation under
+  name BackGround
+  xpos -171
+  ypos 163
+ }
+set N1be8a00 [stack 0]
+ Transform {
+  translate {{"(Background.area.x*-1) + ((parent.input0.format.w  - (Background.area.r-Background.area.x)) * Placement)" i} {(Background.area.y*-1)}}
+  center {360 243}
+  name TransformBottom
+  xpos -292
+  ypos 249
+ }
+push $N1be8a00
+ Transform {
+  translate {{"(Background.area.x*-1) + ((parent.input0.format.w  - (Background.area.r-Background.area.x)) * Placement)" i} {"(Background.area.y*-1) +(parent.input0.format.h  - (Background.area.t-Background.area.y))"}}
+  center {360 243}
+  name TransformTop
+  xpos -106
+  ypos 244
+ }
+ Switch {
+  inputs 2
+  which {{justify}}
+  name Switch1
+  xpos -204
+  ypos 349
+ }
+ Input {
+  inputs 0
+  name Input1
+  xpos 0
+  ypos -120
+ }
+ Merge {
+  inputs 2
+  bbox B
+  name Mix
+  xpos 0
+  ypos 459
+ }
+ Output {
+  name Output1
+  xpos 0
+  ypos 555
+ }
+end_group

@@ -1,0 +1,178 @@
+#! /method/cg/opt/Nuke6.0v7/Nuke6.0 -nx
+version 6.0 v7
+Gizmo {
+ inputs 2
+ help "This gizmo assists with adding cg shadows to background plates.  To use it, find an object in your scene with a uniform color that is both in and out of shadow.  Use the color picker to select the color of the object when it is out of shadow as the \"Test Color Lit\" value.  Likewise, select a value in shadow for \"Test Color Shadow.\"  Depending on the type of cg shadow pass rendered, select \"Use Alpha\" to look for shadows in the alpha channel, and \"Invert\" to switch which part of the matte is in or out of shadow.\n\nThe tool also provides options for detecting parts of the plate that are already in shadow.  For example, if there are bushes in a field, we don't want to apply shadows to the shadows of the bushes.  To avoid this, we can enable the \"Mask Existing Shadows\" option.  By setting the \"Output\" mode to \"Existing Shadows,\" you can preview which parts of the image are detected to be in shadow.  Adjust the \"Existing Shadow Key\" range so that shadowed items are keyed out, and fully lit items are keyed in.\n\nIn addition to basic luma keying for existing shadows, if the \"Normalized Existing Shadow Key\" option is enabled, you can perform a shadow detection by comparing pixel values to a blurred version of the background plate.  To use this option, first set a \"Highlight Threshold\" so that the keyer can ignore reflective surfaces in it's existing shadow calculation.  This simply clamps the plate below the threshold value.  Next, adjust the radius so until the existing shadow key fills in the objects in shadow.  In general, you will need a radius about the width of your widest existing shadows in the plate.  So, this technique will not work well for large scale existing shadows.  In normalized mode, the \"Existing Shadow Key\" range should go from the darkest existing shadows, to about 1.0."
+ addUserKnob {20 User}
+ addUserKnob {4 output l Output t "Output mode.  \"Result\" returns the plate with shadows applied.  \n\n\"Light Removed\" returns the amount of light subtracted from the plate.  This is useful if you are applying multiple shadows, so that detection can happen on the original plate, and be applied to a plate with existing cg shadows.\n\n\"Existing Shadows\" allows you to debug which parts of the scene are detected as already in shadow." M {Result "Subtracted Light" "Existing Shadows" ""}}
+ addUserKnob {18 highlightThreshold l "Highlight Threshold" t "Values above which are considered highlights or reflections.  In theory, this is the color of a fully-lit diffuse white card, but in practice, lower values will work better if the objects in the scene are generally dark." R 0 2}
+ highlightThreshold 0.25
+ addUserKnob {6 normalizedExistingShadowKey l "Normalized Existing Shadow Key" t "Detect existing shadows by comparing to a blurry version of the plate, instead of a direct luma key." +STARTLINE}
+ normalizedExistingShadowKey true
+ addUserKnob {18 testColorLit l "Test Color Lit" t "Sampled color of a uniformly-lit object in the original plate, when that object is not in shadow."}
+ testColorLit {0.2349999994 0.2610000074 0.1389999986}
+ addUserKnob {18 testColorShadow l "Test Color Shadow" t "Sampled color of a uniformly-lit object in the original plate, when that object is in shadow."}
+ testColorShadow {0.1190000027 0.1580000073 0.1120000035}
+ addUserKnob {6 useAlpha l "Use Alpha" t "Use alpha of cg shadow pass." +STARTLINE}
+ useAlpha true
+ addUserKnob {6 invert l Invert t "Invert cg shadow pass." +STARTLINE}
+ invert true
+ addUserKnob {6 maskExistingShadows l "Mask Existing Shadows" t "Don't apply shadows to parts of the scene that are already in shadow (as indicated by the \"Existing Shadow Key\" range)." +STARTLINE}
+ maskExistingShadows true
+ addUserKnob {7 existingShadowRadius l "Existing Shadow Radius" t "Blur range for when \"Normalized Existing Shadow Key\" is enabled." R 0 50}
+ existingShadowRadius 20
+ addUserKnob {41 range l "Existing Shadow Key" T Keyer1.range}
+}
+ Input {
+  inputs 0
+  name Input1
+  xpos 282
+  ypos -122
+ }
+ Dot {
+  name Dot1
+  xpos 316
+  ypos -9
+ }
+set Nc0fd92a0 [stack 0]
+ Clamp {
+  channels rgb
+  maximum {{parent.highlightThreshold.main.r i} {parent.highlightThreshold.main.g i} {parent.highlightThreshold.main.b i} 1}
+  name Clamp1
+  xpos 192
+  ypos -14
+ }
+set Nb8d2c450 [stack 0]
+push $Nb8d2c450
+ Blur {
+  size {{parent.existingShadowRadius.main i}}
+  name Blur1
+  xpos 82
+  ypos -21
+ }
+ Merge2 {
+  inputs 2
+  operation divide
+  name Merge3
+  xpos 82
+  ypos 60
+ }
+push $Nc0fd92a0
+ Switch {
+  inputs 2
+  which {{parent.normalizedExistingShadowKey.main i}}
+  name Switch5
+  xpos 282
+  ypos 60
+ }
+ Keyer {
+  operation "luminance key"
+  range {0.6924769353 0.9931961392 1 1}
+  name Keyer1
+  xpos 282
+  ypos 98
+ }
+set Nbefd680 [stack 0]
+ Input {
+  inputs 0
+  name Shadow
+  xpos 576
+  ypos -127
+  number 1
+ }
+set Nbebf660 [stack 0]
+ Shuffle {
+  red alpha
+  green alpha
+  blue alpha
+  name Shuffle2
+  xpos 681
+  ypos -99
+ }
+push $Nbebf660
+ Switch {
+  inputs 2
+  which {{parent.useAlpha.main i}}
+  name Switch1
+  xpos 576
+  ypos -99
+ }
+ Invert {
+  channels rgba
+  name Invert1
+  xpos 576
+  ypos -71
+  disable {{!parent.invert.main i}}
+ }
+ Grade {
+  blackpoint {{"parent.testColorShadow.main.r / parent.testColorLit.main.r" i} {"parent.testColorShadow.main.g / parent.testColorLit.main.g" i} {"parent.testColorShadow.main.b / parent.testColorLit.main.b" i} 0}
+  whitepoint {1 1 1 1}
+  reverse true
+  black_clamp false
+  name Grade1
+  xpos 576
+  ypos -43
+ }
+push $Nc0fd92a0
+ Merge2 {
+  inputs 2
+  operation multiply
+  name Merge4
+  xpos 576
+  ypos -14
+ }
+set Nbedf780 [stack 0]
+push $Nc0fd92a0
+ Dissolve {
+  inputs 2+1
+  which 1
+  name Dissolve1
+  xpos 507
+  ypos 205
+ }
+set Nbf1e130 [stack 0]
+push $Nbefd680
+ Dot {
+  name Dot2
+  xpos 316
+  ypos 377
+ }
+push $Nbf1e130
+push $Nbedf780
+ Switch {
+  inputs 2
+  which {{parent.maskExistingShadows.main i}}
+  name Switch4
+  xpos 581
+  ypos 284
+ }
+set Nb8f7e6b0 [stack 0]
+push $Nc0fd92a0
+ Merge2 {
+  inputs 2
+  operation from
+  name Merge1
+  xpos 472
+  ypos 333
+ }
+push $Nb8f7e6b0
+ Switch {
+  inputs 3
+  which {{parent.output i}}
+  name Switch2
+  xpos 581
+  ypos 372
+ }
+ Output {
+  name Output1
+  xpos 581
+  ypos 493
+ }
+ Viewer {
+  inputs 2
+  input_process false
+  name Viewer1
+  xpos 837
+  ypos 43
+ }
+end_group

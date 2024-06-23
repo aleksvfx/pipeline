@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 38
+/svn/chanFileExporter/!svn/ver/4/trunk
+END
+readme.txt
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/chanFileExporter/!svn/ver/4/trunk/readme.txt
+END
+chanExporterImporter.py
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/chanFileExporter/!svn/ver/4/trunk/chanExporterImporter.py
+END

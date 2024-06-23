@@ -1,0 +1,66 @@
+#! Z:/INSTALL/Nuke4/35/nuke4.3.exe -nx
+version 4.3035
+Gizmo {
+ inputs 1
+ name ErrorChecker
+ window {92 146 500 400 0 -81 -160 1}
+}
+ Constant {
+  inputs 0
+  format "640 480 0 0 640 480 1 PC_Video"
+  name Constant1
+  xpos 60
+  ypos -30
+ }
+ Crop {
+  box {0 0 {parent.width i} {parent.height}}
+  name Crop1
+  tile_color 0xa57aaa00
+  selected true
+  xpos 60
+  ypos 63
+  indicators 2
+ }
+ Shuffle {
+  red black
+  green black
+  blue black
+  alpha black
+  name Shuffle1
+  tile_color 0x9e3c6300
+  xpos 60
+  ypos 87
+ }
+ Text {
+  message "ERROR:\n\[filename parent.input]"
+  font c:/SWAY/fonts/ARIAL.TTF
+  size 17.5
+  translate {19 427}
+  color {1 0 0 0}
+  p1 {100 400}
+  p0 {100 100}
+  name Text1
+  tile_color 0xc0c0c000
+  xpos 60
+  ypos 111
+ }
+ Input {
+  inputs 0
+  name ImgIn
+  xpos 160
+  ypos 15
+ }
+ Switch {
+  inputs 2
+  which {{input0.error?1:0}}
+  name Switch1
+  xpos 160
+  ypos 111
+  indicators 2
+ }
+ Output {
+  name Output1
+  xpos 160
+  ypos 183
+ }
+end_group

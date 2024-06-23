@@ -1,0 +1,151 @@
+#! /lot/s61/SWDEVL/SOFTWARE/linuxrh9_intel/nuke4.3/15/nuke4.3.15_ -nx
+version 4.3015
+Gizmo {
+ inputs 2
+ addUserKnob { 20 "" User } 
+ addUserKnob { 7 amount amount R 0 1 } 
+ addUserKnob { 7 spread spread R 0 1000 } 
+ addUserKnob { 7 luma_tol tolerance R 0 1 t "luminance tolerance" } 
+ addUserKnob { 26 "" "" } 
+ addUserKnob { 6 flashonly "generate flash only" t "check this box to only return the flash element" } 
+ name plateFlash3
+ window {170 494 661 644 0 -242 -154 1}
+ amount 0.4
+ spread 300
+}
+ Input {
+  inputs 0
+  name fg
+  tile_color 0xc
+  xpos 37
+  ypos -169
+ }
+set N87d7c70 [stack 0]
+add_layer {alpha rgba.alpha}
+ Grade {
+  layer alpha
+  whitepoint 1e-22
+  white_clamp true
+  name Grade13
+  tile_color 0xadb7b800
+  label (alpha)
+  xpos 52
+  ypos -31
+ }
+push $N87d7c70
+ Keyer {
+  keyer luminance
+  range {{luma_tol i} 1 1 1}
+  name Keyer1
+  tile_color 0xff0000
+  label (alpha)
+  xpos -60
+  ypos -34
+  indicators 2
+ }
+push $N87d7c70
+ Input {
+  inputs 0
+  name bg
+  tile_color 0xc
+  xpos -213
+  ypos -110
+  number 1
+ }
+ CopyBBox {
+  inputs 2
+  name CopyBBox1
+  tile_color 0x9e3c6300
+  xpos -216
+  ypos -36
+ }
+ Blur {
+  channels rgb
+  size {{parent.spread}}
+  filter triangle
+  name Blur6
+  tile_color 0xab964300
+  xpos -216
+  indicators 2
+ }
+ Merge {
+  inputs 2
+  A {rgba.red -rgba.green rgba.blue rgba.alpha}
+  operation stencil
+  also_merge none
+  bbox A
+  name Mask1
+  tile_color 0xc
+  xpos -219
+  ypos 74
+ }
+ Merge {
+  inputs 2
+  operation mask
+  also_merge none
+  bbox A
+  name Mask
+  tile_color 0xc
+  xpos 51
+  ypos 71
+ }
+set N87ddab8 [stack 0]
+push $N87d7c70
+ Unpremult {
+  name Unpremult1
+  tile_color 0x9ca1c600
+  xpos 200
+  ypos -21
+ }
+set N87df3d0 [stack 0]
+ Merge {
+  inputs 2
+  operation in
+  also_merge none
+  name Inside
+  tile_color 0xc
+  xpos 47
+  ypos 171
+ }
+ Multiply {
+  channels rgba
+  value {{parent.amount}}
+  name Multiply1
+  tile_color 0xadb7b800
+  xpos 47
+  ypos 207
+  indicators 2
+ }
+push $N87ddab8
+push $N87df3d0
+ Merge {
+  inputs 2
+  out {rgba.red rgba.green rgba.blue -rgba.alpha}
+  also_merge none
+  mix {{parent.amount}}
+  name Merge10
+  tile_color 0xc
+  xpos 200
+  ypos 207
+  indicators 18
+ }
+ Premult {
+  name Premult4
+  tile_color 0x9ca1c600
+  xpos 200
+  ypos 243
+ }
+ Switch {
+  inputs 2
+  which {{parent.flashonly}}
+  name Switch1
+  xpos 48
+  ypos 279
+  indicators 2
+ }
+ Output {
+  name Output1
+  xpos 40
+  ypos 394
+ }
+end_group

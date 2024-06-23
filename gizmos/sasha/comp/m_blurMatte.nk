@@ -1,0 +1,207 @@
+#! /method/cg/opt/Nuke6.0v3/Nuke6.0 -nx
+version 6.0 v3
+define_window_layout_xml {<?xml version="1.0" encoding="UTF-8"?>
+<layout version="1.0">
+    <window x="0" y="25" w="1920" h="1150" screen="0">
+        <splitter orientation="1">
+            <split size="40"></split>
+            <dock id="" hideTitles="1" activePageId="Toolbar.1">
+                <page id="Toolbar.1"></page>
+            </dock>
+            <split size="1868"></split>
+            <splitter orientation="1">
+                <split size="1156"></split>
+                <splitter orientation="2">
+                    <split size="665"></split>
+                    <dock id="" activePageId="Viewer.1">
+                        <page id="Script Editor.1"></page>
+                        <page id="Viewer.1"></page>
+                    </dock>
+                    <split size="428"></split>
+                    <dock id="" activePageId="DAG.1">
+                        <page id="DAG.1"></page>
+                        <page id="Curve Editor.1"></page>
+                    </dock>
+                </splitter>
+                <split size="708"></split>
+                <splitter orientation="2">
+                    <split size="1097"></split>
+                    <dock id="" activePageId="Properties.1">
+                        <page id="Properties.1"></page>
+                    </dock>
+                </splitter>
+            </splitter>
+        </splitter>
+    </window>
+</layout>
+}
+Root {
+ inputs 0
+ name /home/adjordjevic/nuke/gizmos/sasha/comp/s_blurMatte.nk
+ frame 100
+ format "720 540 0 0 720 540 1 NTSC_square_pixel"
+ proxy_type scale
+ proxy_format "1024 778 0 0 1024 778 1 1K_Super_35(full-ap)"
+}
+CheckerBoard2 {
+ inputs 0
+ boxsize 25
+ name CheckerBoard1
+ xpos -363
+ ypos -462
+}
+Text {
+ inputs 0
+ output {-rgba.red rgba.green -rgba.blue rgba.alpha}
+ message "\n\nblur matte test"
+ font /usr/share/fonts/bitstream-vera/Vera.ttf
+ size 32
+ xjustify center
+ yjustify center
+ Transform 1
+ box {0 0 720 540}
+ center {360 270}
+ name Text2
+ xpos 161
+ ypos -664
+}
+Blur {
+ size {{curve x1 60 x35.92886734 4 x64 4 x100 60}}
+ name Blur3
+ xpos 161
+ ypos -608
+}
+Dot {
+ name Dot1
+ xpos 195
+ ypos -418
+}
+Noise {
+ inputs 0
+ output {-rgba.red -rgba.green rgba.blue rgba.alpha}
+ size 15.5
+ zoffset {{t/30 i}}
+ center {360 270}
+ name Noise1
+ xpos -132
+ ypos -668
+}
+Text {
+ inputs 0
+ output {rgba.red -rgba.green -rgba.blue rgba.alpha}
+ message PSYKEDELIK
+ font /usr/share/fonts/bitstream-vera/Vera.ttf
+ size 64
+ xjustify center
+ yjustify center
+ Transform 1
+ box {0 0 720 540}
+ center {360 270}
+ name Text1
+ xpos 27
+ ypos -665
+}
+Blur {
+ size {{curve x1 60 x35.92886734 4 x36 2 x64 2 x100 60}}
+ name Blur2
+ xpos 27
+ ypos -550
+}
+Merge2 {
+ inputs 2
+ name Merge1
+ xpos -132
+ ypos -543
+}
+Merge2 {
+ inputs 2
+ name Merge2
+ xpos -132
+ ypos -423
+}
+set Nb812ae30 [stack 0]
+Dot {
+ name Dot2
+ xpos -325
+ ypos -288
+}
+set Nd004a7d0 [stack 0]
+Keyer {
+ operation "luminance key"
+ range {1.203706215e-33 0.9927404959 1 1}
+ name Keyer1
+ xpos -548
+ ypos -197
+}
+Shuffle {
+ red alpha
+ green alpha
+ blue alpha
+ name Shuffle1
+ xpos -548
+ ypos -123
+}
+Blur {
+ size 12
+ name Blur1
+ xpos -548
+ ypos -47
+}
+push $Nd004a7d0
+MergeExpression {
+ inputs 2
+ expr0 Br-(Ar-0.05)
+ expr1 Bg-(Ag-0.05)
+ expr2 Bb-(Ab-0.05)
+ name MergeExpression1
+ xpos -359
+ ypos -40
+}
+push $Nb812ae30
+Keyer {
+ operation "luminance key"
+ range {1.203706215e-33 0.9927404959 1 1}
+ name Keyer2
+ xpos 71
+ ypos -255
+}
+Shuffle {
+ red alpha
+ green alpha
+ blue alpha
+ name Shuffle3
+ xpos 71
+ ypos -148
+}
+set Ndc1750f0 [stack 0]
+Shuffle {
+ red alpha
+ green alpha
+ blue alpha
+ name Shuffle2
+ xpos -118
+ ypos -148
+}
+Blur {
+ size 12
+ name Blur4
+ xpos -118
+ ypos -54
+}
+push $Ndc1750f0
+MergeExpression {
+ inputs 2
+ expr0 Br-(Ar-0.05)
+ expr1 Bg-(Ag-0.05)
+ expr2 Bb-(Ab-0.05)
+ name MergeExpression2
+ xpos 71
+ ypos -47
+}
+Viewer {
+ frame 100
+ input_process false
+ name Viewer1
+ xpos -572
+ ypos 78
+}

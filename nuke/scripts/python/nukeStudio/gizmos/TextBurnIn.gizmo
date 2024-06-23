@@ -1,0 +1,159 @@
+#! Z:/INSTALL/Nuke4/5.27/nuke4.5.exe -nx
+version 4.5027
+Gizmo {
+ inputs 1
+ addUserKnob {20 "" User}
+ addUserKnob {4 SmartTextOpt "Smart Text" M {User "Read File Name" "Read Shot Name" "Node Name" FrameNumber} t "Take the information from the node it is attached to"}
+ addUserKnob {41 message "user text" T Text_Usr.message}
+ addUserKnob {41 font font T Text_Usr.font}
+ addUserKnob {41 size size T Text_Usr.size}
+ addUserKnob {7 transBG "Backdrop Opacity" R 0 1}
+ transBG 0.5
+ addUserKnob {26 "" ""}
+ addUserKnob {4 justify justify M {top bottom}}
+ justify bottom
+ addUserKnob {7 Placement offset R 0 1}
+ Placement 0.5
+ addUserKnob {26 "" ""}
+ addUserKnob {41 mask mask T Mix.mask}
+ addUserKnob {41 invert_mask invert T Mix.invert_mask}
+ addUserKnob {41 fringe fringe T Mix.fringe}
+ addUserKnob {41 mix mix T Mix.mix}
+}
+push 0
+ Text {
+  message "FRAME\n\[format %04d \[frame] ]"
+  font C:/WINDOWS/Fonts/arial.ttf
+  size {{Text_Usr.size}}
+  xjustify center
+  yjustify bottom
+  translate {100 100}
+  p1 {100 400}
+  p0 {100 100}
+  name Text_FrameNumber
+  xpos -188
+  ypos -236
+ }
+push 0
+ Text {
+  message "\[knob parent.input0.name ]"
+  font C:/WINDOWS/Fonts/arial.ttf
+  size {{Text_Usr.size}}
+  xjustify center
+  yjustify bottom
+  translate {100 100}
+  p1 {100 400}
+  p0 {100 100}
+  name Text_NodeName
+  xpos -326
+  ypos -235
+ }
+push 0
+ Text {
+  message "SHOT\n\[lindex \[split \[file tail \[knob parent.input0.file] ] _ ] 0]"
+  font C:/WINDOWS/Fonts/arial.ttf
+  size {{Text_Usr.size}}
+  xjustify center
+  yjustify bottom
+  translate {100 100}
+  p1 {100 400}
+  p0 {100 100}
+  name Text_ShotName
+  xpos -479
+  ypos -234
+ }
+push 0
+ Text {
+  message "\[lindex \[split \[file tail \[knob parent.input0.file] ] .] 0]"
+  font C:/WINDOWS/Fonts/arial.ttf
+  size {{Text_Usr.size}}
+  xjustify center
+  yjustify bottom
+  translate {100 100}
+  p1 {100 400}
+  p0 {100 100}
+  name Text_FileName
+  xpos -654
+  ypos -238
+ }
+push 0
+ Text {
+  message "User Created Text"
+  font C:/WINDOWS/Fonts/arial.ttf
+  size 20
+  xjustify center
+  yjustify bottom
+  translate {100 100}
+  p1 {100 400}
+  p0 {100 100}
+  name Text_Usr
+  xpos -789
+  ypos -238
+ }
+ Switch {
+  inputs 5
+  which {{SmartTextOpt}}
+  name Switch2
+  xpos -326
+  ypos -98
+ }
+set N65f5280 [stack 0]
+ Rectangle {
+  area {{input0.bbox.x-2 i} {input0.bbox.y-2 i} {input0.bbox.r+2 i} {input0.bbox.t+2 i}}
+  color {0 0 0 {1-transBG}}
+  p1 {100 400}
+  p0 {100 100}
+  name Background
+  xpos -446
+  ypos 14
+ }
+push $N65f5280
+ Merge {
+  inputs 2
+  operation under
+  name BackGround
+  xpos -326
+  ypos 162
+ }
+set N661c420 [stack 0]
+ Transform {
+  translate {{"(Background.area.x*-1) + ((parent.input0.format.w  - (Background.area.r-Background.area.x)) * Placement)" i} {(Background.area.y*-1)}}
+  center {360 243}
+  name TransformBottom
+  xpos -447
+  ypos 248
+ }
+push $N661c420
+ Transform {
+  translate {{"(Background.area.x*-1) + ((parent.input0.format.w  - (Background.area.r-Background.area.x)) * Placement)" i} {"(Background.area.y*-1) +(parent.input0.format.h  - (Background.area.t-Background.area.y))"}}
+  center {360 243}
+  name TransformTop
+  xpos -261
+  ypos 243
+ }
+ Switch {
+  inputs 2
+  which {{justify}}
+  name Switch1
+  xpos -359
+  ypos 348
+ }
+ Input {
+  inputs 0
+  name Input1
+  xpos 0
+  ypos -288
+ }
+ Merge {
+  inputs 2
+  bbox B
+  name Mix
+  xpos 0
+  ypos 459
+ }
+ Output {
+  name Output1
+  xpos 0
+  ypos 555
+ }
+end_group

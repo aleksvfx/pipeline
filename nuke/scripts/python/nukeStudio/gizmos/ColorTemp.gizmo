@@ -1,0 +1,25 @@
+#! /Applications/Nuke5.0v1/Nuke5.0v1.app/Contents/MacOS/Nuke5.0 -nx
+version 5.0100
+Gizmo {
+ label "change color temperature"
+ addUserKnob {20 User}
+ addUserKnob {7 temp l "Color Temperature" R -1 3}
+ temp 1
+}
+ Input {
+  inputs 0
+  name Input1
+  xpos 0
+ }
+ ColorCorrect {
+  gain {{temp i} 1 {-temp+2 i} 1}
+  name ColorCorrect1
+  xpos 0
+  ypos 137
+ }
+ Output {
+  name Output1
+  xpos 0
+  ypos 300
+ }
+end_group

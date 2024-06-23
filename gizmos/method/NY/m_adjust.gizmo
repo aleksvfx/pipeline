@@ -1,0 +1,160 @@
+#! /method/cg/opt/Nuke6.1v3/Nuke6.1 -nx
+version 6.1 v3
+add_layer {Diffuse Diffuse.red Diffuse.green Diffuse.blue Diffuse.alpha}
+Gizmo {
+ inputs 3
+ lock_connections {{curve x80 0}}
+ addUserKnob {20 User}
+ addUserKnob {6 replaceChannel l "Replace Channel" t "Use this to provide an alternate version of the channel being adjusted.  For example, if you have a noisy reflection pass, you could enable this and input a reflection pass with a median applied." +STARTLINE}
+ addUserKnob {6 useEmbedded l "Use Embedded" t "Pick which channel will be color corrected in the main pass." +STARTLINE}
+ useEmbedded true
+ addUserKnob {41 adjustedChannel l "Adjusted Channel" t "Channel whose levels will be adjusted in the main rgb channel." T Shuffle_EMBEDDED_CHANNEL.in}
+ addUserKnob {7 mix t "Mix effect"}
+ mix 1
+ addUserKnob {20 master l "@b;master" n 1}
+ addUserKnob {41 saturation T ColorCorrect_ADJUST.saturation}
+ addUserKnob {41 contrast T ColorCorrect_ADJUST.contrast}
+ addUserKnob {41 gamma T ColorCorrect_ADJUST.gamma}
+ addUserKnob {41 gain T ColorCorrect_ADJUST.gain}
+ addUserKnob {41 offset T ColorCorrect_ADJUST.offset}
+ addUserKnob {20 "" n -1}
+ addUserKnob {20 shadows l "@b;shadows" n 1}
+ addUserKnob {41 shadows.saturation l saturation T ColorCorrect_ADJUST.shadows.saturation}
+ addUserKnob {41 shadows.contrast l contrast T ColorCorrect_ADJUST.shadows.contrast}
+ addUserKnob {41 shadows.gamma l gamma T ColorCorrect_ADJUST.shadows.gamma}
+ addUserKnob {41 shadows.gain l gain T ColorCorrect_ADJUST.shadows.gain}
+ addUserKnob {41 shadows.offset l offset T ColorCorrect_ADJUST.shadows.offset}
+ addUserKnob {20 "" n -1}
+ addUserKnob {20 midtones l "@b;midtones" n 1}
+ addUserKnob {41 midtones.saturation l saturation T ColorCorrect_ADJUST.midtones.saturation}
+ addUserKnob {41 midtones.contrast l contrast T ColorCorrect_ADJUST.midtones.contrast}
+ addUserKnob {41 midtones.gamma l gamma T ColorCorrect_ADJUST.midtones.gamma}
+ addUserKnob {41 midtones.gain l gain T ColorCorrect_ADJUST.midtones.gain}
+ addUserKnob {41 midtones.offset l offset T ColorCorrect_ADJUST.midtones.offset}
+ addUserKnob {20 "" n -1}
+ addUserKnob {20 highlights l "@b;highlights" n 1}
+ addUserKnob {41 highlights.saturation l saturation T ColorCorrect_ADJUST.highlights.saturation}
+ addUserKnob {41 highlights.contrast l contrast T ColorCorrect_ADJUST.highlights.contrast}
+ addUserKnob {41 highlights.gamma l gamma T ColorCorrect_ADJUST.highlights.gamma}
+ addUserKnob {41 highlights.gain l gain T ColorCorrect_ADJUST.highlights.gain}
+ addUserKnob {41 highlights.offset l offset T ColorCorrect_ADJUST.highlights.offset}
+ addUserKnob {20 "" n -1}
+ addUserKnob {41 lookup l "" -STARTLINE T ColorCorrect_ADJUST.lookup}
+}
+ Input {
+  inputs 0
+  name ChanReplace
+  xpos -659
+  ypos -360
+  number 2
+ }
+ Dot {
+  name Dot4
+  xpos -625
+  ypos -182
+ }
+ Shuffle {
+  in Diffuse
+  name Shuffle_EMBEDDED_CHANNEL
+  xpos -535
+  ypos -187
+ }
+ set Ce49967c0 [stack 0]
+ Input {
+  inputs 0
+  name Input1
+  xpos -288
+  ypos -365
+ }
+ Dot {
+  name Dot3
+  xpos -254
+  ypos -316
+ }
+set Ne4934e00 [stack 0]
+ Input {
+  inputs 0
+  name Chan
+  xpos -493
+  ypos -362
+  number 1
+ }
+ Dot {
+  name Dot1
+  xpos -459
+  ypos -316
+ }
+ Switch {
+  inputs 2
+  which {{parent.useEmbedded}}
+  name Switch_USE_EMBEDDED
+  xpos -386
+  ypos -321
+ }
+clone $Ce49967c0 {
+  xpos -386
+  ypos -285
+  selected false
+ }
+ Dot {
+  name Dot2
+  xpos -352
+  ypos -247
+ }
+set Ne4696670 [stack 0]
+ Switch {
+  inputs 2
+  which {{parent.replaceChannel}}
+  name Switch_REPLACE_CHAN
+  xpos -386
+  ypos -187
+ }
+ ColorCorrect {
+  gain {1 1 1 1}
+  name ColorCorrect_ADJUST
+  xpos -386
+  ypos -159
+ }
+ Dot {
+  name Dot18
+  xpos -352
+  ypos -125
+ }
+push $Ne4696670
+push $Ne4934e00
+ Merge2 {
+  inputs 2
+  operation from
+  Achannels rgb
+  Bchannels rgb
+  output rgb
+  mix {{parent.mix}}
+  name Merge_REMOVE
+  xpos -288
+  ypos -252
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  Achannels rgb
+  Bchannels rgb
+  output rgb
+  mix {{parent.mix}}
+  name Merge_REPLACE
+  xpos -288
+  ypos -130
+ }
+set Ne4445200 [stack 0]
+ Viewer {
+  input_process false
+  name Viewer1
+  xpos -609
+  ypos -222
+ }
+push $Ne4445200
+ Output {
+  name Output1
+  xpos -288
+  ypos -73
+ }
+end_group

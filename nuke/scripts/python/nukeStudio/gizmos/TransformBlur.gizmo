@@ -1,0 +1,68 @@
+#! Z:/INSTALL/Nuke4/5.21/nuke4.5.exe -nx
+version 4.5021
+Gizmo {
+ inputs 1
+ addUserKnob {20 "" User}
+ addUserKnob {4 blurDir "Blur Direction" M {Foward Backward Average}}
+ blurDir Average
+ addUserKnob {7 blurLength "Blur Length" R 0 1}
+ blurLength 0.5
+ addUserKnob {26 "" "" T "\nThe TransformBlur must have a Transform node conected \nto it's input for it to work properly. \n"}
+}
+ Input {
+  inputs 0
+  name Input1
+  xpos 58
+  ypos -96
+ }
+set Na523520 [stack 0]
+ VectorBlur {
+  constant {{parent.input0.translate.x(frame+(parent.blurLength/2))-parent.input0.translate.x(frame-(parent.blurLength/2)) x1 -303 x75 208} {parent.input0.translate.y(frame+(parent.blurLength/2))-parent.input0.translate.y(frame-(parent.blurLength/2)) x1 -128 x75 147}}
+  name VectorBlur3
+  tile_color 0xcc804e00
+  label Average
+  xpos 58
+  ypos -5
+  addUserKnob {20 "" User}
+  addUserKnob {7 Shutter Shutter R 0 1}
+  Shutter 1
+ }
+push $Na523520
+ VectorBlur {
+  constant {{parent.input0.translate.x(frame-parent.blurLength)-parent.input0.translate.x(frame) x1 -303 x75 208} {parent.input0.translate.y(frame-parent.blurLength)-parent.input0.translate.y(frame) x1 -128 x75 147}}
+  offset 0
+  name VectorBlur1
+  tile_color 0xcc804e00
+  label Backwards
+  xpos -80
+  ypos -8
+  addUserKnob {20 "" User}
+  addUserKnob {7 Shutter Shutter R 0 1}
+  Shutter 1
+ }
+push $Na523520
+ VectorBlur {
+  constant {{parent.input0.translate.x(frame+parent.blurLength)-parent.input0.translate.x(frame) x1 -303 x75 208} {parent.input0.translate.y(frame+parent.blurLength)-parent.input0.translate.y(frame) x1 -128 x75 147}}
+  offset 0
+  name VectorBlur4
+  tile_color 0xcc804e00
+  label Forward
+  xpos 231
+  ypos -1
+  addUserKnob {20 "" User}
+  addUserKnob {7 Shutter Shutter R 0 1}
+  Shutter 1
+ }
+ Switch {
+  inputs 3
+  which {{parent.blurDir}}
+  name Switch1
+  xpos 58
+  ypos 95
+ }
+ Output {
+  name Output1
+  xpos 58
+  ypos 160
+ }
+end_group

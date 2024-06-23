@@ -1,0 +1,83 @@
+#! /lot/s10/SWDEVL/SOFTWARE/linuxrh9_intel/nuke4.3/3/nuke4.3.3_ -nx
+version 4.3003
+Gizmo {
+  inputs 3
+  addUserKnob { 20 "" User } 
+  addUserKnob { 26 "" "keymix :" T "v01 (9/1/04) by Krusty" } 
+  addUserKnob { 26 "" "" } 
+  addUserKnob { 7 level level R 0 1 } 
+  name keyMix1
+  tile_color 0xff333300
+  window {1625 610 564 519 0 -167 -91 1}
+  level 1
+}
+  Input {
+    inputs 0
+    name A
+    xpos -124
+    ypos 67
+  }
+  Input {
+    inputs 0
+    name MATTE
+    xpos 96
+    ypos -6
+    number 2
+  }
+  Clamp {
+    name Clamp1
+    tile_color 0x4dff4d00
+    xpos 96
+    ypos 38
+  }
+  Multiply {
+    value {{parent.level}}
+    name Multiply1
+    tile_color 0x4dff4d00
+    label LEVEL
+    xpos 96
+    ypos 64
+    indicators 2
+  }
+set N8635f40 [stack 0]
+  Merge {
+    inputs 2
+    operation out
+    also_merge none
+    name Merge1
+    tile_color 0xff333300
+    xpos -35
+    ypos 132
+  }
+  Input {
+    inputs 0
+    name B
+    xpos -24
+    ypos 68
+    number 1
+  }
+push $N8635f40
+  Merge {
+    inputs 2
+    operation in
+    also_merge none
+    name Merge2
+    tile_color 0xff333300
+    xpos 96
+    ypos 131
+  }
+  Merge {
+    inputs 2
+    operation plus
+    also_merge none
+    name Merge3
+    tile_color 0xff333300
+    xpos 35
+    ypos 198
+  }
+  Output {
+    name Output1
+    xpos 35
+    ypos 253
+  }
+end_group

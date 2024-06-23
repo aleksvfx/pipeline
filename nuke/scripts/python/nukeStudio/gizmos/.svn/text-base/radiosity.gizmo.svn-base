@@ -1,0 +1,78 @@
+#! //Swaydas/z/INSTALL/Nuke4/5.21/nuke4.5.exe -nx
+version 4.5021
+Gizmo {
+ inputs 1
+ tile_color 0xfff6bb00
+ addUserKnob {20 "" User}
+ addUserKnob {41 value amount T Multiply1.value}
+ addUserKnob {41 contrast bias T ColorCorrect5.contrast}
+ addUserKnob {41 size size T Blur1.size}
+}
+ Input {
+  inputs 0
+  name Input1
+  xpos -146
+  ypos -243
+ }
+ Dot {
+  name Dot1
+  tile_color 0xc0c0c000
+  xpos -77
+  ypos -188
+ }
+set N14d2d868 [stack 0]
+ Blur {
+  channels rgba
+  size 50
+  name Blur1
+  xpos 54
+  ypos -167
+ }
+ ColorCorrect {
+  contrast 1.2
+  lookup {shadow {curve 1 s0 x0.09 0 s0}
+    midtone {1-shadow-highlight}
+    highlight {curve x0.5 0 s0 x1 1 s0}}
+  mask -rgba.alpha
+  unpremult -rgba.alpha
+  name ColorCorrect5
+  xpos 54
+  ypos -129
+ }
+push $N14d2d868
+ Merge {
+  inputs 2
+  operation minus
+  bbox B
+  name Merge6
+  tile_color 0xc
+  note_font_size 16
+  xpos -6
+  ypos -75
+ }
+ Multiply {
+  channels rgba
+  value 0.5
+  name Multiply1
+  selected true
+  xpos -6
+  ypos -33
+ }
+push $N14d2d868
+ Merge {
+  inputs 2
+  operation plus
+  bbox B
+  mix 0.45
+  name Plus
+  tile_color 0xc
+  note_font_size 16
+  xpos -109
+  ypos 7
+ }
+ Output {
+  name Output1
+  xpos -113
+  ypos 62
+ }
+end_group

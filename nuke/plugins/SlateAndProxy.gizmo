@@ -1,0 +1,85 @@
+#! /method/cg/opt/Nuke5.1v5/Nuke5.1 -nx
+version 5.1500
+Gizmo {
+ addUserKnob {20 User}
+ addUserKnob {41 raw l "raw data" T master_out.raw}
+ addUserKnob {41 master_outfile l master_outname t "this is the name of the full res outfile" T master_out.file}
+ addUserKnob {26 ""}
+ addUserKnob {41 proxy_filename l proxy_outname t "this is the name of the proxy outfile" T proxy_out.file}
+ addUserKnob {41 proxy_format t "format of the slated output proxy" T Reformat2.format}
+}
+ Constant {
+  inputs 0
+  color {0 0 0 1}
+  name Constant2
+  xpos 302
+  ypos 467
+ }
+ Crop {
+  box {0 0 2048 {height/20}}
+  name Crop1
+  xpos 302
+  ypos 543
+ }
+ Text {
+  message "Clip : \[value master_out.file]  Frame : \[frame]  \\nScript : \[value root.name] Artist : \$env(USER) Date : \[date %D] Time : \[date %T]\n"
+  Font 1
+  font /usr/share/fonts/bitstream-vera/Vera.ttf
+  size {{"height / 45"}}
+  yjustify bottom
+  translate {{"height /13"} 0}
+  name Text1
+  xpos 302
+  ypos 572
+ }
+ methodBug {
+  name methodBug1
+  xpos 302
+  ypos 601
+  logo_size {{height/20}}
+  scale {{"logo_size / 1220"}}
+ }
+ Input {
+  inputs 0
+  name Input1
+  xpos 160
+  ypos 508
+ }
+ Write {
+  file_type dpx
+  name master_out
+  xpos 160
+  ypos 714
+ }
+ Merge2 {
+  inputs 2
+  mix 0.2
+  name Merge2
+  xpos 160
+  ypos 767
+ }
+set N108e1490 [stack 0]
+ Viewer {
+  frame 7
+  name Viewer1
+  xpos 411
+  ypos 1083
+ }
+push $N108e1490
+ Reformat {
+  format "1280 720 0 0 1280 720 1 HD_720"
+  name Reformat2
+  xpos 160
+  ypos 796
+ }
+ Write {
+  name proxy_out
+  xpos 160
+  ypos 870
+ }
+ Output {
+  name Output1
+  xpos 160
+  ypos 1036
+ }
+end_group

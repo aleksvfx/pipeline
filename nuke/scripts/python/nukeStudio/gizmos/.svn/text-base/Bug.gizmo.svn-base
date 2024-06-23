@@ -1,0 +1,120 @@
+#! C:/Program Files/Nuke_4.5.27/nuke4.5.exe -nx
+version 4.5027
+Gizmo {
+ inputs 1
+ addUserKnob {20 "" User}
+ addUserKnob {4 BugType Type M {"Color Logo" "Water Mark"}}
+ BugType "Water Mark"
+ addUserKnob {41 file file T Write1_IRead1.file}
+ addUserKnob {41 scale scale T TransformScale.scale}
+ addUserKnob {26 "" ""}
+ addUserKnob {41 which mix T Dissolve_Mix.which}
+ addUserKnob {41 mask mask T Dissolve_Mix.mask}
+ addUserKnob {41 invert_mask invert T Dissolve_Mix.invert_mask}
+ addUserKnob {41 fringe fringe T Dissolve_Mix.fringe}
+ addUserKnob {41 process_mask process T Dissolve_Mix.process_mask}
+}
+ Read {
+  inputs 0
+  file s:/Production_Tools/6_Nuke/sway_custom/images/SwayBug.png
+  frame 1
+  name Write1_IRead1
+  xpos -11
+  ypos 54
+ }
+ Transform {
+  center {50 50}
+  name TransformScale
+  xpos -11
+  ypos 179
+ }
+set N1b0fc80 [stack 0]
+ Transform {
+  translate {{"parent.format.w - (Background.area.r-Background.area.x) + (Background.area.x*-1)" i} {(Background.area.y*-1)}}
+  center {360 243}
+  name TransformPOS
+  xpos -11
+  ypos 328
+ }
+set N1e7ae80 [stack 0]
+ Keyer {
+  operation "min keyer"
+  range {0 1 1 1}
+  name Keyer1
+  xpos 383
+  ypos 318
+ }
+ Shuffle {
+  red alpha
+  green alpha
+  blue alpha
+  name Shuffle1
+  xpos 383
+  ypos 369
+ }
+ Input {
+  inputs 0
+  name Input1
+  xpos 167
+  ypos 479
+ }
+set N1e7e7d0 [stack 0]
+ Merge {
+  inputs 2
+  operation plus
+  name Merge1
+  xpos 383
+  ypos 479
+ }
+set N1e7f230 [stack 0]
+ Viewer {
+  frame_range 0,60
+  roi {-0.5 -0.3 0.5 0.3}
+  window {1196 23 1920 1181 0 0 0 0}
+  name Viewer1
+  xpos 451
+  ypos 413
+ }
+push $N1b0fc80
+ Rectangle {
+  area {{input0.bbox.x-2 i} {input0.bbox.y-2 i} {input0.bbox.r+2 i} {input0.bbox.t+2 i}}
+  color {0 0 0 0.5}
+  p1 {100 400}
+  p0 {100 100}
+  name Background
+  xpos -121
+  ypos 254
+ }
+push $N1e7f230
+push $N1e7ae80
+push $N1e7e7d0
+ Merge {
+  inputs 2
+  output {rgba.red rgba.green rgba.blue -rgba.alpha}
+  bbox B
+  name Mix
+  xpos -11
+  ypos 479
+ }
+ Switch {
+  inputs 2
+  which {{BugType}}
+  name Switch_Type
+  selected true
+  xpos 171
+  ypos 612
+ }
+push $N1e7e7d0
+ Dissolve {
+  inputs 2
+  which 1
+  name Dissolve_Mix
+  xpos 346
+  ypos 651
+ }
+ Output {
+  name Output1
+  xpos 346
+  ypos 769
+ }
+end_group

@@ -1,0 +1,210 @@
+#! D:/Program Files/Nuke6.0v4/Nuke6.0.exe -nx
+version 6.0 v3
+Group {
+ inputs 3
+ name xgcm.Ste
+ label "XGCM www.xgcmcgx.com"
+ addUserKnob {20 ste_stting}
+ addUserKnob {41 rotee T Axis4.rotee}
+ addUserKnob {41 Seperation T Axis4.Seperation}
+ addUserKnob {20 target}
+ addUserKnob {41 display T Target1.display}
+ addUserKnob {41 selectable T Target1.selectable}
+ addUserKnob {41 transform T Target1.transform}
+ addUserKnob {41 import_chan l "import chan file" T Target1.import_chan}
+ addUserKnob {41 export_chan l "export chan file" T Target1.export_chan}
+ addUserKnob {41 xform_order l "transform order" T Target1.xform_order}
+ addUserKnob {41 rot_order l "rotation order" T Target1.rot_order}
+ addUserKnob {41 translate T Target1.translate}
+ addUserKnob {41 rotate T Target1.rotate}
+ addUserKnob {41 scaling l scale T Target1.scaling}
+ addUserKnob {41 uniform_scale l "uniform scale" T Target1.uniform_scale}
+ addUserKnob {41 skew T Target1.skew}
+ addUserKnob {41 pivot T Target1.pivot}
+ addUserKnob {20 cameras}
+ addUserKnob {26 ste_cameras}
+ addUserKnob {41 projection_mode l projection T Cameraleft1.projection_mode}
+ addUserKnob {41 focal l "focal length" T Cameraleft1.focal}
+ addUserKnob {41 haperture l "horiz aperture" T Cameraleft1.haperture}
+ addUserKnob {41 vaperture l "vert aperture" T Cameraleft1.vaperture}
+ addUserKnob {41 near T Cameraleft1.near}
+ addUserKnob {41 far T Cameraleft1.far}
+ addUserKnob {41 win_translate l "window translate" T Cameraleft1.win_translate}
+ addUserKnob {41 win_scale l "window scale" T Cameraleft1.win_scale}
+ addUserKnob {41 winroll l "window roll" T Cameraleft1.winroll}
+ addUserKnob {41 focal_point l "focal distance" T Cameraleft1.focal_point}
+ addUserKnob {26 middle_camera}
+ addUserKnob {41 projection_mode_1 l projection T middlecamera1.projection_mode}
+ addUserKnob {41 focal_1 l "focal length" T middlecamera1.focal}
+ addUserKnob {41 haperture_1 l "horiz aperture" T middlecamera1.haperture}
+ addUserKnob {41 vaperture_1 l "vert aperture" T middlecamera1.vaperture}
+ addUserKnob {41 near_1 l near T middlecamera1.near}
+ addUserKnob {41 far_1 l far T middlecamera1.far}
+ addUserKnob {41 win_translate_1 l "window translate" T middlecamera1.win_translate}
+ addUserKnob {41 win_scale_1 l "window scale" T middlecamera1.win_scale}
+ addUserKnob {41 winroll_1 l "window roll" T middlecamera1.winroll}
+ addUserKnob {41 focal_point_1 l "focal distance" T middlecamera1.focal_point}
+ addUserKnob {20 ste_render_setting}
+ addUserKnob {26 disabled}
+ addUserKnob {41 disable_1 l ste_disable T ScanlineRender.disable}
+ addUserKnob {41 disable_2 l middle_disable T ScanlineRender1.disable}
+ addUserKnob {26 settings}
+ addUserKnob {41 transparency T ScanlineRender.transparency}
+ addUserKnob {41 ztest_enabled l Z-buffer T ScanlineRender.ztest_enabled}
+ addUserKnob {41 filter T ScanlineRender.filter}
+ addUserKnob {41 antialiasing T ScanlineRender.antialiasing}
+ addUserKnob {41 zblend_mode l "Z-blend mode" T ScanlineRender.zblend_mode}
+ addUserKnob {41 zblend_range l "Z-blend range" T ScanlineRender.zblend_range}
+ addUserKnob {41 projection_mode_2 l "projection mode" T ScanlineRender.projection_mode}
+ addUserKnob {41 max_tessellation l "tessellation max" T ScanlineRender.max_tessellation}
+ addUserKnob {41 overscan T ScanlineRender.overscan}
+ addUserKnob {26 ""}
+ addUserKnob {41 ambient T ScanlineRender.ambient}
+ addUserKnob {41 samples T ScanlineRender.samples}
+ addUserKnob {41 shutter T ScanlineRender.shutter}
+ addUserKnob {41 shutteroffset l "shutter offset" T ScanlineRender.shutteroffset}
+ addUserKnob {41 shuttercustomoffset l "" -STARTLINE T ScanlineRender.shuttercustomoffset}
+ addUserKnob {41 temporal_jitter l "randomize time" T ScanlineRender.temporal_jitter}
+ addUserKnob {41 spatial_jitter l "sample diameter" T ScanlineRender.spatial_jitter}
+ addUserKnob {41 focal_jitter l "focus diameter" T ScanlineRender.focal_jitter}
+ addUserKnob {41 output_motion_vectors l "motion vectors" T ScanlineRender.output_motion_vectors}
+ addUserKnob {41 MB_channel l "motion vector channels" T ScanlineRender.MB_channel}
+ addUserKnob {26 ""}
+ addUserKnob {41 output_shader_vectors l "output vectors" T ScanlineRender.output_shader_vectors}
+ addUserKnob {41 P_channel l "surface point" T ScanlineRender.P_channel}
+ addUserKnob {41 N_channel l "surface normal" T ScanlineRender.N_channel}
+ addUserKnob {20 middle_render_settings}
+ addUserKnob {41 transparency_1 l transparency T ScanlineRender1.transparency}
+ addUserKnob {41 ztest_enabled_1 l Z-buffer T ScanlineRender1.ztest_enabled}
+ addUserKnob {41 filter_1 l filter T ScanlineRender1.filter}
+ addUserKnob {41 antialiasing_1 l antialiasing T ScanlineRender1.antialiasing}
+ addUserKnob {41 zblend_mode_1 l "Z-blend mode" T ScanlineRender1.zblend_mode}
+ addUserKnob {41 zblend_range_1 l "Z-blend range" T ScanlineRender1.zblend_range}
+ addUserKnob {41 projection_mode_3 l "projection mode" T ScanlineRender1.projection_mode}
+ addUserKnob {41 max_tessellation_1 l "tessellation max" T ScanlineRender1.max_tessellation}
+ addUserKnob {41 overscan_1 l overscan T ScanlineRender1.overscan}
+ addUserKnob {26 ""}
+ addUserKnob {41 ambient_1 l ambient T ScanlineRender1.ambient}
+ addUserKnob {41 samples_1 l samples T ScanlineRender1.samples}
+ addUserKnob {41 shutter_1 l shutter T ScanlineRender1.shutter}
+ addUserKnob {41 shutteroffset_1 l "shutter offset" T ScanlineRender1.shutteroffset}
+ addUserKnob {41 shuttercustomoffset_1 l "" -STARTLINE T ScanlineRender1.shuttercustomoffset}
+ addUserKnob {41 temporal_jitter_1 l "randomize time" T ScanlineRender1.temporal_jitter}
+ addUserKnob {41 spatial_jitter_1 l "sample diameter" T ScanlineRender1.spatial_jitter}
+ addUserKnob {41 focal_jitter_1 l "focus diameter" T ScanlineRender1.focal_jitter}
+ addUserKnob {41 output_motion_vectors_1 l "motion vectors" T ScanlineRender1.output_motion_vectors}
+ addUserKnob {41 MB_channel_1 l "motion vector channels" T ScanlineRender1.MB_channel}
+ addUserKnob {26 ""}
+ addUserKnob {41 output_shader_vectors_1 l "output vectors" T ScanlineRender1.output_shader_vectors}
+ addUserKnob {41 P_channel_1 l "surface point" T ScanlineRender1.P_channel}
+ addUserKnob {41 N_channel_1 l "surface normal" T ScanlineRender1.N_channel}
+}
+ Input {
+  inputs 0
+  name Axis
+  xpos 384
+  ypos 201
+ }
+set N17386b00 [stack 0]
+ Axis2 {
+  rotate {{"-degrees(atan2 ((middlecamera1.translate.y-Target1.translate.y),sqrt(pow2(middlecamera1.translate.z-Target1.translate.z)+pow2(middlecamera1.translate.x-Target1.translate.x))))"} {"(middlecamera1.translate.z-Target1.translate.z)<=0?180-degrees(atan2 ((middlecamera1.translate.x-Target1.translate.x),abs(middlecamera1.translate.z-Target1.translate.z))):-degrees(atan2 ((Target1.translate.x-middlecamera1.translate.x),abs(middlecamera1.translate.z-Target1.translate.z)))"} {curve}}
+  name Axis4
+  xpos 560
+  ypos 328
+  addUserKnob {20 User}
+  addUserKnob {7 rotee R 0 90}
+  addUserKnob {7 Seperation R 0 10}
+  Seperation 0.6
+ }
+set N16cf5ee0 [stack 0]
+ Camera2 {
+  translate {{Axis4.Seperation} 0 0}
+  rotate {0 {Axis4.rotee} 0}
+  focal {{parent.Cameraleft1.focal.left}}
+  haperture {{parent.Cameraleft1.haperture.left}}
+  vaperture {{parent.Cameraleft1.vaperture.left}}
+  near {{parent.Cameraleft1.near.left}}
+  far {{parent.Cameraleft1.far.left}}
+  win_translate {{parent.Cameraleft1.win_translate.left} {parent.Cameraleft1.win_translate.left}}
+  win_scale {{parent.Cameraleft1.win_scale.left} {parent.Cameraleft1.win_scale.left}}
+  winroll {{parent.Cameraleft1.winroll.left}}
+  focal_point {{parent.Cameraleft1.focal_point.left}}
+  name Cameraright1
+  xpos 613
+  ypos 446
+ }
+ Input {
+  inputs 0
+  name Scene
+  xpos 878
+  ypos 356
+  number 1
+ }
+set N17386890 [stack 0]
+ Input {
+  inputs 0
+  name bg
+  xpos 1002
+  ypos 485
+  number 2
+ }
+set N17386d70 [stack 0]
+ ScanlineRender {
+  inputs 3
+  name ScanlineRender
+  xpos 627
+  ypos 605
+ }
+ set C16dba260 [stack 0]
+push $N17386b00
+ Camera {
+  rotate {{"-degrees(atan2 ((middlecamera1.translate.y-Target1.translate.y),sqrt(pow2(middlecamera1.translate.z-Target1.translate.z)+pow2(middlecamera1.translate.x-Target1.translate.x))))"} {"(middlecamera1.translate.z-Target1.translate.z)<=0?180-degrees(atan2 ((middlecamera1.translate.x-Target1.translate.x),abs(middlecamera1.translate.z-Target1.translate.z))):-degrees(atan2 ((Target1.translate.x-middlecamera1.translate.x),abs(middlecamera1.translate.z-Target1.translate.z)))"} {curve}}
+  name middlecamera1
+  xpos 394
+  ypos 326
+ }
+push $N17386890
+push $N17386d70
+ ScanlineRender {
+  inputs 3
+  name ScanlineRender1
+  xpos 384
+  ypos 607
+ }
+push $N16cf5ee0
+ Camera2 {
+  translate {{-Axis4.Seperation} 0 0}
+  rotate {0 {-Axis4.rotee} 0}
+  focal 35
+  name Cameraleft1
+  xpos 502
+  ypos 448
+ }
+push $N17386890
+push $N17386d70
+clone $C16dba260 {
+  inputs 3
+  xpos 507
+  ypos 606
+  selected false
+ }
+ JoinViews {
+  inputs 3
+  name JoinViews1
+  xpos 507
+  ypos 696
+  viewassoc "left\nmiddle\nright"
+ }
+ Output {
+  name Output1
+  xpos 503
+  ypos 805
+ }
+push $N17386b00
+ Axis {
+  translate {0 0 -2.180000067}
+  name Target1
+  xpos 571
+  ypos 181
+ }
+end_group

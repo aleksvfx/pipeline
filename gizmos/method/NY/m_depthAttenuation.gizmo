@@ -1,0 +1,45 @@
+#! /method/cg/opt/Nuke6.0v7/Nuke6.0 -nx
+version 6.0 v7
+Gizmo {
+ help "This gizmo provides a \"tint\" color, based on a depth value.  To use, provide depth values as input, and multiply your image by the result.\n\nThe equations used are based on the use of an \"attenuation coefficient,\" which is a physical property of the material or gas, such as water or air.  Increasing attenuation coefficients correspond to less light being transmitted to the eye, so colors work subtractively -- i.e., to get a cyan tint, the attenuation coefficient should be red.  By using the \"invert\" mode, you can dial attenuation colors more straightforwardly.\n\nAlthough this is a physical equation, it should be okay to use artistically selected values for attenuation coefficients by eye.  In any case, it tends to look a little nicer than a simple tint with a depth matte. "
+ addUserKnob {20 User}
+ addUserKnob {18 atten l INVISIBLE +INVISIBLE}
+ atten {{"invert * (1.0 - attenuationCoefficient.main.r) + (1 - invert) * attenuationCoefficient.main.r"} {"invert * (1.0 - attenuationCoefficient.main.g) + (1 - invert) * attenuationCoefficient.main.g"} {"invert * (1.0 - attenuationCoefficient.main.b) + (1 - invert) * attenuationCoefficient.main.b"}}
+ addUserKnob {7 depthScale l "Depth Scale" t "Scalar value to apply to depth input." R 0 10}
+ depthScale 0.0001
+ addUserKnob {18 attenuationCoefficient l "Attenuation Coefficient" t "Physical constant for light attenuation through a dense medium.  Works kind of like a tint, but modeled physically to properly account for thickness."}
+ attenuationCoefficient {0.5 0.5 0.5}
+ addUserKnob {6 invert l Invert t "For convenience, it is often easier to tweak the inverted attenuation coefficient, since attenuation is a subtractive process." +STARTLINE}
+ invert true
+}
+ Input {
+  inputs 0
+  name Depth
+  selected true
+  xpos -73
+  ypos 165
+ }
+ Expression {
+  expr0 "exp(-1.0 * r * parent.depthScale * parent.atten.r)"
+  expr1 "exp(-g * parent.atten.g * parent.depthScale)"
+  expr2 "exp(-b * parent.atten.b * parent.depthScale)"
+  name Expression1
+  xpos -73
+  ypos 232
+ }
+set N1bfeb3b0 [stack 0]
+push $N1bfeb3b0
+ Viewer {
+  inputs 2
+  input_process false
+  name Viewer1
+  xpos 195
+  ypos 212
+ }
+push $N1bfeb3b0
+ Output {
+  name Output1
+  xpos -73
+  ypos 313
+ }
+end_group

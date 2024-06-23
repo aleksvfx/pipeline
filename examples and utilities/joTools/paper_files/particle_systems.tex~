@@ -1,0 +1,113 @@
+\documentclass{acmsiggraph}               % final
+%\documentclass[review]{acmsiggraph}      % review
+%\documentclass[widereview]{acmsiggraph}  % wide-spaced review
+%\documentclass[preprint]{acmsiggraph}    % preprint
+
+%% Uncomment one of the four lines above depending on where your paper is
+%% in the conference process. ``review'' and ``widereview'' are for review
+%% submission, ``preprint'' is for pre-publication, and ``final'' is for
+%% the version to be printed.
+
+%% These two line bring in essential packages: ``mathptmx'' for Type 1 
+%% typefaces, and ``graphicx'' for inclusion of EPS figures.
+
+\usepackage{mathptmx}
+\usepackage{graphicx}
+
+%% use this for zero \parindent and non-zero \parskip, intelligently.
+
+\usepackage{parskip}
+
+%% If you are submitting a paper to the annual conference, please replace 
+%% the value ``0'' below with your OnlineID. If you are not submitting this
+%% paper to the annual conference, you may safely leave it at ``0'' -- it 
+%% will not be included in the output.
+
+\onlineid{0}
+
+%% need to document this!
+
+\acmformat{print}
+
+%% Paper title.
+
+\title{Particle Systems}
+
+%% Author and Affiliation (single author).
+
+%%\author{Roy G. Biv\thanks{e-mail: roy.g.biv@aol.com}\\Allied Widgets Research}
+
+%% Author and Affiliation (multiple authors).
+
+\author{Gerard Keating\thanks{e-mail: gerardk@gmail.com}\\ NCCA}
+
+%% Keywords that describe your work.
+
+\keywords{particles, particle systems, physical animation}
+
+%%%%%% START OF THE PAPER %%%%%%
+
+\begin{document}
+
+%\teaser{
+%  \includegraphics[width=1.5in]{sample.png}
+%  \caption{Lookit! Lookit!}
+
+
+%% The ``\maketitle'' command must be the first command after the
+%% ``\begin{document}'' command. It prepares and prints the title block.
+
+\maketitle
+
+%% Abstract section.
+
+%%\begin{abstract}
+
+%%to do maybe
+
+%%\end{abstract}
+
+
+%% The ``\keywordlist'' command prints out the keywords.
+\keywordlist
+
+\section{Introduction}
+This short essay outlines the area of Particle Systems and its uses in the Computer Animation field. A particle system is a way of simulating fuzzy objects~\cite{Reeves83} such as fire, clouds, and water. There are also used in other systems for creating less ethereal objects such as cloth and fur. It has been used in computer animation for over twenty years. The first major documented use of particle systems was in one of the very first uses of computer animation in a major motion picture\footnote{in fact it is the second ever use of computer animation in a major motion picture, the first being in\cite{Westworld73}}. For the genesis demo in  \cite{Paramount82} ILM\texttrademark created a simple particle system to give the effect of a world having its surface destroyed before being recreated. The creation of the scene is explained in \citation{Reeves83}. 
+A particle is a point in three-dimensional space that has no volume~\citation{Witikin97} which is contradicted in some papers but the consensus is that it has a negligible volume. They can have physical properties attributed to them such as velocity, mass and acceleration. Forces such as gravity and wind can also affect the particles, which can updates the attributes, and other attributes can be derived such as momentum ($mass*acceleration$). The particles can also affect the lighting of a scene by generating light, reflecting light and causing shadows.
+\section{History} 
+In ~\citation{Reeves83}  Reeves describes how creating and calculating the particle system can be broken into five parts: (1) new particles are created in either a stochastic or procedural manner, (2) each new particle is assigned attributes such as the physical and lighting attributes mentioned above, (3) particles are removed from the system because of some preset rules such being outside a certain volume of space or because they have reached the end of there preset lifetime, (4) the remaining particles are moved and have some of their attributes updated due to their attributes and forces, (5) finally the living particles are rendered to a frame. It is the final two steps of this process that has had the most advancement and research in the last twenty years. In the genesis demo circular waves of particles were created and moved out from a point. In some ways they had particle systems made of particle systems creating hierarchal systems of parents of children. The particles themselves were created stochastically within certain areas on the planets surface and given random attributes within certain parameters and variance factors. The particle was then affected by the gravity of the planet, moving in a parabolic arc and then the particle dies when it collides with the planet. Particles also die if they cannot be seen in the frame. To add the affect of motion blur a line was rendered from the old location of the particle to the new location. The particles were rendered independently of the planet surface hence ignoring shadowing and reflections with the planets surface. Each particle generated light so for simplification and for faster rendering each particle that was covered added more light to the particle covering it. 
+One thing to note about this system was that mostly stochastic methods were used to give the system a more natural look and also greatly speeded up the computational time. Aside from the gravitational force of the planet no other forces acted on the particles. In later years with increased processing power and new techniques this changes drastically.
+%% The ``\copyrightspace'' command must be the first command after the 
+%% start of the first section of the body of your paper. It ensures the
+%% copyright space is left at the bottom of the first column on the first
+%% page of your paper.
+
+\copyrightspace
+\section{Rendering}
+In ~\citation{Reeves83} the particles all generate their own light like fireworks hence avoiding many of the issues involved in calculating how light interacts with such a system. Issues such as shadows, reflectance and translucency are tackled by James F. Blinn, a computer graphics pioneer, in ~\citation{Blinn82}. In this paper Blinn demonstrates away of calculating how light would reflect off a particles system by making a number of assumptions to reduce the amount of calculations that have to be made. For a layer of particles, demonstrated in figure 1, that do not generate their own light, the formula he arrives at for the brightness is 
+\begin{equation}
+  {B = w/\mu\phi(a)S}
+\end{equation}
+
+%%          n\pi p}^{2}{ \int_a^bP(0;V)d\acute{T}} 
+
+Here \textit{w} is the albedo of each particle. Albedo is a measure of the reflectivity of a particle. $\mu$ is the cosine of the emission angle or $E.N$ where $E$ is the vector in the direction of the observer and $N$ is the vector that is normal to the layer of particles. $a$ is the angle between the light vector and the viewing vector also known as the phase angle and $\phi(a)$ is phase function. This function works so that when $a=0$ i.e. the viewing angle and the eye view are facing in the same direction so the entire particle is seen and so the entire particle contributes to the brightness so $\phi (a) = max$ but when $a=180^\circ$ then $\phi (a) = min$ or 0 since the particle completely ellipses the light. A number of functions are suggested for this the simplest being a constant $/phi(a)=1$ but there are far more advanced some of which are based on empirical evidence taken from actually planetary atmospheres. Finally the $S$ is the scattering probability which is the probability of the viewing vector and lighting vector hitting other particles in the system. This is the complicated part of the process and changes depending on the size and nature of the cloud. 
+\begin{figure}[h]
+\centering
+		\includegraphics[width=2in]{reflectance_dig.png}
+	\caption{Reflectance from a particle}
+\end{figure}
+
+\section{Conclusion}
+Particle systems have been used in computer graphics for over twenty years and are now a part of every major 3d package such as Houdini and Maya. As mentioned before particle systems can be used in more complex simulations for example if one attaches particles together with springs in a lattice or net structure then you have a simple cloth simulation or one could draw a curve along the path of projected particles to create a hair or fur system. 
+Current research being done on particle systems is to have larger systems and to be able to simulate and render them in real time using hardware acceleration~\citation{Kolb04}. 
+\begin{figure}[h]
+\centering
+		\includegraphics[width=2in]{wrath_of_khan_still.png}
+	\caption{A still from the film Star Trek II:The Wrath of Khan showing the first use of particle affects in a major motion picture}
+\end{figure}
+
+\bibliographystyle{acmsiggraph}
+%\nocite{*}
+\bibliography{particle_systems}
+\end{document}

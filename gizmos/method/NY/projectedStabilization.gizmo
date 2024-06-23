@@ -1,0 +1,120 @@
+#! C:/Program Files/Nuke5.2v2/Nuke5.2.exe -nx
+version 5.2200
+Gizmo {
+ addUserKnob {20 User}
+ addUserKnob {7 focal}
+ focal 50
+ addUserKnob {7 haperture}
+ haperture 24.576
+ addUserKnob {7 vaperture}
+ vaperture 18.672
+ addUserKnob {12 p1}
+ p1 {1030 646}
+ addUserKnob {12 p2}
+ p2 {709 363}
+ addUserKnob {7 roll}
+}
+ Input {
+  inputs 0
+  name Input1
+  xpos -443
+  ypos 224
+ }
+ Dot {
+  name Dot1
+  xpos -409
+  ypos 327
+ }
+set N2a64f820 [stack 0]
+ NoOp {
+  name NoOp12
+  xpos -127
+  ypos 323
+  addUserKnob {20 User}
+  addUserKnob {20 tracking l Tracking n 1}
+  addUserKnob {12 p1}
+  p1 {{parent.p1.main.x} {parent.p1.main.y}}
+  addUserKnob {12 p2}
+  p2 {{parent.p2.main.x} {parent.p2.main.y}}
+  addUserKnob {7 roll}
+  roll {{parent.roll.main}}
+  addUserKnob {20 endGroup_1 l endGroup n -1}
+  addUserKnob {20 camera l Camera n 1}
+  addUserKnob {7 focal}
+  focal {{parent.focal.main}}
+  addUserKnob {7 haperture}
+  haperture {{parent.haperture.main}}
+  addUserKnob {7 vaperture}
+  vaperture {{parent.vaperture.main}}
+  addUserKnob {20 endGroup n -1}
+  addUserKnob {20 computations l Computations n 1}
+  addUserKnob {13 p1CameraSpace}
+  p1CameraSpace {{"(p1.x - actual_format.w / 2) * haperture / actual_format.w"} {"(p1.y - actual_format.h / 2) * vaperture / actual_format.h"} {-focal}}
+  addUserKnob {7 p1CamD}
+  p1CamD {{"sqrt(p1CameraSpace.x * p1CameraSpace.x + p1CameraSpace.y * p1CameraSpace.y + p1CameraSpace.z * p1CameraSpace.z)"}}
+  addUserKnob {13 p1CameraSpaceRolled}
+  p1CameraSpaceRolled {{"p1CameraSpace.x * cos(radians(roll)) - p1CameraSpace.y * sin(radians(roll))"} {"p1CameraSpace.x * sin(radians(roll)) + p1CameraSpace.y * cos(radians(roll))"} {p1CameraSpace.z}}
+  addUserKnob {13 p2CameraSpace}
+  p2CameraSpace {{"(p2.x - actual_format.w / 2) * haperture / actual_format.w"} {"(p2.y - actual_format.h / 2) * vaperture / actual_format.h"} {-focal}}
+  addUserKnob {7 p2CamD}
+  p2CamD {{"max(sqrt(p2CameraSpace.x * p2CameraSpace.x + p2CameraSpace.y * p2CameraSpace.y + p2CameraSpace.z * p2CameraSpace.z), 0.01)"}}
+  addUserKnob {13 p2CamN}
+  p2CamN {{"p2CameraSpace.x * p1CamD / p2CamD"} {"p2CameraSpace.y * p1CamD / p2CamD"} {"p2CameraSpace.z * p1CamD / p2CamD"}}
+  addUserKnob {13 qFormTilt}
+  qFormTilt {{"p1CameraSpaceRolled.y * p1CameraSpaceRolled.y + p1CameraSpaceRolled.z * p1CameraSpaceRolled.z + .001"} {"-2 * p2CamN.y * p1CameraSpaceRolled.y"} {"p2CamN.y * p2CamN.y - p1CameraSpaceRolled.z * p1CameraSpaceRolled.z"}}
+  addUserKnob {7 tiltComputation}
+  tiltComputation {{"(-2 * (p1CameraSpaceRolled.y>p2CamN.y) + 1) * acos(max((-qFormTilt.y + sqrt(max(0, qFormTilt.y * qFormTilt.y - 4 * qFormTilt.x * qFormTilt.z))) / (2 * qFormTilt.x), (-qFormTilt.y - sqrt(max(0, qFormTilt.y * qFormTilt.y - 4 * qFormTilt.x * qFormTilt.z))) / (2 * qFormTilt.x)))"}}
+  addUserKnob {13 qFormPan}
+  qFormPan {{"p1CameraSpaceRolled.x * p1CameraSpaceRolled.x + pow(p1CameraSpaceRolled.y * sin(tiltComputation) + p1CameraSpaceRolled.z * cos(tiltComputation), 2) + .001"} {"-2 * p1CameraSpaceRolled.x * p2CamN.x"} {"p2CamN.x * p2CamN.x - pow(p1CameraSpaceRolled.y * sin(tiltComputation) + p1CameraSpaceRolled.z * cos(tiltComputation), 2)"}}
+  addUserKnob {7 panComputation}
+  panComputation {{"(-2 * (p1CameraSpaceRolled.x>p2CamN.x) + 1) * acos(max((-qFormPan.y + sqrt(max(0, qFormPan.y * qFormPan.y - 4 * qFormPan.x * qFormPan.z))) / (2 * qFormPan.x), (-qFormPan.y - sqrt(max(0, qFormPan.y * qFormPan.y - 4 * qFormPan.x * qFormPan.z))) / (2 * qFormPan.x)))"}}
+  addUserKnob {20 endGroup_2 l endGroup n -1}
+ }
+ Camera2 {
+  inputs 0
+  rot_order XYZ
+  rotate {{-degrees(parent.NoOp12.tiltComputation.main)} {degrees(parent.NoOp12.panComputation.main)} {-parent.NoOp12.roll.main}}
+  focal {{parent.NoOp12.focal.main}}
+  haperture {{parent.NoOp12.haperture.main}}
+  vaperture {{parent.NoOp12.vaperture.main}}
+  name Camera1
+  xpos -241
+  ypos 527
+ }
+ Camera2 {
+  inputs 0
+  focal {{parent.NoOp12.focal.main}}
+  haperture {{parent.NoOp12.haperture.main}}
+  vaperture {{parent.NoOp12.vaperture.main}}
+  name Camera2
+  xpos -342
+  ypos 371
+ }
+push $N2a64f820
+ Sphere {
+  name Sphere1
+  xpos -443
+  ypos 498
+ }
+ UVProject {
+  inputs 2
+  name UVProject1
+  xpos -352
+  ypos 590
+ }
+push 0
+ ScanlineRender {
+  inputs 3
+  transparency false
+  ztest_enabled false
+  antialiasing high
+  name ScanlineRender1
+  xpos -251
+  ypos 682
+ }
+ Output {
+  name Output1
+  xpos -251
+  ypos 800
+ }
+end_group

@@ -1,0 +1,82 @@
+#! /method/cg/opt/Nuke5.1v5/Nuke5.1 -nx
+version 5.1500
+Gizmo {
+ addUserKnob {20 User}
+ addUserKnob {7 logo_size t "The size of the logo in pixels (height)  - there will be 1 extra pixel on every side due to anti-aliasing\n" R 0 300}
+ logo_size 100
+ addUserKnob {41 scale l INVISIBLE T Bezier2.scale}
+ addUserKnob {41 translate T Bezier1.translate}
+ addUserKnob {41 rotate T Bezier1.rotate}
+}
+ Input {
+  inputs 0
+  name Input1
+  xpos 64
+  ypos 12
+ }
+ Bezier {
+  cliptype bbox
+  points {{
+{60.6 1215.8 21.1 0 20.7}
+{863.3 1216.4 171.6 0 133.3}
+{1260.1 820.4 140.2 -1.57 228.6}
+{1260 46.8 27.6 -1.58 18}
+{1206.8 -0.8 17.3 -3.14 31.3}
+{53.7 -0.5 31.3 3.14 18.2}
+{0.2 47.6 18.2 1.57 24}
+{-0.1 1153.6 43.1 1.56 21.9}
+}}
+  shape {}
+  translate {{Bezier1.translate.x} {Bezier1.translate.y}}
+  rotate {{Bezier1.rotate}}
+  scale {{"logo_size / 1220"}}
+  skew {{Bezier1.skew}}
+  center {{Bezier1.center.x} {Bezier1.center.y}}
+  color {0.304987 0.00604883 0 1}
+  name Bezier2
+  xpos 219
+  ypos 203
+ }
+ Bezier {
+  cliptype bbox
+  points {{
+{268.2 850.2 0 1.46}
+{320.4 850 18.2 0.01 11.8}
+{357 816 22.9 0.83 14.6 -2.17 0 0 0 0 0 -2.17}
+{477.6 854.6 58.6 -0.02 61.4}
+{629.6 779.2 53.9 0.91 54.2 -1.83 0 0 0 0 0 -1.83}
+{790.8 850 132.2 0 88.8}
+{987.2 673 60.6 -1.57 73.8}
+{989.5 375.2 29.7 -1.57 36.6}
+{958.2 343.4 17.4 -3.13 11.7}
+{904.4 343.4 0 1.75}
+{903.3 660.3 38.9 1.58 44.7}
+{782.3 767 78.3 3.15 77.1}
+{670.6 665.4 43.2 -1.57 21}
+{670.2 339.4 0 -1.83}
+{585.2 339.6 0 1.83}
+{583.4 670.4 35.7 1.59 37.8}
+{471 767.6 76.4 -3.13 66}
+{357.8 670.6 39.8 -1.58 27}
+{355.4 339.4 0 -1.75}
+{297.6 339.8 13.4 3.16 10.2}
+{270.8 366.6 9.4 1.62 17.4}
+}}
+  shape {}
+  scale {{Bezier2.scale x-13 0.087 x-4 3.7} {Bezier2.scale x-13 0.087 x-4 3.7}}
+  name Bezier1
+  xpos 219
+  ypos 348
+ }
+ Output {
+  name Output1
+  xpos 41
+  ypos 435
+ }
+ Viewer {
+  frame -13
+  name Viewer1
+  xpos 239
+  ypos 597
+ }
+end_group

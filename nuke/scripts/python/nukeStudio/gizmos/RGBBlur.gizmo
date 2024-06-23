@@ -1,0 +1,100 @@
+#! Z:/INSTALL/Nuke4/nuke4.3.exe -nx
+version 4.3015
+Gizmo {
+ inputs 1
+ addUserKnob { 20 "" User } 
+ addUserKnob { 7 bluroverall "Overall Blur" R 0 100 } 
+ addUserKnob { 7 blurred "Red Blur" R 0 5 } 
+ addUserKnob { 7 greenblur "Green Blur" R 0 5 } 
+ addUserKnob { 7 blueblur "Blue Blur" R 0 5 } 
+ addUserKnob { 26 "" "" } 
+ addUserKnob { 7 Dissolve1_which Mix R 0 1 } 
+ name RGBBlur
+ window {993 113 500 400 0 -422 -226 1}
+ bluroverall 1.3
+ blurred 1
+ greenblur 0.75
+ blueblur 0.5
+ Dissolve1_which 0.52
+}
+ Input {
+  inputs 0
+  name Input1
+  xpos -440
+  ypos -184
+ }
+set N20c0f688 [stack 0]
+ Blur {
+  channels {rgba.red -rgba.green -rgba.blue rgba.alpha}
+  size {{parent.bluroverall*parent.blurred}}
+  name Blur1
+  tile_color 0xff000000
+  label "(red alpha / none)"
+  xpos -240
+  ypos -191
+  indicators 2
+ }
+set N23b01990 [stack 0]
+push $N23b01990
+ Blur {
+  channels {-rgba.red rgba.green -rgba.blue rgba.alpha}
+  size {{parent.bluroverall*parent.greenblur}}
+  name Blur2
+  tile_color 0xff0000
+  label "(green alpha / none)"
+  xpos -240
+  ypos -121
+  indicators 2
+ }
+set N205ae138 [stack 0]
+ ChannelMerge {
+  inputs 2
+  operation max
+  name ChannelMerge2
+  tile_color 0x4b5ec600
+  label (alpha)
+  xpos -40
+  ypos -121
+ }
+push $N205ae138
+ Blur {
+  channels {-rgba.red -rgba.green rgba.blue rgba.alpha}
+  size {{parent.bluroverall*parent.blueblur}}
+  name Blur3
+  tile_color 0xff00
+  label "(blue alpha / none)"
+  xpos -240
+  ypos -51
+  indicators 2
+ }
+ ChannelMerge {
+  inputs 2
+  operation max
+  name ChannelMerge3
+  tile_color 0x4b5ec600
+  label (alpha)
+  xpos -40
+  ypos -51
+ }
+push $N20c0f688
+ Dot {
+  name Dot1
+  tile_color 0x9597bf00
+  xpos -406
+  ypos 29
+ }
+ Dissolve {
+  inputs 2
+  which {{parent.Dissolve1_which}}
+  name Dissolve1
+  selected true
+  xpos -40
+  ypos 26
+  indicators 2
+ }
+ Output {
+  name Output1
+  xpos -40
+  ypos 96
+ }
+end_group

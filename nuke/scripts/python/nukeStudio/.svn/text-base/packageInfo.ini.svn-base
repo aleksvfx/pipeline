@@ -1,0 +1,10 @@
+[nukeStudio]
+comments = Basic frame work of job custom complete
+	chan importer working with frame support
+	bug fixes
+	
+version = 3.3.0
+build = 87
+date = Wed Jul 23 18:57:11 2008
+user = cbankoff
+

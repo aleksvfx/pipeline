@@ -1,0 +1,1052 @@
+#! //Swaydas/z/INSTALL/Nuke4/5.21/nuke4.5.exe -nx
+version 4.5021
+Gizmo {
+ inputs 1
+ tile_color 0xff0000
+ addUserKnob {20 "" Master}
+ addUserKnob {4 choice output M {beauty reflection refract gi light selfIllum}}
+ addUserKnob {26 "" ""}
+ addUserKnob {6 unprmlt unpremult}
+ addUserKnob {26 "" ""}
+ addUserKnob {26 "" "global amounts"}
+ addUserKnob {41 value reflection T Multiply3.value}
+ addUserKnob {41 value_1 refraction T Multiply1.value}
+ addUserKnob {41 value_2 gi T Multiply2.value}
+ addUserKnob {41 value_3 light T Multiply4.value}
+ addUserKnob {41 value_4 selfillum T Multiply5.value}
+ addUserKnob {26 "" ""}
+ addUserKnob {26 "" "beauty = selfIllum + light + gi + reflection + refract "}
+ addUserKnob {26 "" "      light = rawLight * diffuse"}
+ addUserKnob {26 "" "      gi = rawGi * diffuse"}
+ addUserKnob {26 "" "      reflection = rawReflect * reflectFilter"}
+ addUserKnob {26 "" "      refract = rawRefract * refractFilter"}
+ addUserKnob {20 "" Reflection}
+ addUserKnob {41 gamma_1 falloff T Grade1.gamma}
+ addUserKnob {26 "" ""}
+ addUserKnob {41 hue_rotation "hue rotation" T HueShift1.hue_rotation}
+ addUserKnob {26 "" "@b;master"}
+ addUserKnob {41 saturation saturation T ColorCorrect4.saturation}
+ addUserKnob {41 contrast contrast T ColorCorrect4.contrast}
+ addUserKnob {41 gamma gamma T ColorCorrect4.gamma}
+ addUserKnob {41 gain gain T ColorCorrect4.gain}
+ addUserKnob {41 offset offset T ColorCorrect4.offset}
+ addUserKnob {26 "" "@b;shadows"}
+ addUserKnob {41 shadows.saturation saturation T ColorCorrect4.shadows.saturation}
+ addUserKnob {41 shadows.contrast contrast T ColorCorrect4.shadows.contrast}
+ addUserKnob {41 shadows.gamma gamma T ColorCorrect4.shadows.gamma}
+ addUserKnob {41 shadows.gain gain T ColorCorrect4.shadows.gain}
+ addUserKnob {41 shadows.offset offset T ColorCorrect4.shadows.offset}
+ addUserKnob {26 "" "@b;midtones"}
+ addUserKnob {41 midtones.saturation saturation T ColorCorrect4.midtones.saturation}
+ addUserKnob {41 midtones.contrast contrast T ColorCorrect4.midtones.contrast}
+ addUserKnob {41 midtones.gamma gamma T ColorCorrect4.midtones.gamma}
+ addUserKnob {41 midtones.gain gain T ColorCorrect4.midtones.gain}
+ addUserKnob {41 midtones.offset offset T ColorCorrect4.midtones.offset}
+ addUserKnob {26 "" "@b;highlights"}
+ addUserKnob {41 highlights.saturation saturation T ColorCorrect4.highlights.saturation}
+ addUserKnob {41 highlights.contrast contrast T ColorCorrect4.highlights.contrast}
+ addUserKnob {41 highlights.gamma gamma T ColorCorrect4.highlights.gamma}
+ addUserKnob {41 highlights.gain gain T ColorCorrect4.highlights.gain}
+ addUserKnob {41 highlights.offset offset T ColorCorrect4.highlights.offset}
+ addUserKnob {41 lookup lookup T ColorCorrect4.lookup}
+ addUserKnob {41 test test T ColorCorrect4.test}
+ addUserKnob {41 disable_1 disable T ColorCorrect4.disable}
+ addUserKnob {41 mix mix T ColorCorrect4.mix}
+ addUserKnob {26 "" ""}
+ addUserKnob {20 "" Refract}
+ addUserKnob {41 gamma_3 falloff T Grade2.gamma}
+ addUserKnob {26 "" ""}
+ addUserKnob {41 hue_rotation_1 "hue rotation" T HueShift2.hue_rotation}
+ addUserKnob {26 "" "@b;master"}
+ addUserKnob {41 saturation_1 saturation T ColorCorrect1.saturation}
+ addUserKnob {41 contrast_1 contrast T ColorCorrect1.contrast}
+ addUserKnob {41 gamma_2 gamma T ColorCorrect1.gamma}
+ addUserKnob {41 gain_1 gain T ColorCorrect1.gain}
+ addUserKnob {41 offset_1 offset T ColorCorrect1.offset}
+ addUserKnob {26 "" "@b;shadows"}
+ addUserKnob {41 shadows.saturation_1 saturation T ColorCorrect1.shadows.saturation}
+ addUserKnob {41 shadows.contrast_1 contrast T ColorCorrect1.shadows.contrast}
+ addUserKnob {41 shadows.gamma_1 gamma T ColorCorrect1.shadows.gamma}
+ addUserKnob {41 shadows.gain_1 gain T ColorCorrect1.shadows.gain}
+ addUserKnob {41 shadows.offset_1 offset T ColorCorrect1.shadows.offset}
+ addUserKnob {26 "" "@b;midtones"}
+ addUserKnob {41 midtones.saturation_1 saturation T ColorCorrect1.midtones.saturation}
+ addUserKnob {41 midtones.contrast_1 contrast T ColorCorrect1.midtones.contrast}
+ addUserKnob {41 midtones.gamma_1 gamma T ColorCorrect1.midtones.gamma}
+ addUserKnob {41 midtones.gain_1 gain T ColorCorrect1.midtones.gain}
+ addUserKnob {41 midtones.offset_1 offset T ColorCorrect1.midtones.offset}
+ addUserKnob {26 "" "@b;highlights"}
+ addUserKnob {41 highlights.saturation_1 saturation T ColorCorrect1.highlights.saturation}
+ addUserKnob {41 highlights.contrast_1 contrast T ColorCorrect1.highlights.contrast}
+ addUserKnob {41 highlights.gamma_1 gamma T ColorCorrect1.highlights.gamma}
+ addUserKnob {41 highlights.gain_1 gain T ColorCorrect1.highlights.gain}
+ addUserKnob {41 highlights.offset_1 offset T ColorCorrect1.highlights.offset}
+ addUserKnob {41 lookup_1 lookup T ColorCorrect1.lookup}
+ addUserKnob {41 test_1 test T ColorCorrect1.test}
+ addUserKnob {41 disable_1_1 disable T ColorCorrect1.disable}
+ addUserKnob {41 mix_1 mix T ColorCorrect1.mix}
+ addUserKnob {20 "" GI}
+ addUserKnob {41 gamma_4 falloff T Grade3.gamma}
+ addUserKnob {26 "" ""}
+ addUserKnob {41 hue_rotation_2 "hue rotation" T HueShift3.hue_rotation}
+ addUserKnob {26 "" "@b;master"}
+ addUserKnob {41 saturation_1_1 saturation T ColorCorrect2.saturation}
+ addUserKnob {41 contrast_1_1 contrast T ColorCorrect2.contrast}
+ addUserKnob {41 gamma_2_1 gamma T ColorCorrect2.gamma}
+ addUserKnob {41 gain_1_1 gain T ColorCorrect2.gain}
+ addUserKnob {41 offset_1_1 offset T ColorCorrect2.offset}
+ addUserKnob {26 "" "@b;shadows"}
+ addUserKnob {41 shadows.saturation_1_1 saturation T ColorCorrect2.shadows.saturation}
+ addUserKnob {41 shadows.contrast_1_1 contrast T ColorCorrect2.shadows.contrast}
+ addUserKnob {41 shadows.gamma_1_1 gamma T ColorCorrect2.shadows.gamma}
+ addUserKnob {41 shadows.gain_1_1 gain T ColorCorrect2.shadows.gain}
+ addUserKnob {41 shadows.offset_1_1 offset T ColorCorrect2.shadows.offset}
+ addUserKnob {26 "" "@b;midtones"}
+ addUserKnob {41 midtones.saturation_1_1 saturation T ColorCorrect2.midtones.saturation}
+ addUserKnob {41 midtones.contrast_1_1 contrast T ColorCorrect2.midtones.contrast}
+ addUserKnob {41 midtones.gamma_1_1 gamma T ColorCorrect2.midtones.gamma}
+ addUserKnob {41 midtones.gain_1_1 gain T ColorCorrect2.midtones.gain}
+ addUserKnob {41 midtones.offset_1_1 offset T ColorCorrect2.midtones.offset}
+ addUserKnob {26 "" "@b;highlights"}
+ addUserKnob {41 highlights.saturation_1_1 saturation T ColorCorrect2.highlights.saturation}
+ addUserKnob {41 highlights.contrast_1_1 contrast T ColorCorrect2.highlights.contrast}
+ addUserKnob {41 highlights.gamma_1_1 gamma T ColorCorrect2.highlights.gamma}
+ addUserKnob {41 highlights.gain_1_1 gain T ColorCorrect2.highlights.gain}
+ addUserKnob {41 highlights.offset_1_1 offset T ColorCorrect2.highlights.offset}
+ addUserKnob {41 lookup_1_1 lookup T ColorCorrect2.lookup}
+ addUserKnob {41 test_1_1 test T ColorCorrect2.test}
+ addUserKnob {41 disable_1_1_1 disable T ColorCorrect2.disable}
+ addUserKnob {41 mix_1_1 mix T ColorCorrect2.mix}
+ addUserKnob {20 "" Light}
+ addUserKnob {41 gamma_5 falloff T Grade4.gamma}
+ addUserKnob {26 "" ""}
+ addUserKnob {26 "" "@b;master"}
+ addUserKnob {41 saturation_1_1_1 saturation T ColorCorrect3.saturation}
+ addUserKnob {41 contrast_1_1_1 contrast T ColorCorrect3.contrast}
+ addUserKnob {41 gamma_2_1_1 gamma T ColorCorrect3.gamma}
+ addUserKnob {41 gain_1_1_1 gain T ColorCorrect3.gain}
+ addUserKnob {41 offset_1_1_1 offset T ColorCorrect3.offset}
+ addUserKnob {26 "" "@b;shadows"}
+ addUserKnob {41 shadows.saturation_1_1_1 saturation T ColorCorrect3.shadows.saturation}
+ addUserKnob {41 shadows.contrast_1_1_1 contrast T ColorCorrect3.shadows.contrast}
+ addUserKnob {41 shadows.gamma_1_1_1 gamma T ColorCorrect3.shadows.gamma}
+ addUserKnob {41 shadows.gain_1_1_1 gain T ColorCorrect3.shadows.gain}
+ addUserKnob {41 shadows.offset_1_1_1 offset T ColorCorrect3.shadows.offset}
+ addUserKnob {26 "" "@b;midtones"}
+ addUserKnob {41 midtones.saturation_1_1_1 saturation T ColorCorrect3.midtones.saturation}
+ addUserKnob {41 midtones.contrast_1_1_1 contrast T ColorCorrect3.midtones.contrast}
+ addUserKnob {41 midtones.gamma_1_1_1 gamma T ColorCorrect3.midtones.gamma}
+ addUserKnob {41 midtones.gain_1_1_1 gain T ColorCorrect3.midtones.gain}
+ addUserKnob {41 midtones.offset_1_1_1 offset T ColorCorrect3.midtones.offset}
+ addUserKnob {26 "" "@b;highlights"}
+ addUserKnob {41 highlights.saturation_1_1_1 saturation T ColorCorrect3.highlights.saturation}
+ addUserKnob {41 highlights.contrast_1_1_1 contrast T ColorCorrect3.highlights.contrast}
+ addUserKnob {41 highlights.gamma_1_1_1 gamma T ColorCorrect3.highlights.gamma}
+ addUserKnob {41 highlights.gain_1_1_1 gain T ColorCorrect3.highlights.gain}
+ addUserKnob {41 highlights.offset_1_1_1 offset T ColorCorrect3.highlights.offset}
+ addUserKnob {41 lookup_1_1_1 lookup T ColorCorrect3.lookup}
+ addUserKnob {41 test_1_1_1 test T ColorCorrect3.test}
+ addUserKnob {41 disable_1_1_1_1 disable T ColorCorrect3.disable}
+ addUserKnob {41 mix_1_1_1 mix T ColorCorrect3.mix}
+ addUserKnob {20 "" SelfIllum}
+ addUserKnob {26 "" "@b;master"}
+ addUserKnob {41 saturation_1_1_2 saturation T ColorCorrect5.saturation}
+ addUserKnob {41 contrast_1_1_2 contrast T ColorCorrect5.contrast}
+ addUserKnob {41 gamma_2_1_2 gamma T ColorCorrect5.gamma}
+ addUserKnob {41 gain_1_1_2 gain T ColorCorrect5.gain}
+ addUserKnob {41 offset_1_1_2 offset T ColorCorrect5.offset}
+ addUserKnob {26 "" "@b;shadows"}
+ addUserKnob {41 shadows.saturation_1_1_2 saturation T ColorCorrect5.shadows.saturation}
+ addUserKnob {41 shadows.contrast_1_1_2 contrast T ColorCorrect5.shadows.contrast}
+ addUserKnob {41 shadows.gamma_1_1_2 gamma T ColorCorrect5.shadows.gamma}
+ addUserKnob {41 shadows.gain_1_1_2 gain T ColorCorrect5.shadows.gain}
+ addUserKnob {41 shadows.offset_1_1_2 offset T ColorCorrect5.shadows.offset}
+ addUserKnob {26 "" "@b;midtones"}
+ addUserKnob {41 midtones.saturation_1_1_2 saturation T ColorCorrect5.midtones.saturation}
+ addUserKnob {41 midtones.contrast_1_1_2 contrast T ColorCorrect5.midtones.contrast}
+ addUserKnob {41 midtones.gamma_1_1_2 gamma T ColorCorrect5.midtones.gamma}
+ addUserKnob {41 midtones.gain_1_1_2 gain T ColorCorrect5.midtones.gain}
+ addUserKnob {41 midtones.offset_1_1_2 offset T ColorCorrect5.midtones.offset}
+ addUserKnob {26 "" "@b;highlights"}
+ addUserKnob {41 highlights.saturation_1_1_2 saturation T ColorCorrect5.highlights.saturation}
+ addUserKnob {41 highlights.contrast_1_1_2 contrast T ColorCorrect5.highlights.contrast}
+ addUserKnob {41 highlights.gamma_1_1_2 gamma T ColorCorrect5.highlights.gamma}
+ addUserKnob {41 highlights.gain_1_1_2 gain T ColorCorrect5.highlights.gain}
+ addUserKnob {41 highlights.offset_1_1_2 offset T ColorCorrect5.highlights.offset}
+ addUserKnob {41 lookup_1_1_2 lookup T ColorCorrect5.lookup}
+ addUserKnob {41 test_1_1_2 test T ColorCorrect5.test}
+ addUserKnob {41 disable_1_1_1_2 disable T ColorCorrect5.disable}
+ addUserKnob {41 mix_1_1_2 mix T ColorCorrect5.mix}
+}
+ BackdropNode {
+  inputs 0
+  name LIGHT
+  tile_color 9
+  xpos -145
+  ypos -638
+  bdwidth 147
+  bdheight 297
+ }
+ BackdropNode {
+  inputs 0
+  name reflection
+  tile_color 0xd
+  xpos -449
+  ypos -651
+  bdwidth 179
+  bdheight 270
+ }
+ BackdropNode {
+  inputs 0
+  name raw_reflect
+  tile_color 9
+  xpos -417
+  ypos -303
+  bdwidth 298
+  bdheight 570
+ }
+ BackdropNode {
+  inputs 0
+  name raw_GI
+  tile_color 0xc
+  xpos -425
+  ypos -1050
+  bdwidth 109
+  bdheight 151
+ }
+ BackdropNode {
+  inputs 0
+  name raw_refract
+  tile_color 0xd
+  xpos -443
+  ypos -1249
+  bdwidth 152
+  bdheight 188
+ }
+ BackdropNode {
+  inputs 0
+  name BackdropNode1
+  tile_color 0xb
+  xpos -777
+  ypos -303
+  bdwidth 201
+  bdheight 562
+ }
+ BackdropNode {
+  inputs 0
+  name BackdropNode2
+  tile_color 0xb
+  xpos -1089
+  ypos -301
+  bdwidth 149
+  bdheight 456
+ }
+ Input {
+  inputs 0
+  name vray_exr
+  xpos -400
+  ypos -1586
+ }
+add_layer {Diffuse Diffuse.red Diffuse.green Diffuse.blue}
+add_layer {GI GI.red GI.green GI.blue}
+add_layer {Light Light.red Light.green Light.blue}
+ AddChannels {
+  channels rgba
+  channels2 Diffuse
+  channels3 GI
+  channels4 Light
+  name AddChannels1
+  xpos -400
+  ypos -1534
+ }
+add_layer {RawGI RawGI.red RawGI.green RawGI.blue}
+add_layer {RawLight RawLight.red RawLight.green RawLight.blue}
+add_layer {RawReflect RawReflect.red RawReflect.green RawReflect.blue}
+add_layer {RawRefract RawRefract.red RawRefract.green RawRefract.blue}
+ AddChannels {
+  channels RawGI
+  channels2 RawLight
+  channels3 RawReflect
+  channels4 RawRefract
+  name AddChannels2
+  xpos -406
+  ypos -1476
+ }
+add_layer {Reflect Reflect.red Reflect.green Reflect.blue}
+add_layer {ReflectFilter ReflectFilter.red ReflectFilter.green ReflectFilter.blue}
+add_layer {Refract Refract.red Refract.green Refract.blue}
+add_layer {RefractFilter RefractFilter.red RefractFilter.green RefractFilter.blue}
+ AddChannels {
+  channels Reflect
+  channels2 ReflectFilter
+  channels3 Refract
+  channels4 RefractFilter
+  name AddChannels3
+  xpos -406
+  ypos -1424
+ }
+add_layer {SelfIllum SelfIllum.red SelfIllum.green SelfIllum.blue}
+ AddChannels {
+  channels SelfIllum
+  name AddChannels4
+  xpos -406
+  ypos -1372
+ }
+set N57135d0 [stack 0]
+ Dot {
+  name Dot4
+  tile_color 0xc0c0c000
+  label untouched_alpha
+  xpos -1372
+  ypos 2923
+  hide_input true
+ }
+push $N57135d0
+ Unpremult {
+  channels all
+  name Unpremult1
+  xpos -413
+  ypos -1307
+  disable {{1-parent.unprmlt}}
+ }
+set N2dfd008 [stack 0]
+ Clamp {
+  channels RefractFilter
+  minimum 0.0001
+  maximum_enable false
+  mask -rgba.alpha
+  unpremult -rgba.alpha
+  name Clamp9
+  xpos -415
+  ypos -1208
+ }
+set N2d9c928 [stack 0]
+push $N2d9c928
+ Merge {
+  inputs 2
+  A Refract
+  operation divide
+  B RefractFilter
+  output RawRefract
+  bbox B
+  name Merge13
+  tile_color 0xc
+  note_font_size 16
+  xpos -415
+  ypos -1156
+ }
+set N2d75f10 [stack 0]
+ Clamp {
+  channels Diffuse
+  minimum 0.0001
+  maximum_enable false
+  mask -rgba.alpha
+  unpremult -rgba.alpha
+  name Clamp5
+  xpos -415
+  ypos -1025
+ }
+set N2d57aa0 [stack 0]
+push $N2d57aa0
+ Merge {
+  inputs 2
+  A GI
+  operation divide
+  B Diffuse
+  output RawGI
+  bbox B
+  name Merge8
+  tile_color 0xc
+  note_font_size 16
+  xpos -415
+  ypos -956
+ }
+ Dot {
+  name Dot1
+  tile_color 0xc0c0c000
+  xpos -377
+  ypos -892
+ }
+set N1a36510 [stack 0]
+push $N1a36510
+ Merge {
+  inputs 2
+  A rgb
+  operation minus
+  B Reflect
+  output {rgba.red rgba.green rgba.blue -rgba.alpha}
+  bbox B
+  name Plus16
+  tile_color 0xc
+  label "rgb - reflect"
+  note_font_size 16
+  xpos -128
+  ypos -832
+ }
+set N5a82638 [stack 0]
+push $N5a82638
+ Merge {
+  inputs 2
+  A rgb
+  operation minus
+  B Refract
+  output rgb
+  bbox B
+  name Merge9
+  tile_color 0xc
+  label rgb-refract
+  note_font_size 16
+  xpos -130
+  ypos -780
+ }
+set N5a85d48 [stack 0]
+push $N5a85d48
+ Merge {
+  inputs 2
+  A rgb
+  operation minus
+  B GI
+  output rgb
+  bbox B
+  name Merge10
+  tile_color 0xc
+  label "rgb -gi"
+  note_font_size 16
+  xpos -130
+  ypos -720
+ }
+ Dot {
+  name Dot2
+  tile_color 0xc0c0c000
+  xpos -101
+  ypos -670
+ }
+set N2c48990 [stack 0]
+push $N2c48990
+ Merge {
+  inputs 2
+  A rgb
+  operation minus
+  B SelfIllum
+  output Light
+  bbox B
+  name Plus15
+  tile_color 0xc
+  label "rgb - self Illum"
+  note_font_size 16
+  xpos -127
+  ypos -597
+ }
+ Clamp {
+  channels Light
+  maximum_enable false
+  mask -rgba.alpha
+  unpremult -rgba.alpha
+  name Clamp4
+  tile_color 0xff00ff00
+  xpos -127
+  ypos -519
+ }
+ ColorCorrect {
+  channels Light
+  lookup {shadow {curve 1 s0 x0.09 0 s0}
+    midtone {1-shadow-highlight}
+    highlight {curve x0.5 0 s0 x1 1 s0}}
+  mask -rgba.alpha
+  unpremult -rgba.alpha
+  name ColorCorrect3
+  xpos -127
+  ypos -467
+ }
+ Multiply {
+  channels Light
+  name Multiply4
+  xpos -126
+  ypos -409
+ }
+set N2c4ea88 [stack 0]
+push $N2c4ea88
+ Merge {
+  inputs 2
+  A Light
+  operation divide
+  B Diffuse
+  output RawLight
+  bbox B
+  name Merge1
+  tile_color 0xc
+  note_font_size 16
+  xpos -128
+  ypos 280
+ }
+ Grade {
+  channels Diffuse
+  mask -rgba.alpha
+  unpremult -rgba.alpha
+  name Grade4
+  xpos -128
+  ypos 340
+ }
+set N2c515f8 [stack 0]
+push $N2c515f8
+ Merge {
+  inputs 2
+  A RawLight
+  operation mult
+  B Diffuse
+  output Light
+  bbox B
+  name Merge2
+  tile_color 0xc
+  label "rawLight * diffuse = light"
+  note_font_size 16
+  xpos -128
+  ypos 392
+ }
+set N2c52e98 [stack 0]
+push $N2c48990
+push $N2c48990
+ Merge {
+  inputs 2
+  A rgb
+  operation minus
+  B SelfIllum
+  output rgb
+  bbox B
+  name Merge11
+  tile_color 0xc
+  label "rgb -self illum"
+  note_font_size 16
+  xpos -407
+  ypos -613
+ }
+ Clamp {
+  channels rgba
+  minimum_enable false
+  maximum 0
+  mask -rgba.alpha
+  unpremult -rgba.alpha
+  name Clamp6
+  xpos -407
+  ypos -553
+ }
+set N2c55b00 [stack 0]
+push $N2c55b00
+ Merge {
+  inputs 2
+  A Reflect
+  operation plus
+  B rgb
+  output Reflect
+  bbox B
+  name Plus
+  tile_color 0xc
+  note_font_size 16
+  xpos -407
+  ypos -515
+ }
+ Clamp {
+  channels Reflect
+  maximum_enable false
+  mask -rgba.alpha
+  unpremult -rgba.alpha
+  name Clamp7
+  xpos -407
+  ypos -455
+ }
+set N2c588d0 [stack 0]
+push $N2c588d0
+ Clamp {
+  channels ReflectFilter
+  minimum 0.0001
+  maximum_enable false
+  mask -rgba.alpha
+  unpremult -rgba.alpha
+  name Clamp8
+  xpos -289
+  ypos -278
+ }
+ Merge {
+  inputs 2
+  A Reflect
+  operation divide
+  B ReflectFilter
+  output RawReflect
+  bbox B
+  name Merge12
+  tile_color 0xc
+  note_font_size 16
+  xpos -407
+  ypos -220
+ }
+ Grade {
+  channels ReflectFilter
+  mask -rgba.alpha
+  unpremult -rgba.alpha
+  name Grade1
+  xpos -407
+  ypos -160
+ }
+set N2c5ce30 [stack 0]
+push $N2c5ce30
+ Merge {
+  inputs 2
+  A RawReflect
+  operation mult
+  B ReflectFilter
+  output Reflect
+  bbox B
+  name Merge15
+  tile_color 0xff00ff00
+  note_font_size 16
+  xpos -407
+  ypos -108
+ }
+set N2c5e830 [stack 0]
+push $N2c5e830
+ Copy {
+  inputs 2
+  from0 Reflect.red
+  to0 rgba.red
+  from1 Reflect.green
+  to1 rgba.green
+  from2 Reflect.blue
+  to2 rgba.blue
+  name Copy6
+  xpos -407
+  ypos -48
+ }
+ HueShift {
+  color {1 0 0}
+  hue_rotation 1
+  mask -rgba.alpha
+  unpremult -rgba.alpha
+  name HueShift1
+  xpos -407
+  ypos 32
+ }
+set N2c618e8 [stack 0]
+push $N2c618e8
+ Copy {
+  inputs 2
+  from0 rgba.red
+  to0 Reflect.red
+  from1 rgba.green
+  to1 Reflect.green
+  from2 rgba.blue
+  to2 Reflect.blue
+  name Copy7
+  xpos -407
+  ypos 70
+ }
+ ColorCorrect {
+  channels Reflect
+  lookup {shadow {curve 1 s0 x0.09 0 s0}
+    midtone {1-shadow-highlight}
+    highlight {curve x0.5 0 s0 x1 1 s0}}
+  mask -rgba.alpha
+  unpremult -rgba.alpha
+  name ColorCorrect4
+  xpos -407
+  ypos 150
+ }
+ HueCorrect {
+  layer Reflect
+  hue {sat {curve 1 1 1 1 1 1 1}
+    lum {curve 1 1 1 1 1 1 1}
+    red {curve 1 1 1 1 1 1 1}
+    green {curve 1 1 1 1 1 1 1}
+    blue {curve 1 1 1 1 1 1 1}
+    r_sup {curve 1 1 1 1 1 1 1}
+    g_sup {curve 1 1 1 1 1 1 1}
+    b_sup {curve 1 1 1 1 1 1 1}
+    sat_thrsh {curve 0 0 0 0 0 0 0}}
+  mask -rgba.alpha
+  unpremult -rgba.alpha
+  name HueCorrect1
+  xpos -407
+  ypos 202
+ }
+ Multiply {
+  channels Reflect
+  name Multiply3
+  xpos -399
+  ypos 752
+ }
+set N2c6d2c8 [stack 0]
+ Merge {
+  inputs 2
+  A Light
+  operation plus
+  B Reflect
+  output {rgba.red rgba.green rgba.blue -rgba.alpha}
+  bbox B
+  name Plus1
+  tile_color 0xc
+  label "light + reflect"
+  note_font_size 16
+  xpos -129
+  ypos 856
+ }
+push $N2d75f10
+push $N2d75f10
+ Merge {
+  inputs 2
+  A RawRefract
+  operation mult
+  B RefractFilter
+  output Refract
+  bbox B
+  name Merge14
+  tile_color 0xff00ff00
+  note_font_size 16
+  xpos -1079
+  ypos -276
+ }
+ Grade {
+  channels Refract
+  mask -rgba.alpha
+  unpremult -rgba.alpha
+  name Grade2
+  xpos -1079
+  ypos -216
+ }
+set N2c71278 [stack 0]
+push $N2c71278
+ Copy {
+  inputs 2
+  from0 Refract.red
+  to0 rgba.red
+  from1 Refract.green
+  to1 rgba.green
+  from2 Refract.blue
+  to2 rgba.blue
+  name Copy8
+  xpos -1073
+  ypos -167
+ }
+ HueShift {
+  color {1 0 0}
+  mask -rgba.alpha
+  unpremult -rgba.alpha
+  name HueShift2
+  xpos -1073
+  ypos -87
+ }
+set N2c744e0 [stack 0]
+push $N2c744e0
+ Copy {
+  inputs 2
+  from0 rgba.red
+  to0 Refract.red
+  from1 rgba.green
+  to1 Refract.green
+  from2 rgba.blue
+  to2 Refract.blue
+  name Copy9
+  xpos -1073
+  ypos -43
+ }
+ ColorCorrect {
+  channels Refract
+  lookup {shadow {curve 1 s0 x0.09 0 s0}
+    midtone {1-shadow-highlight}
+    highlight {curve x0.5 0 s0 x1 1 s0}}
+  mask -rgba.alpha
+  unpremult -rgba.alpha
+  name ColorCorrect1
+  xpos -1073
+  ypos 37
+ }
+ Multiply {
+  channels Refract
+  name Multiply1
+  xpos -1073
+  ypos 89
+ }
+set N2c79a98 [stack 0]
+ Merge {
+  inputs 2
+  A {rgba.red rgba.green rgba.blue -rgba.alpha}
+  operation plus
+  B Refract
+  output {rgba.red rgba.green rgba.blue -rgba.alpha}
+  bbox B
+  name Plus2
+  tile_color 0xc
+  label "+ Refract"
+  note_font_size 16
+  xpos -1020
+  ypos 797
+ }
+push $N1a36510
+ Dot {
+  name Dot3
+  tile_color 0xc0c0c000
+  xpos -735
+  ypos -278
+ }
+ Grade {
+  channels Diffuse
+  mask -rgba.alpha
+  unpremult -rgba.alpha
+  name Grade3
+  xpos -767
+  ypos -228
+ }
+set N2c7ceb0 [stack 0]
+push $N2c7ceb0
+ Merge {
+  inputs 2
+  A RawGI
+  operation mult
+  B Diffuse
+  output GI
+  bbox B
+  name Merge25
+  tile_color 0xff00ff00
+  note_font_size 16
+  xpos -767
+  ypos -176
+ }
+set N2c7ea00 [stack 0]
+push $N2c7ea00
+ Copy {
+  inputs 2
+  from0 GI.red
+  to0 rgba.red
+  from1 GI.green
+  to1 rgba.green
+  from2 GI.blue
+  to2 rgba.blue
+  name Copy11
+  xpos -767
+  ypos -116
+ }
+ HueShift {
+  color {1 0 0}
+  mask -rgba.alpha
+  unpremult -rgba.alpha
+  name HueShift3
+  xpos -767
+  ypos -36
+ }
+set N5d25118 [stack 0]
+push $N5d25118
+ Copy {
+  inputs 2
+  from0 rgba.red
+  to0 GI.red
+  from1 rgba.green
+  to1 GI.green
+  from2 rgba.blue
+  to2 GI.blue
+  name Copy12
+  xpos -767
+  ypos 2
+ }
+ ColorCorrect {
+  channels GI
+  lookup {shadow {curve 1 s0 x0.09 0 s0}
+    midtone {1-shadow-highlight}
+    highlight {curve x0.5 0 s0 x1 1 s0}}
+  mask -rgba.alpha
+  unpremult -rgba.alpha
+  name ColorCorrect2
+  xpos -767
+  ypos 82
+ }
+ Multiply {
+  channels GI
+  name Multiply2
+  xpos -767
+  ypos 134
+ }
+set N2c829a8 [stack 0]
+ Merge {
+  inputs 2
+  A {rgba.red rgba.green rgba.blue -rgba.alpha}
+  operation plus
+  B GI
+  output {rgba.red rgba.green rgba.blue -rgba.alpha}
+  bbox B
+  name Plus31
+  tile_color 0xc
+  label "+ GI\n"
+  note_font_size 16
+  xpos -778
+  ypos 984
+ }
+ ColorCorrect {
+  channels SelfIllum
+  lookup {shadow {curve 1 s0 x0.09 0 s0}
+    midtone {1-shadow-highlight}
+    highlight {curve x0.5 0 s0 x1 1 s0}}
+  mask -rgba.alpha
+  unpremult -rgba.alpha
+  name ColorCorrect5
+  xpos -778
+  ypos 1044
+ }
+ Multiply {
+  channels SelfIllum
+  name Multiply5
+  xpos -778
+  ypos 1096
+ }
+set N5a8d200 [stack 0]
+ Shuffle {
+  in2 SelfIllum
+  out2 rgb
+  name Shuffle4
+  label selfillum
+  xpos -950
+  ypos 2870
+  hide_input true
+ }
+push $N2c4ea88
+ Shuffle {
+  in2 Light
+  out2 rgb
+  name Shuffle5
+  label light
+  xpos -568
+  ypos 2863
+  hide_input true
+ }
+push $N2c829a8
+ Shuffle {
+  in2 GI
+  out2 rgb
+  name Shuffle2
+  label gi
+  xpos -760
+  ypos 2870
+  hide_input true
+ }
+push $N2c79a98
+ Shuffle {
+  in2 Refract
+  out2 rgb
+  name Shuffle3
+  label refract
+  xpos -850
+  ypos 2870
+  hide_input true
+ }
+push $N2c6d2c8
+ Shuffle {
+  in2 Reflect
+  out2 rgb
+  name Shuffle1
+  label reflect
+  xpos -663
+  ypos 2865
+  hide_input true
+ }
+push $N2c52e98
+push $N2c6d2c8
+push $N2c829a8
+push $N2c79a98
+push $N5a8d200
+push $N5a8d200
+push $N5a8d200
+ Merge {
+  inputs 2
+  A {rgba.red rgba.green rgba.blue -rgba.alpha}
+  operation plus
+  B SelfIllum
+  output {rgba.red rgba.green rgba.blue -rgba.alpha}
+  bbox B
+  name Plus41
+  tile_color 0xff00ff00
+  label "+ self Illum  = beauty"
+  note_font_size 16
+  xpos -706
+  ypos 1164
+ }
+ Copy {
+  inputs 2
+  from0 -rgba.alpha
+  to0 -rgba.alpha
+  channels SelfIllum
+  name Copy1
+  xpos -887
+  ypos 1164
+ }
+ Copy {
+  inputs 2
+  from0 -rgba.alpha
+  to0 -rgba.alpha
+  channels Refract
+  name Copy2
+  xpos -1558
+  ypos 1416
+ }
+ Copy {
+  inputs 2
+  from0 -rgba.alpha
+  to0 -rgba.alpha
+  channels GI
+  name Copy3
+  xpos -1561
+  ypos 1884
+ }
+ Copy {
+  inputs 2
+  from0 -rgba.alpha
+  to0 -rgba.alpha
+  channels Reflect
+  name Copy4
+  xpos -1562
+  ypos 2100
+ }
+ Copy {
+  inputs 2
+  from0 -rgba.alpha
+  to0 -rgba.alpha
+  channels Light
+  name Copy5
+  xpos -1561
+  ypos 2316
+ }
+ Switch {
+  inputs 6
+  which {{parent.choice}}
+  name Switch1
+  xpos -1538
+  ypos 2870
+ }
+ Copy {
+  inputs 2
+  from0 rgba.alpha
+  to0 rgba.alpha
+  name Copy10
+  xpos -1538
+  ypos 2947
+ }
+ Premult {
+  channels all
+  name Premult1
+  xpos -1540
+  ypos 3005
+  disable {{1-parent.unprmlt}}
+ }
+ Output {
+  name Output1
+  xpos -1539
+  ypos 3147
+ }
+push $N2dfd008
+ Viewer {
+  frame_range 1,76
+  channels Light
+  roi {-0.5 -0.3 0.5 0.3}
+  window {-1 -1 837 471 0 0 0 0}
+  name Viewer1
+  tile_color 0xff00f200
+  xpos -675
+  ypos -969
+  hide_input true
+ }
+end_group

@@ -1,0 +1,47 @@
+\begin{thebibliography}{\protect\citename{Cheslack-Postava }2007}
+
+\bibitem[\protect\citename{Cheslack-Postava }2007]{4D}
+{\sc Cheslack-Postava, E.}
+\newblock 2007.
+\newblock 4d compression and relighting with high-resolution light transport
+  matrices.
+
+\bibitem[\protect\citename{Gershbein }2000]{fast}
+{\sc Gershbein, R.}
+\newblock 2000.
+\newblock A fast relighting engine for interactive cinematic lighting design.
+
+\bibitem[\protect\citename{Hašan }2006]{direct}
+{\sc Hašan, M.}
+\newblock 2006.
+\newblock Direct-to-indirect transfer for cinematic relighting.
+
+\bibitem[\protect\citename{Kautz }2005]{kautz}
+{\sc Kautz, J.}
+\newblock 2005.
+\newblock Fast, arbitrary brdf shading for low-frequency lighting using
+  spherical harmonics.
+
+\bibitem[\protect\citename{Ng }2004]{wavelet}
+{\sc Ng, R.}
+\newblock 2004.
+\newblock Triple product wavelet integrals for all-frequency relighting.
+
+\bibitem[\protect\citename{Nishio }2004]{eyes}
+{\sc Nishio, K.}
+\newblock 2004.
+\newblock Eyes for relighting.
+
+\bibitem[\protect\citename{Pellacini }2005]{Lpics}
+{\sc Pellacini, F.}
+\newblock 2005.
+\newblock Lpics: a hybrid hardware-accelerated relighting engine for computer
+  cinematography.
+
+\bibitem[\protect\citename{Wegner }2005]{devebec}
+{\sc Wegner, A.}
+\newblock 2005.
+\newblock Performance relighting and reflectance transformation with
+  time-multiplexed illumination.
+
+\end{thebibliography}

@@ -1,0 +1,186 @@
+#! /S2/3d/farm/nuke/apps/software/Nuke5.0.2/Nuke5.0 -nx
+version 5.0200
+Gizmo {
+ help "Start by setting the red, green and blue abberation sliders to slightly different values. Then edit the coverage settings to set the area of the image to be affected."
+ addUserKnob {20 "" l ChromAbb}
+ addUserKnob {26 "" l "Abberation settings"}
+ addUserKnob {18 abberation t "adjust the spred of the abberation" R 1 2}
+ abberation {1.04 1.02 1}
+ addUserKnob {18 blur t "adjust the blur in each channel"}
+ blur {1 1 1}
+ addUserKnob {26 "" l "Coverage settings"}
+ addUserKnob {12 center_position l "center position"}
+ center_position {{width/2} {height/2}}
+ addUserKnob {41 coverage_scale T TransformMasked1.scale}
+ addUserKnob {41 coverage_edge_blur l "coverage edge blur" T Blur3.size}
+ addUserKnob {41 coverage_softness l "coverage softness" T Radial1.softness}
+ addUserKnob {26 "" l ""}
+ addUserKnob {41 which l mix T Mix.which}
+ addUserKnob {41 Mask T Mix.Mask}
+ addUserKnob {41 maskChannel l mask T Mix.maskChannel}
+ addUserKnob {41 maskFrom l from T Mix.maskFrom}
+ addUserKnob {41 invert_mask l invert T Mix.invert_mask}
+ addUserKnob {41 fringe T Mix.fringe}
+}
+ Input {
+  inputs 0
+  name Input1
+  xpos 471
+  ypos -446
+ }
+set Nb7763f78 [stack 0]
+ Radial {
+  output {-rgba.red -rgba.green -rgba.blue depth.Z}
+  replace {{root.ChromAbb1.Radial1.replace i}}
+  maskChannel -rgba.alpha
+  maskFrom input
+  area {0 0 {parent.width i} {parent.height i}}
+  softness 0.5
+  name Radial1
+  xpos 130
+  ypos -240
+ }
+ Blur {
+  channels depth
+  size 100
+  maskChannel -rgba.alpha
+  name Blur3
+  xpos 130
+  ypos -171
+ }
+ TransformMasked {
+  channels depth
+  center {{parent.center_position.x i} {parent.center_position.y i}}
+  name TransformMasked1
+  xpos 130
+  ypos -107
+ }
+set Nb77703f8 [stack 0]
+ GodRays {
+  channels rgba
+  scale {{parent.abberation.r i}}
+  center {{center_position.x i} {center_position.y i}}
+  maskChannel depth.Z
+  maskFrom input
+  invert_mask true
+  name GodRays1
+  label red
+  xpos 38
+  ypos 20
+ }
+ Blur {
+  channels rgba
+  size {{parent.blur.r i}}
+  maskChannel depth.Z
+  maskFrom input
+  invert_mask true
+  name Blur4
+  label red
+  xpos 38
+  ypos 109
+ }
+push $Nb77703f8
+ GodRays {
+  channels rgba
+  scale {{parent.abberation.g i}}
+  center {{center_position.x i} {center_position.y i}}
+  maskChannel depth.Z
+  maskFrom input
+  invert_mask true
+  name GodRays2
+  label green
+  xpos 130
+  ypos 16
+ }
+ Blur {
+  channels rgba
+  size {{parent.blur.g i}}
+  maskChannel depth.Z
+  maskFrom input
+  invert_mask true
+  name Blur2
+  label green
+  xpos 130
+  ypos 107
+ }
+push $Nb77703f8
+ GodRays {
+  channels rgba
+  scale {{parent.abberation.b i}}
+  center {{center_position.x i} {center_position.y i}}
+  maskChannel depth.Z
+  maskFrom input
+  invert_mask true
+  name GodRays3
+  label blue
+  xpos 220
+  ypos 14
+ }
+ Blur {
+  channels rgba
+  size {{parent.blur.b i}}
+  maskChannel depth.Z
+  maskFrom input
+  invert_mask true
+  name Blur1
+  label blue
+  xpos 220
+  ypos 108
+ }
+set Nb777f948 [stack 0]
+push $Nb7763f78
+ Copy {
+  inputs 2
+  from0 rgba.blue
+  to0 rgba.blue
+  bbox B
+  maskChannel -rgba.alpha
+  maskFrom input
+  name Copy1
+  xpos 338
+  ypos 193
+ }
+ Copy {
+  inputs 2
+  from0 rgba.green
+  to0 rgba.green
+  bbox B
+  maskChannel -rgba.alpha
+  maskFrom input
+  name Copy2
+  xpos 338
+  ypos 270
+ }
+ Copy {
+  inputs 2
+  from0 rgba.red
+  to0 rgba.red
+  bbox B
+  maskChannel -rgba.alpha
+  maskFrom input
+  name Copy3
+  xpos 338
+  ypos 368
+ }
+push $Nb7763f78
+ Dissolve {
+  inputs 2
+  channels rgba
+  which 1
+  name Mix
+  xpos 471
+  ypos 474
+ }
+ Output {
+  name Output1
+  xpos 471
+  ypos 580
+ }
+push $Nb777f948
+ Viewer {
+  channels {rgba.red rgba.green rgba.blue depth.Z}
+  name Viewer1
+  xpos 632
+  ypos -50
+ }
+end_group

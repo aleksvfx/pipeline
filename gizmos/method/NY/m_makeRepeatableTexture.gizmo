@@ -1,0 +1,280 @@
+#! C:/Program Files/Nuke5.2v2/Nuke5.2.exe -nx
+version 5.2200
+Gizmo {
+ addUserKnob {20 User}
+ addUserKnob {12 offset l Offset t "Where to position lower left corner."}
+ addUserKnob {6 centerVertical l "Center Vertical" t "Center the vertical offset." +STARTLINE}
+ centerVertical true
+ addUserKnob {6 centerHorizontal l "Center Horizontal" t "Center the horizontal offset." +STARTLINE}
+ centerHorizontal true
+ addUserKnob {14 transitionSize l "Transition Size" t "Width and height of region blended back to original image." R 0 100}
+ transitionSize 100
+ addUserKnob {14 blendSize l "Blend Size" t "Width and height of region in which to blend between offset image and original." R 0 100}
+ blendSize 100
+ addUserKnob {7 highPassAmount l "High Pass Amount" t "Amount by which to reduce texture to small details only."}
+ highPassAmount 1
+ addUserKnob {14 highPassFilterSize l "High Pass Filter Size" t "Size of detail to extract in high pass." R 0 100}
+ highPassFilterSize 15
+ addUserKnob {19 highPassGain l "High Pass Gain" t "Color multiplier for high pass."}
+ highPassGain 0.5
+}
+ Input {
+  inputs 0
+  name Input1
+  xpos 364
+  ypos 209
+ }
+ Dot {
+  name Dot15
+  xpos 398
+  ypos 281
+ }
+set N19eaee50 [stack 0]
+ Dot {
+  name Dot14
+  xpos 398
+  ypos 313
+ }
+set N19eae9b0 [stack 0]
+push $N19eaee50
+ Blur {
+  size {{parent.highPassFilterSize.main.w i} {parent.highPassFilterSize.main.h i}}
+  name Blur2
+  xpos 286
+  ypos 271
+ }
+ Merge2 {
+  inputs 2
+  operation divide
+  name Merge3
+  xpos 286
+  ypos 309
+ }
+ ColorCorrect {
+  channels rgba
+  gain {{parent.highPassGain.main.r i} {parent.highPassGain.main.g i} {parent.highPassGain.main.b i} {parent.highPassGain.main.a i}}
+  name ColorCorrect1
+  xpos 286
+  ypos 342
+ }
+push $N19eae9b0
+ Dissolve {
+  inputs 2
+  which {{parent.highPassAmount.main i}}
+  name Dissolve3
+  xpos 364
+  ypos 386
+ }
+set N1a0c4b20 [stack 0]
+ Dot {
+  name Dot4
+  xpos 398
+  ypos 441
+ }
+set N2997cab0 [stack 0]
+ Transform {
+  translate {{"fmod(parent.offset.main.x + (parent.centerHorizontal) * (actual_format.width - 1) / 2, (actual_format.width - 1))" i} 0}
+  center {1024 778}
+  name Transform3
+  xpos 364
+  ypos 459
+ }
+push $N2997cab0
+ Dot {
+  name Dot7
+  xpos 499
+  ypos 441
+ }
+ Transform {
+  translate {{"parent.Transform3.translate.main.x - actual_format.width"} 0}
+  center {1024 778}
+  name Transform4
+  xpos 465
+  ypos 459
+ }
+ Dot {
+  name Dot8
+  xpos 499
+  ypos 489
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  name Merge10
+  xpos 364
+  ypos 485
+ }
+ Crop {
+  box {0 0 {actual_format.width} {actual_format.height}}
+  reformat true
+  name Crop3
+  xpos 364
+  ypos 511
+ }
+push $N2997cab0
+ Dot {
+  name Dot1
+  xpos 299
+  ypos 441
+ }
+set N2997b5e0 [stack 0]
+ Switch {
+  inputs 2
+  which {{"(parent.Transform3.translate.main.x != 0)" i}}
+  name Switch2
+  xpos 265
+  ypos 511
+ }
+set N945f9e0 [stack 0]
+ Shuffle {
+  red black
+  green black
+  blue black
+  alpha black
+  name Shuffle1
+  xpos 364
+  ypos 558
+ }
+ Rectangle {
+  output rgb
+  area {{"parent.Transform3.translate.main.x - (parent.transitionSize.main.w + parent.blendSize.main.w)" i} 0 {"parent.Transform3.translate.main.x + (parent.transitionSize.main.w + parent.blendSize.main.w)" i} {actual_format.height i}}
+  softness {{parent.blendSize.main.w i} 0}
+  name Rectangle1
+  xpos 364
+  ypos 600
+ }
+push $N2997b5e0
+ Dot {
+  name Dot10
+  xpos 220
+  ypos 441
+ }
+ Dot {
+  name Dot11
+  xpos 220
+  ypos 604
+ }
+push $N945f9e0
+ Dissolve {
+  inputs 2+1
+  which 1
+  maskChannelMask rgba.red
+  name Dissolve1
+  xpos 265
+  ypos 594
+ }
+ Dot {
+  name Dot3
+  xpos 299
+  ypos 644
+ }
+set N2997aef0 [stack 0]
+ Dot {
+  name Dot5
+  xpos 398
+  ypos 644
+ }
+set N2997ba80 [stack 0]
+ Dot {
+  name Dot6
+  xpos 500
+  ypos 644
+ }
+ Transform {
+  translate {0 {"parent.Transform6.translate.main.y - actual_format.height"}}
+  center {1024 778}
+  name Transform7
+  xpos 466
+  ypos 662
+ }
+ Dot {
+  name Dot9
+  xpos 500
+  ypos 695
+ }
+push $N2997ba80
+ Transform {
+  translate {0 {"fmod(parent.offset.main.y + (parent.centerVertical) * (actual_format.height - 1) / 2, actual_format.height - 1)" i}}
+  center {1254.5 1074}
+  name Transform6
+  xpos 364
+  ypos 665
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  name Merge11
+  xpos 364
+  ypos 691
+ }
+ Crop {
+  box {0 0 {actual_format.width} {actual_format.height}}
+  reformat true
+  name Crop4
+  xpos 364
+  ypos 717
+ }
+ Dot {
+  name Dot2
+  xpos 398
+  ypos 743
+ }
+push $N2997aef0
+ Switch {
+  inputs 2
+  which {{"(parent.Transform6.translate.main.y != 0)" i}}
+  name Switch3
+  xpos 265
+  ypos 739
+ }
+set N9460190 [stack 0]
+ Shuffle {
+  red black
+  green black
+  blue black
+  alpha black
+  name Shuffle2
+  xpos 372
+  ypos 770
+ }
+ Rectangle {
+  output {rgba.red -rgba.green -rgba.blue -rgba.alpha}
+  area {0 {"parent.Transform6.translate.main.y - (parent.transitionSize.main.h + parent.blendSize.main.h)" i} {actual_format.width i} {"parent.Transform6.translate.main.y + (parent.transitionSize.main.h + parent.blendSize.main.h)" i}}
+  softness {0 {parent.blendSize.main.h i}}
+  name Rectangle2
+  xpos 372
+  ypos 801
+ }
+push $N2997aef0
+ Dot {
+  name Dot12
+  xpos 222
+  ypos 644
+ }
+ Dot {
+  name Dot13
+  xpos 222
+  ypos 805
+ }
+push $N9460190
+ Dissolve {
+  inputs 2+1
+  which 1
+  maskChannelMask rgba.red
+  name Dissolve2
+  xpos 265
+  ypos 795
+ }
+ Output {
+  name Output1
+  xpos 265
+  ypos 1079
+ }
+push $N1a0c4b20
+ Viewer {
+  gamma 0.45
+  name Viewer1
+  xpos 44
+  ypos 918
+ }
+end_group

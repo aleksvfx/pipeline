@@ -1,0 +1,133 @@
+#! C:/Program Files/Nuke6.0v1/Nuke6.0.exe -nx
+version 6.0 v1
+Gizmo {
+ addUserKnob {20 User}
+ addUserKnob {7 innerRadius}
+ innerRadius 0.735
+ addUserKnob {7 outerRadius}
+ outerRadius 0.885
+ addUserKnob {7 blurAmount R 0 360}
+ blurAmount 44
+ addUserKnob {12 center}
+ center {1132.599976 502.6000061}
+ addUserKnob {12 right}
+ right {1162.599976 485.7999878}
+ addUserKnob {12 top}
+ top {1135.800049 578.7999878}
+}
+ Input {
+  inputs 0
+  name Input1
+  xpos -441
+  ypos -616
+ }
+set N19179d60 [stack 0]
+ Crop {
+  box {{"parent.center.main.x - abs(parent.center.main.x - parent.right.x)" i x1050 1087} {"parent.center.main.y - abs(parent.center.main.y - parent.top.y)" i x1050 432.5} {"parent.center.main.x + abs(parent.center.main.x - parent.right.x)" i x1050 1187} {"parent.center.main.y + abs(parent.center.main.y - parent.top.y)" i x1050 562.5}}
+  name Crop1
+  xpos -327
+  ypos -577
+ }
+ Transform {
+  rotate {{"-degrees(atan2(parent.top.main.x - parent.center.main.x,parent.top.main.y - parent.center.main.y))" i}}
+  scale {{"max(abs((parent.top.main.y - parent.center.main.y) / (parent.right.main.x - parent.center.main.x)),1)" i} {"max(abs((parent.right.main.x - parent.center.main.x) / (parent.top.main.y - parent.center.main.y)),1)" i}}
+  center {{parent.center.main.x i} {parent.center.main.y i}}
+  name Transform1
+  xpos -327
+  ypos -540
+ }
+ Transform {
+  rotate {{parent.DirBlurWrapper1.BlurLength.main/2 i}}
+  center {{parent.center.main.x i} {parent.center.main.y i}}
+  name Transform4
+  xpos -327
+  ypos -514
+ }
+set N1917a4b0 [stack 0]
+ Radial {
+  output {-rgba.red -rgba.green -rgba.blue rgba.alpha}
+  replace true
+  area {{"parent.center.x - boxRadius" i} {"parent.center.y - boxRadius" i} {"parent.center.x + boxRadius" i} {"parent.center.y + boxRadius" i}}
+  name Radial1
+  xpos -187
+  ypos -504
+  addUserKnob {20 User}
+  addUserKnob {7 boxRadius}
+  boxRadius {{"max(sqrt(pow(parent.right.x - parent.center.x,2) + pow(parent.right.y - parent.center.y,2)),sqrt(pow(parent.top.x - parent.center.x,2) + pow(parent.top.y - parent.center.y,2))) * parent.outerRadius.main" i}}
+ }
+ Multiply {
+  channels alpha
+  value {{"1 / max(parent.outerRadius.main - parent.outerRadius.main * parent.innerRadius.main,.001)" i}}
+  name Multiply1
+  xpos -187
+  ypos -466
+ }
+ Clamp {
+  channels alpha
+  name Clamp1
+  xpos -187
+  ypos -428
+ }
+push $N1917a4b0
+ DirBlurWrapper {
+  channels rgb
+  BlurType radial
+  BlurCenter {{parent.center.main.x i} {parent.center.main.y i}}
+  BlurLength {{parent.blurAmount.main i}}
+  name DirBlurWrapper1
+  xpos -327
+  ypos -441
+ }
+ ShuffleCopy {
+  inputs 2
+  name ShuffleCopy1
+  xpos -187
+  ypos -351
+ }
+ Transform {
+  rotate {{parent.Transform1.rotate.main i}}
+  scale {{"1 / parent.Transform1.scale.main.w" i} {"1 /parent.Transform1.scale.main.h" i}}
+  center {{parent.center.main.x i} {parent.center.main.y i}}
+  name Transform2
+  xpos -327
+  ypos -324
+ }
+ Transform {
+  rotate {{-parent.Transform1.rotate.main i}}
+  center {{parent.center.main.x i} {parent.center.main.y i}}
+  name Transform3
+  xpos -327
+  ypos -298
+ }
+set N1917b5c0 [stack 0]
+ Dot {
+  name Dot1
+  xpos -293
+  ypos -226
+ }
+push $N1917b5c0
+push $N19179d60
+ Dissolve {
+  inputs 2+1
+  channels rgb
+  which 1
+  name Dissolve1
+  xpos -441
+  ypos -230
+ }
+set N1917baa0 [stack 0]
+ Output {
+  name Output1
+  xpos -441
+  ypos -186
+ }
+push $N1917b5c0
+push $N1917baa0
+ Viewer {
+  inputs 2
+  input_process false
+  name Viewer1
+  xpos -25
+  ypos -451
+ }
+end_group

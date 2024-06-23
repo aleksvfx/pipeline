@@ -1,0 +1,152 @@
+#! /S2/3d/farm/nuke/apps/software/Nuke5.0.2/Nuke5.0 -nx
+version 5.0200
+Gizmo {
+ addUserKnob {20 User}
+ addUserKnob {7 ab_red l red t "red aberation pixel distance" R 0 10}
+ ab_red 4.5
+ addUserKnob {7 ab_green l green R 0 10}
+ ab_green 3.1
+ addUserKnob {7 ab_blue l blue R 0 10}
+ ab_blue 2.5
+ addUserKnob {6 soften_blue l "soften blue" t "soften the blue chanel insted of adding aberation"}
+ soften_blue true
+ addUserKnob {26 ""}
+ addUserKnob {7 density l vignette t "The denisty of the glass wich adds optical vignette"}
+ density 0.3
+ addUserKnob {7 falloff l "fall off" t "The fall off the the aberation effect" R 0.1 1.5}
+ falloff 1
+ addUserKnob {7 aspectRatio l "aspect ratio" t "Aspect Ratio of the filter effect" R 0.5 2}
+ aspectRatio 1.4
+}
+ Input {
+  inputs 0
+  name Input1
+  xpos 96
+  ypos -307
+ }
+ Radial {
+  output alpha
+  cliptype none
+  replace true
+  maskChannel -rgba.alpha
+  area {{parent.format.x i} {"((parent.format.h-(parent.format.w / parent.aspectRatio))/2)+parent.format.y" i} {parent.format.r i} {"(parent.format.t-(parent.format.h-(parent.format.w / parent.aspectRatio))/2)+parent.format.y" i}}
+  softness {{parent.falloff*.5 i}}
+  name Radial1
+  xpos 96
+  ypos -248
+ }
+ Blur {
+  channels alpha
+  size {{(parent.format.w/14)*parent.falloff i}}
+  maskChannel -rgba.alpha
+  name Blur6
+  xpos 96
+  ypos -180
+ }
+ Crop {
+  box {{parent.format.x i} {parent.format.y i} {parent.format.r i} {parent.format.t i}}
+  crop false
+  name Crop1
+  xpos 96
+  ypos -128
+ }
+ TransformMasked {
+  channels {rgba.red -rgba.green -rgba.blue}
+  scale {{(parent.ab_red+parent.format.w)/parent.format.w i}}
+  center {{(parent.format.w/2)+parent.format.x i} {(parent.format.h/2)+parent.format.y i}}
+  name TransformMasked1
+  tile_color 0xff000000
+  xpos 96
+  ypos -85
+ }
+ Blur {
+  channels {rgba.red -rgba.green -rgba.blue rgba.alpha}
+  size {{parent.ab_red i}}
+  maskFrom input
+  invert_mask true
+  name Blur7
+  tile_color 0xff000000
+  xpos 96
+  ypos -20
+ }
+ TransformMasked {
+  channels {-rgba.red rgba.green -rgba.blue}
+  scale {{(parent.ab_green+parent.format.w)/parent.format.w i}}
+  center {{(parent.format.w/2)+parent.format.x i} {(parent.format.h/2)+parent.format.y i}}
+  name TransformMasked2
+  tile_color 0xff0000
+  xpos 96
+  ypos 48
+ }
+ Blur {
+  channels {-rgba.red rgba.green -rgba.blue -rgba.alpha}
+  size {{parent.ab_green i}}
+  maskFrom input
+  invert_mask true
+  name Blur8
+  tile_color 0xff0000
+  xpos 96
+  ypos 107
+ }
+set Nbfe3620 [stack 0]
+ Blur {
+  channels {-rgba.red -rgba.green rgba.blue}
+  size {{parent.ab_blue i}}
+  maskChannel -rgba.alpha
+  maskFrom input
+  name Blur1
+  tile_color 0xff00
+  xpos 208
+  ypos 202
+ }
+push $Nbfe3620
+ TransformMasked {
+  channels {-rgba.red -rgba.green rgba.blue}
+  scale {{(parent.ab_blue+parent.format.w)/parent.format.w i}}
+  center {{(parent.format.w/2)+parent.format.x i} {(parent.format.h/2)+parent.format.y i}}
+  name TransformMasked3
+  tile_color 0xff00
+  xpos -15
+  ypos 173
+ }
+ Blur {
+  channels {-rgba.red -rgba.green rgba.blue}
+  size {{parent.ab_blue i}}
+  maskFrom input
+  name Blur9
+  tile_color 0xff00
+  xpos -15
+  ypos 231
+ }
+ Switch {
+  inputs 2
+  which {{parent.soften_blue i}}
+  name Switch1
+  xpos 96
+  ypos 299
+ }
+ Grade {
+  multiply {{1+(1-(1+(parent.density/2))) i}}
+  add {0}
+  gamma {{1/(1+(parent.density/2)) i}}
+  maskFrom input
+  invert_mask true
+  unpremult -rgba.alpha
+  name Grade10
+  xpos 96
+  ypos 343
+ }
+ Crop {
+  box {{parent.format.x i} {parent.format.y i} {parent.format.r i} {parent.format.t i}}
+  crop false
+  name Crop2
+  selected true
+  xpos 96
+  ypos 517
+ }
+ Output {
+  name Output1
+  xpos 96
+  ypos 690
+ }
+end_group

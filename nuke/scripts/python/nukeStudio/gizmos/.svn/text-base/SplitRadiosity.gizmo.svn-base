@@ -1,0 +1,113 @@
+#! /S2/3d/farm/nuke/apps/software/Nuke5.0.2/Nuke5.0 -nx
+version 5.0200
+Gizmo {
+ addUserKnob {20 "" l User}
+ addUserKnob {41 value l amount t "The total about of radiosity added the image" T Multiply1.value}
+ addUserKnob {41 contrast l bias t "the bias of the unsharpen filter; higher the bias the more sensitive effect is towards highlights" T ColorCorrect5.contrast}
+ addUserKnob {18 size R 0 15}
+ size {4 3 2}
+ addUserKnob {26 ""}
+ addUserKnob {6 cropOpt l "crop to format"}
+ cropOpt true
+ addUserKnob {41 crop l "black outside" T Crop1.crop}
+}
+ Input {
+  inputs 0
+  name Input1
+  xpos -118
+  ypos -511
+ }
+ Dot {
+  name Dot1
+  tile_color 0xc0c0c000
+  xpos -75
+  ypos -360
+ }
+set Nb6864988 [stack 0]
+ Blur {
+  channels {rgba.red -rgba.green -rgba.blue}
+  size {{parent.size.r}}
+  crop false
+  name Blur1
+  xpos 54
+  ypos -347
+ }
+ Blur {
+  channels {-rgba.red rgba.green -rgba.blue}
+  size {{parent.size.g}}
+  crop false
+  name Blur2
+  xpos 54
+  ypos -287
+ }
+ Blur {
+  channels {-rgba.red -rgba.green rgba.blue}
+  size {{parent.size.b}}
+  crop false
+  name Blur3
+  xpos 54
+  ypos -220
+ }
+ ColorCorrect {
+  contrast 1.2
+  maskChannel -rgba.alpha
+  maskFrom input
+  unpremult -rgba.alpha
+  name ColorCorrect5
+  xpos 54
+  ypos -153
+ }
+set Nb6857ab8 [stack 0]
+push $Nb6864988
+ Merge {
+  inputs 2
+  operation minus
+  maskChannel none
+  maskFrom input
+  name Merge6
+  tile_color 0x7171c600
+  note_font_size 16
+  xpos -6
+  ypos -75
+ }
+ Multiply {
+  channels rgba
+  name Multiply1
+  xpos -6
+  ypos -33
+ }
+push $Nb6864988
+ Merge {
+  inputs 2
+  operation plus
+  output {rgba.red rgba.green rgba.blue -rgba.alpha}
+  maskChannel none
+  maskFrom input
+  mix 0.45
+  name Plus
+  tile_color 0x7171c600
+  note_font_size 16
+  xpos -109
+  ypos 55
+ }
+ Crop {
+  box {{parent.format.x i} {parent.format.y i} {parent.format.r i} {parent.format.t i}}
+  intersect true
+  crop false
+  name Crop1
+  xpos -109
+  ypos 105
+  disable {{!parent.cropOpt}}
+ }
+ Output {
+  name Output1
+  xpos -109
+  ypos 175
+ }
+push $Nb6857ab8
+ Viewer {
+  name Viewer1
+  xpos 100
+  ypos 35
+ }
+end_group

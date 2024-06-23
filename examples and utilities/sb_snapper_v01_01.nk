@@ -1,0 +1,4453 @@
+#! /Applications/Nuke5.2v3/Nuke5.2v3.app/Contents/MacOS/Nuke5.2v3 -nx
+version 5.2300
+define_window_layout_xml {<?xml version="1.0" encoding="UTF-8"?>
+<layout version="1.0">
+    <window x="-3" y="22" w="1680" h="966" screen="0">
+        <splitter orientation="1">
+            <split size="1062"></split>
+            <splitter orientation="1">
+                <split size="40"></split>
+                <dock id="" hideTitles="1" activePageId="Toolbar.1">
+                    <page id="Toolbar.1"></page>
+                </dock>
+                <split size="1018"></split>
+                <splitter orientation="2">
+                    <split size="470"></split>
+                    <dock id="" activePageId="Viewer.1">
+                        <page id="Viewer.1"></page>
+                    </dock>
+                    <split size="470"></split>
+                    <dock id="" activePageId="DAG.1">
+                        <page id="DAG.1"></page>
+                        <page id="Curve Editor.1"></page>
+                    </dock>
+                </splitter>
+            </splitter>
+            <split size="614"></split>
+            <dock id="" activePageId="Properties.1">
+                <page id="Properties.1"></page>
+            </dock>
+        </splitter>
+    </window>
+</layout>
+}
+Root {
+ inputs 0
+ name /mnt/nethome/users/sean/Desktop/sb_snapper_v01_01.nk
+ frame 54
+ last_frame 200
+ format "640 480 0 0 640 480 1 PC_Video"
+ proxy_format "640 480 0 0 640 480 1 PC_Video"
+}
+Camera {
+ inputs 0
+ rot_order XYZ
+ translate {{curve x1 -0.0727036 -0.124528 -0.17216 -0.223088 -0.274605 -0.318495 -0.362303 -0.413771 -0.468743 -0.521948 -0.573713 -0.627269 -0.682987 -0.739813 -0.794587 -0.848214 -0.904663 -0.962984 -1.02154 -1.08383 -1.14188 -1.19924 -1.25551 -1.31936 -1.38161 -1.42759 -1.4925 -1.55227 -1.61355 -1.6807 -1.74554 -1.8105 -1.87596 -1.94037 -2.00588 -2.07409 -2.1399 -2.20713 -2.27477 -2.34172 -2.40959 -2.47923 -2.54689 -2.61709 -2.68673 -2.75676 -2.82905 -2.89957 -2.97231 -3.04452 -3.11753 -3.19007 -3.26452 -3.33771 -3.41233 -3.48756 -3.56337 -3.63983 -3.71623 -3.79175 -3.86869 -3.9468 -4.02414 -4.10286 -4.1813 -4.26163 -4.34116 -4.42105 -4.50163 -4.58271 -4.66445 -4.7461 -4.82666 -4.90967 -4.99237 -5.07617 -5.16034 -5.24316 -5.3283 -5.41266 -5.49828 -5.58263 -5.66845 -5.75471 -5.84289 -5.93052 -6.01836 -6.10725 -6.19542 -6.28629 -6.37561 -6.46579 -6.55545 -6.64701 -6.73833 -6.82945 -6.92051 -7.014 -7.10619 -7.19889 -7.29285 -7.38646 -7.48046 -7.57556 -7.67062 -7.76558 -7.86193 -7.95825 -8.0549 -8.15209 -8.24944 -8.34713 -8.4455 -8.54466 -8.64383 -8.74319 -8.84234 -8.94202 -9.04109 -9.14202 -9.24236 -9.34415 -9.44605 -9.54784 -9.6514 -9.75541 -9.85996 -9.96401 -10.0688 -10.1743 -10.2792 -10.3856 -10.4912 -10.5965 -10.703 -10.8095 -10.9169 -11.0268 -11.1359 -11.2443 -11.3518 -11.4631 -11.5787 -11.6957 -11.8078 -11.9212 -12.0285 -12.148 -12.2672 -12.3817 -12.4908 -12.6026 -12.7225 -12.8356 -12.9402 -13.048 -13.1582 -13.2693 -13.3764 -13.4871 -13.5941 -13.7016 -13.8158 -13.9207 -14.0314 -14.1402 -14.2481 -14.3628 -14.4708 -14.5835 -14.6986 -14.8112 -14.9226 -15.0373 -15.1531 -15.2662 -15.3809 -15.4993 -15.6085 -15.7273 -15.8418 -15.9529 -16.0706 -16.1853 -16.3007 -16.4172 -16.5284 -16.6416 -16.7547 -16.8713 -16.989 -17.1057 -17.2212 -17.3377 -17.4538 -17.5724 -17.6896 -17.8062 -17.9277 -18.0417} {curve x1 39.7623 39.7723 39.7926 39.81 39.8255 39.8509 39.8842 39.9003 39.9042 39.9197 39.9377 39.9595 39.9798 39.9934 40.0112 40.0312 40.0482 40.0748 40.0894 40.1142 40.1397 40.1641 40.1857 40.2068 40.233 40.2545 40.2781 40.3012 40.323 40.344 40.3682 40.3902 40.4106 40.4374 40.4536 40.475 40.4975 40.5139 40.5344 40.5539 40.5755 40.5954 40.618 40.6366 40.6587 40.6768 40.694 40.715 40.73 40.753 40.7676 40.7836 40.8049 40.824 40.8406 40.8578 40.8747 40.8932 40.91 40.932 40.9547 40.969 40.9887 41.0067 41.0219 41.0416 41.0553 41.0734 41.0934 41.1123 41.1311 41.15 41.1663 41.1825 41.1986 41.2207 41.2366 41.2525 41.267 41.2869 41.3008 41.3232 41.3394 41.3546 41.3714 41.3876 41.4063 41.4228 41.4405 41.4563 41.4701 41.4854 41.5036 41.5207 41.5393 41.555 41.5745 41.591 41.61 41.6328 41.6508 41.6657 41.6802 41.7016 41.7177 41.7351 41.7457 41.7645 41.782 41.8016 41.8169 41.8352 41.8509 41.8723 41.8954 41.9157 41.9434 41.9621 41.9825 42.0012 42.0145 42.0325 42.0484 42.0649 42.087 42.1083 42.1313 42.1479 42.1637 42.1864 42.2 42.2152 42.2331 42.2477 42.2675 42.2812 42.2958 42.3132 42.3324 42.3404 42.3516 42.3596 42.3784 42.3902 42.3961 42.4087 42.414 42.423 42.4263 42.4328 42.4384 42.4452 42.4584 42.4678 42.4819 42.4945 42.5073 42.5242 42.5362 42.5586 42.5795 42.593 42.6091 42.6261 42.6501 42.6669 42.68 42.6965 42.7034 42.719 42.7368 42.7508 42.768 42.7811 42.7934 42.8131 42.8252 42.8344 42.8468 42.8569 42.8804 42.8987 42.9106 42.9322 42.9458 42.9655 42.983 42.9957 43.0114 43.026 43.0404 43.0571 43.0721 43.0856 43.1051 43.1238 43.134 43.1513 43.1647 43.1857} {curve x1 0.182635 0.267342 0.35652 0.448551 0.537539 0.626213 0.721378 0.811342 0.899135 0.987172 1.07632 1.16413 1.25218 1.34018 1.42721 1.51525 1.60474 1.69105 1.77944 1.86426 1.94979 2.03717 2.11713 2.20177 2.28779 2.36777 2.45181 2.53565 2.61793 2.70151 2.78592 2.86932 2.95309 3.03658 3.11901 3.20233 3.28442 3.36805 3.45042 3.5309 3.61326 3.6944 3.77507 3.85719 3.93821 4.01847 4.09889 4.17871 4.25842 4.33743 4.41734 4.49536 4.57528 4.65463 4.7334 4.81076 4.88893 4.96719 5.04482 5.12354 5.19965 5.27732 5.35445 5.43123 5.50772 5.58437 5.66096 5.73681 5.8126 5.88869 5.96491 6.03944 6.11468 6.18941 6.26384 6.33779 6.41254 6.48622 6.56063 6.63383 6.70643 6.77891 6.85259 6.92431 6.99746 7.06917 7.1419 7.21465 7.28577 7.35713 7.42778 7.49858 7.56968 7.64004 7.71081 7.77988 7.85094 7.9201 7.98993 8.06008 8.12939 8.1979 8.26656 8.33432 8.40238 8.47044 8.53738 8.60494 8.67235 8.73972 8.80574 8.87349 8.93892 9.00473 9.07053 9.13652 9.20285 9.26826 9.33228 9.39904 9.45944 9.52542 9.58936 9.65016 9.71597 9.77952 9.84275 9.90706 9.96617 10.0298 10.0917 10.1549 10.2178 10.2765 10.3379 10.3983 10.4585 10.5177 10.5791 10.6345 10.6939 10.7493 10.7968 10.8578 10.9026 10.9602 11.0153 11.0646 11.1209 11.1647 11.2204 11.2708 11.317 11.3703 11.4232 11.4744 11.5239 11.5719 11.6224 11.671 11.7189 11.7641 11.8099 11.8544 11.9014 11.9431 11.9862 12.033 12.0744 12.1139 12.1552 12.1968 12.2361 12.2786 12.3191 12.3609 12.3959 12.4362 12.4744 12.5135 12.5471 12.5843 12.6189 12.6575 12.6954 12.7289 12.7692 12.804 12.8354 12.8662 12.8988 12.9301 12.9616 12.991 13.0256 13.0554 13.0847 13.1153 13.1455 13.1724}}
+ rotate {{curve x1 -85.442 -85.2723 -85.1958 -85.1208 -85.0407 -85.0251 -85.112 -85.2706 -85.3017 -85.2236 -85.1103 -85.0467 -84.9883 -84.8751 -84.7387 -84.6164 -84.5669 -84.5415 -84.5438 -84.5427 -84.5769 -84.6595 -84.6935 -84.751 -84.8308 -84.9494 -85.0576 -85.1119 -85.1652 -85.2246 -85.2906 -85.2989 -85.2681 -85.2692 -85.2691 -85.2718 -85.2607 -85.2591 -85.2533 -85.2687 -85.2897 -85.2978 -85.2942 -85.2924 -85.3271 -85.3329 -85.3069 -85.289 -85.2934 -85.2981 -85.2934 -85.2619 -85.2306 -85.2254 -85.214 -85.1695 -85.102 -85.0564 -85.0354 -84.9995 -84.9682 -84.9108 -84.8497 -84.8317 -84.7722 -84.6934 -84.6012 -84.5288 -84.4815 -84.4138 -84.3417 -84.2943 -84.2725 -84.2469 -84.207 -84.1531 -84.1097 -84.084 -84.0627 -84.0468 -83.9922 -83.9432 -83.9183 -83.8933 -83.8369 -83.7603 -83.7024 -83.6877 -83.6812 -83.6493 -83.6413 -83.6312 -83.6493 -83.6911 -83.6893 -83.7133 -83.7516 -83.8144 -83.8708 -83.8925 -83.9504 -84.0221 -84.0841 -84.1363 -84.1557 -84.2082 -84.2789 -84.3261 -84.3381 -84.3381 -84.3749 -84.4298 -84.4678 -84.4745 -84.5014 -84.5673 -84.6687 -84.771 -84.8367 -84.9367 -85.1066 -85.2697 -85.4047 -85.5122 -85.6386 -85.788 -85.9058 -86.004 -86.088 -86.187 -86.2985 -86.3681 -86.4221 -86.4991 -86.5718 -86.6809 -86.7454 -86.807 -86.8855 -87.0092 -87.1358 -87.2103 -87.2973 -87.4039 -87.5658 -87.7123 -87.8162 -87.9482 -88.0934 -88.2694 -88.3843 -88.4793 -88.6094 -88.7268 -88.87 -88.9443 -89.0309 -89.1475 -89.2451 -89.332 -89.3679 -89.4147 -89.4848 -89.5618 -89.6216 -89.6614 -89.6763 -89.6939 -89.7357 -89.7529 -89.7203 -89.6808 -89.6789 -89.6841 -89.6648 -89.6188 -89.6008 -89.6281 -89.6464 -89.6262 -89.5812 -89.5417 -89.5379 -89.5316 -89.5084 -89.4703 -89.4117 -89.3844 -89.3449 -89.3112 -89.253 -89.1995 -89.1453 -89.0735 -88.9924 -88.8951 -88.8481 -88.8193 -88.771 -88.7075} {curve x1 47.009 46.7861 46.5726 46.375 46.1678 45.9519 45.7856 45.6904 45.5812 45.509 45.417 45.2955 45.151 44.9331 44.6812 44.4142 44.0847 43.7538 43.4249 43.0748 42.7466 42.424 42.1296 41.8506 41.552 41.2898 41.0444 40.7847 40.5702 40.3316 40.0843 39.857 39.6052 39.3777 39.148 38.912 38.6912 38.4583 38.2253 38.0063 37.7727 37.5475 37.3391 37.0954 36.8734 36.6568 36.4181 36.2035 35.9635 35.7171 35.4721 35.2131 34.9875 34.7106 34.4493 34.2238 33.9555 33.6812 33.4364 33.1643 32.902 32.6474 32.4025 32.1641 31.9247 31.7051 31.4879 31.2326 31.0193 30.7878 30.5214 30.2639 29.9706 29.6946 29.4389 29.149 28.8752 28.5777 28.2715 28.0039 27.7322 27.4561 27.1653 26.8648 26.5783 26.2842 25.9574 25.6398 25.3118 24.9522 24.6027 24.2312 23.8669 23.4949 23.1032 22.7515 22.3772 21.9951 21.6318 21.2435 20.8691 20.5012 20.1063 19.754 19.4153 19.0533 18.7211 18.3864 18.0734 17.7704 17.4638 17.1685 16.8659 16.5524 16.278 15.9602 15.6309 15.2952 14.9509 14.6021 14.209 13.8179 13.4494 13.0702 12.6772 12.3362 11.9538 11.5771 11.2212 10.8492 10.4893 10.1182 9.7531 9.3885 9.03111 8.69788 8.36897 8.02723 7.71541 7.39935 7.06426 6.77275 6.48983 6.19513 5.92258 5.63328 5.37386 5.10104 4.81115 4.56315 4.31087 4.08263 3.84305 3.57737 3.34917 3.1174 2.8676 2.6186 2.36408 2.12 1.87174 1.57837 1.30029 1.03003 0.736578 0.467498 0.193322 -0.0808537 -0.341751 -0.633927 -0.88527 -1.14538 -1.4434 -1.73587 -2.04244 -2.34393 -2.67349 -3.02504 -3.35602 -3.68162 -4.01863 -4.34293 -4.68495 -5.02885 -5.35616 -5.68576 -5.99788 -6.30183 -6.6232 -6.91429 -7.19598 -7.47668 -7.75777 -8.04396 -8.31005 -8.58389 -8.89016 -9.17754 -9.44494 -9.72218} {curve x1 5.72486 6.09741 6.37749 6.62458 6.89123 7.09024 7.19688 7.28553 7.47241 7.71537 7.97329 8.17074 8.35456 8.56521 8.78439 9.02845 9.21829 9.33189 9.40602 9.48091 9.51021 9.468 9.40588 9.34294 9.21468 9.05188 8.90884 8.75531 8.63521 8.49281 8.34917 8.27488 8.21796 8.1555 8.12996 8.09815 8.08487 8.07394 8.06669 8.08308 8.08792 8.08601 8.09479 8.11068 8.13584 8.15717 8.17426 8.20427 8.23171 8.23455 8.23017 8.20756 8.21937 8.21801 8.22251 8.25415 8.26425 8.27784 8.31001 8.32231 8.3319 8.34984 8.37536 8.40931 8.42062 8.43369 8.46436 8.49023 8.50843 8.51558 8.52487 8.55009 8.57576 8.60796 8.62878 8.62745 8.64658 8.68341 8.70924 8.72913 8.72504 8.74778 8.79765 8.81078 8.83585 8.86867 8.89856 8.93692 8.95885 8.97314 8.98277 8.98482 8.99047 8.97641 8.93795 8.92055 8.89371 8.85394 8.82579 8.77274 8.74145 8.72042 8.67295 8.63091 8.59098 8.53932 8.50869 8.46062 8.41722 8.36709 8.30816 8.2618 8.21689 8.15554 8.09248 8.00078 7.93356 7.86756 7.77683 7.69791 7.60593 7.51108 7.45233 7.39781 7.31945 7.24353 7.16107 7.09668 7.05209 6.96085 6.8855 6.81254 6.7313 6.66433 6.55569 6.46542 6.38665 6.28958 6.19893 6.11446 6.04393 5.99944 5.97586 5.94306 5.94306 5.94298 5.94344 5.95456 5.92276 5.91978 5.90048 5.90907 5.91661 5.9045 5.89837 5.89465 5.90028 5.89351 5.84977 5.81612 5.77068 5.71851 5.66724 5.6053 5.54601 5.49931 5.45225 5.4171 5.39628 5.38828 5.40966 5.40709 5.41192 5.42587 5.44824 5.46565 5.46391 5.47966 5.48585 5.51622 5.50019 5.46422 5.44712 5.42966 5.43915 5.4095 5.35045 5.31226 5.29395 5.29477 5.25881 5.21685 5.19236 5.18641 5.17725 5.13652 5.11193 5.10541 5.11369 5.09171}}
+ focal {{curve x1 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159 24.3159}}
+ haperture 14.7568
+ vaperture 8.3007
+ name PFTrackCamera01
+ label TEST0000
+ xpos -522
+ ypos -190
+ icon node_camera.xpm
+}
+Group {
+ inputs 0
+ name PointCloud
+ xpos -412
+ ypos -328
+ addUserKnob {20 "" l User}
+ addUserKnob {7 feature_size l "Feature Size" t feature_size}
+ feature_size 0.005
+}
+ Constant {
+  inputs 0
+  color {1 1 0 0}
+  name FeatureColour
+  xpos 290
+  ypos -34
+ }
+set N1972c600 [stack 0]
+ Input {
+  inputs 0
+  name Camera01AxisInput
+  xpos -127
+  ypos 1246
+ }
+set N1971e200 [stack 0]
+ SphereObj {
+  inputs 2
+  name Auto_01188
+  xpos 6010
+  ypos 109
+  import_chan ""
+  export_chan ""
+  translate {0.661661 0.27848 0.504403}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_01186
+  xpos 5900
+  ypos 155
+  import_chan ""
+  export_chan ""
+  translate {0.50917 0.365208 0.231885}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_01176
+  xpos 5790
+  ypos 155
+  import_chan ""
+  export_chan ""
+  translate {1.38024 0.583731 0.587867}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_01175
+  xpos 5680
+  ypos 155
+  import_chan ""
+  export_chan ""
+  translate {1.39409 0.592049 0.484157}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_01169
+  xpos 5570
+  ypos 155
+  import_chan ""
+  export_chan ""
+  translate {-1.13023 -0.104871 1.06613}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_01164
+  xpos 5460
+  ypos 155
+  import_chan ""
+  export_chan ""
+  translate {0.5067 0.422793 0.229604}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_01162
+  xpos 5350
+  ypos 155
+  import_chan ""
+  export_chan ""
+  translate {-1.00816 -0.228514 0.781803}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_01159
+  xpos 5240
+  ypos 155
+  import_chan ""
+  export_chan ""
+  translate {0.520871 0.51426 0.340152}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_01151
+  xpos 5130
+  ypos 155
+  import_chan ""
+  export_chan ""
+  translate {0.51775 0.643309 0.332836}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_01150
+  xpos 5020
+  ypos 155
+  import_chan ""
+  export_chan ""
+  translate {0.55292 0.845678 0.414781}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_01146
+  xpos 4910
+  ypos 155
+  import_chan ""
+  export_chan ""
+  translate {1.42991 0.592016 0.562011}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_01143
+  xpos 4800
+  ypos 155
+  import_chan ""
+  export_chan ""
+  translate {-1.00177 -0.270316 0.853486}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_01139
+  xpos 4690
+  ypos 155
+  import_chan ""
+  export_chan ""
+  translate {0.634719 0.86551 0.470102}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_01138
+  xpos 4580
+  ypos 155
+  import_chan ""
+  export_chan ""
+  translate {-0.948452 -0.297934 0.950365}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_01135
+  xpos 4470
+  ypos 155
+  import_chan ""
+  export_chan ""
+  translate {0.71487 1.06699 0.515513}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_01134
+  xpos 4360
+  ypos 155
+  import_chan ""
+  export_chan ""
+  translate {1.49799 0.524824 0.707782}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_01130
+  xpos 4250
+  ypos 155
+  import_chan ""
+  export_chan ""
+  translate {0.620584 0.979755 0.469571}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_01127
+  xpos 4140
+  ypos 155
+  import_chan ""
+  export_chan ""
+  translate {1.37002 0.440793 1.08801}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_01117
+  xpos 4030
+  ypos 155
+  import_chan ""
+  export_chan ""
+  translate {1.40546 0.561111 1.10087}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_01114
+  xpos 3920
+  ypos 155
+  import_chan ""
+  export_chan ""
+  translate {1.47638 0.601974 0.590837}
+  uniform_scale {{feature_size i}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_01107
+  xpos 3810
+  ypos 155
+  import_chan ""
+  export_chan ""
+  translate {1.36427 0.440998 1.34727}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_01105
+  xpos 3700
+  ypos 155
+  import_chan ""
+  export_chan ""
+  translate {1.5116 0.549469 0.707548}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_01102
+  xpos 3590
+  ypos 155
+  import_chan ""
+  export_chan ""
+  translate {0.5582 0.857717 0.408821}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_01099
+  xpos 3480
+  ypos 155
+  import_chan ""
+  export_chan ""
+  translate {-0.982587 -0.184555 1.17716}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_01096
+  xpos 3370
+  ypos 155
+  import_chan ""
+  export_chan ""
+  translate {1.36007 0.496004 1.67527}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_01090
+  xpos 3260
+  ypos 155
+  import_chan ""
+  export_chan ""
+  translate {-0.886895 -0.25513 0.381732}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_01080
+  xpos 3150
+  ypos 155
+  import_chan ""
+  export_chan ""
+  translate {1.47719 0.515805 1.59755}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_01074
+  xpos 3040
+  ypos 155
+  import_chan ""
+  export_chan ""
+  translate {0.651898 0.97625 0.470278}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_01069
+  xpos 2930
+  ypos 155
+  import_chan ""
+  export_chan ""
+  translate {0.108707 0.377894 0.427378}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_01065
+  xpos 2820
+  ypos 155
+  import_chan ""
+  export_chan ""
+  translate {-0.148346 0.339658 0.344367}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_01057
+  xpos 2710
+  ypos 155
+  import_chan ""
+  export_chan ""
+  translate {-0.874817 -0.227815 0.905432}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_01055
+  xpos 2600
+  ypos 155
+  import_chan ""
+  export_chan ""
+  translate {1.42874 0.530784 1.59268}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_01052
+  xpos 2490
+  ypos 155
+  import_chan ""
+  export_chan ""
+  translate {-0.896417 -0.287833 0.947932}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_01047
+  xpos 2380
+  ypos 155
+  import_chan ""
+  export_chan ""
+  translate {-0.842181 -0.249606 0.660971}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_01042
+  xpos 2270
+  ypos 155
+  import_chan ""
+  export_chan ""
+  translate {0.524233 0.713836 0.313515}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_01036
+  xpos 2160
+  ypos 155
+  import_chan ""
+  export_chan ""
+  translate {-0.896251 -0.319566 0.980643}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_01031
+  xpos 2050
+  ypos 155
+  import_chan ""
+  export_chan ""
+  translate {0.034537 0.366778 0.45933}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_01029
+  xpos 1940
+  ypos 155
+  import_chan ""
+  export_chan ""
+  translate {1.62681 0.552562 0.700121}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_01027
+  xpos 1830
+  ypos 155
+  import_chan ""
+  export_chan ""
+  translate {1.54984 0.327229 0.844744}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_01021
+  xpos 27889
+  ypos -407
+  import_chan ""
+  export_chan ""
+  translate {-0.803645 -0.174144 1.08604}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_01018
+  xpos 1610
+  ypos 155
+  import_chan ""
+  export_chan ""
+  translate {0.757545 1.28111 0.463965}
+  uniform_scale {{feature_size i}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_01014
+  xpos 1500
+  ypos 155
+  import_chan ""
+  export_chan ""
+  translate {1.89735 0.314071 0.465654}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_01004
+  xpos 1390
+  ypos 155
+  import_chan ""
+  export_chan ""
+  translate {-0.630043 -0.237653 0.76437}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00999
+  xpos 1280
+  ypos 155
+  import_chan ""
+  export_chan ""
+  translate {0.757911 1.21474 0.470902}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00997
+  xpos 1170
+  ypos 155
+  import_chan ""
+  export_chan ""
+  translate {1.89192 0.313631 0.763522}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00992
+  xpos 1060
+  ypos 155
+  import_chan ""
+  export_chan ""
+  translate {0.764822 0.903508 0.499908}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00987
+  xpos 950
+  ypos 155
+  import_chan ""
+  export_chan ""
+  translate {0.245839 -0.007325 -0.01357}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00982
+  xpos 840
+  ypos 155
+  import_chan ""
+  export_chan ""
+  translate {-0.569597 -0.212966 0.879266}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00981
+  xpos 730
+  ypos 155
+  import_chan ""
+  export_chan ""
+  translate {0.530595 0.882421 0.319506}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00972
+  xpos 620
+  ypos 155
+  import_chan ""
+  export_chan ""
+  translate {-0.654555 -0.169358 0.4029}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00966
+  xpos 510
+  ypos 155
+  import_chan ""
+  export_chan ""
+  translate {-0.61291 -0.161143 0.623863}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00960
+  xpos 400
+  ypos 155
+  import_chan ""
+  export_chan ""
+  translate {0.507832 0.007616 0.023557}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00944
+  xpos 290
+  ypos 155
+  import_chan ""
+  export_chan ""
+  translate {0.012188 0.368904 0.512351}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1971e200
+ Scene {
+  inputs 54
+  name Feature01Combiner2
+  xpos 5470
+  ypos -804
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00937
+  xpos 28230
+  ypos 40
+  import_chan ""
+  export_chan ""
+  translate {0.556354 -0.030387 -0.038827}
+  uniform_scale {{feature_size i}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00934
+  xpos 28120
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.93114 0.37714 0.802638}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00927
+  xpos 28010
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {-0.347645 0.262591 0.514392}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00925
+  xpos 27892
+  ypos -288
+  import_chan ""
+  export_chan ""
+  translate {-0.433632 -0.188695 0.881114}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00911
+  xpos 27790
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.90301 0.381206 0.8553}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00896
+  xpos 27680
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {-0.574708 -0.141106 0.200858}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00848
+  xpos 27570
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {0.325016 0.025625 -0.103437}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00839
+  xpos 27460
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {-0.284848 0.278508 0.581114}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00838
+  xpos 27350
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {2.09388 0.32163 0.853508}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00826
+  xpos 27240
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.86028 0.591144 1.11212}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00823
+  xpos 27130
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {0.402266 0.011601 -0.09198}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00816
+  xpos 27020
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {0.374527 0.0385 -0.157515}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00807
+  xpos 26910
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {0.40531 0.017489 -0.048406}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00799
+  xpos 26800
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.30114 0.330721 0.371114}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00796
+  xpos 26690
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {-0.426715 -0.005402 -0.09772}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00787
+  xpos 26580
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {-0.191838 0.217473 0.597634}
+  uniform_scale {{feature_size i}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00782
+  xpos 26470
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {0.326278 0.030539 -0.212764}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00779
+  xpos 26360
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {0.438762 0.072263 -0.185939}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00773
+  xpos 26250
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {0.114649 0.371567 0.472541}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00768
+  xpos 26140
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {-0.19333 0.329227 0.442607}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00764
+  xpos 26030
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {2.14817 0.451704 0.133489}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00762
+  xpos 25920
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {0.972123 0.117017 0.697767}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00757
+  xpos 25810
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {2.23667 0.364683 0.037628}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00755
+  xpos 25700
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {0.567323 1.25454 0.372151}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00753
+  xpos 25590
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.3415 0.591634 0.521662}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00752
+  xpos 25480
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {-0.270389 0.104693 0.018966}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00751
+  xpos 25370
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {-0.034912 0.37235 0.391453}
+  uniform_scale {{feature_size i}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00750
+  xpos 25260
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.63682 0.283844 0.883429}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00745
+  xpos 25150
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {0.384849 0.02352 -0.084546}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00743
+  xpos 25040
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {2.29314 0.366774 0.8824}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00741
+  xpos 24930
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {0.352645 0.045529 -0.263031}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00738
+  xpos 24820
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {-0.064683 0.357959 0.36012}
+  uniform_scale {{feature_size i}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00731
+  xpos 24710
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.28138 0.071869 0.399797}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00726
+  xpos 24600
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {2.20066 0.455968 -0.173915}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00720
+  xpos 24490
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {0.06055 0.026951 -0.185225}
+  uniform_scale {{feature_size i}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00717
+  xpos 24380
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {0.259173 -0.000397 -0.046575}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00716
+  xpos 24270
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {-0.100956 0.348407 0.364264}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00710
+  xpos 24160
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {-0.114567 0.21369 0.60054}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00707
+  xpos 24050
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {0.629433 1.44965 0.213152}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00700
+  xpos 23940
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {-0.135891 -0.514751 1.07075}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00699
+  xpos 23830
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.83031 0.297076 0.856301}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00695
+  xpos 23720
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.96484 0.382995 0.852129}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00680
+  xpos 23610
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {0.262135 -0.001724 -0.118417}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00679
+  xpos 23500
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {-0.060245 -0.496054 1.01829}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00677
+  xpos 23390
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {2.72029 -0.100368 -0.902657}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00676
+  xpos 23280
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {0.544589 1.43605 0.222496}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00672
+  xpos 23170
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {2.76438 -0.068313 -0.42008}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00670
+  xpos 23060
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {2.00104 0.564059 0.744037}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00669
+  xpos 22950
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {0.588496 1.44761 0.198664}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00668
+  xpos 22840
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.56052 0.578045 0.694239}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00666
+  xpos 22730
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {2.52541 0.313772 0.806325}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00665
+  xpos 22620
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {-0.297545 -0.103277 -0.213752}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00661
+  xpos 22510
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {0.220863 0.056763 -0.303106}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00660
+  xpos 22400
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {0.684323 1.47329 0.172162}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00659
+  xpos 22290
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {-0.013057 0.353776 0.327142}
+  uniform_scale {{feature_size i}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00658
+  xpos 22180
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {0.263897 -0.003855 -0.027627}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00657
+  xpos 22070
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.73917 0.595855 -0.103534}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00639
+  xpos 21960
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.56271 0.572867 0.657262}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00629
+  xpos 21850
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {0.20606 0.190181 -0.045145}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00625
+  xpos 21740
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {0.090284 0.376095 0.513868}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00624
+  xpos 21630
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {0.072845 0.375057 0.459692}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00622
+  xpos 21520
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {2.27191 0.651663 0.493807}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00617
+  xpos 21410
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {0.702823 1.32015 0.462704}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00616
+  xpos 21300
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {2.26942 0.654075 0.517162}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00615
+  xpos 21190
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.37258 0.598793 0.589457}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00611
+  xpos 21080
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.65202 0.664254 0.122001}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00610
+  xpos 20970
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {-0.022394 0.190912 0.040108}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00608
+  xpos 20860
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {2.34118 0.429711 -0.761788}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00607
+  xpos 20750
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {2.57044 0.152581 -0.340951}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00606
+  xpos 20640
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {-0.111501 0.1637 0.038779}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00604
+  xpos 20530
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {2.15218 0.744574 0.113563}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00600
+  xpos 20420
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {2.05212 0.527581 0.712067}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00599
+  xpos 20310
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {0.209043 0.17318 0.1976}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00597
+  xpos 20200
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {0.127921 -0.227537 0.769643}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00596
+  xpos 20090
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {2.27635 0.682425 0.423447}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00589
+  xpos 19980
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {-0.006384 0.003499 -0.162025}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00588
+  xpos 19870
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.99315 0.216416 -0.315078}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00587
+  xpos 19760
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {0.706955 1.45675 0.191804}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00585
+  xpos 19650
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {2.30806 0.467463 -0.837139}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00584
+  xpos 19540
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {2.31567 0.671597 0.462743}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00583
+  xpos 19430
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {0.179906 -0.142945 0.765557}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00577
+  xpos 19320
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {0.02505 0.019751 -0.179321}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00574
+  xpos 19210
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {-0.025 -0.053777 -0.276501}
+  uniform_scale {{feature_size i}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00573
+  xpos 19100
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {0.715287 1.42952 0.456785}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00567
+  xpos 18990
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.62234 0.746627 -0.050419}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00558
+  xpos 18880
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.12597 0.113926 0.702074}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00555
+  xpos 18770
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {0.195058 -0.175535 0.956838}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00554
+  xpos 18660
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {0.793441 1.48283 0.112983}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00543
+  xpos 18550
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {0.852015 0.221461 0.58112}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00541
+  xpos 18440
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {0.189026 0.278936 0.576184}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00540
+  xpos 18330
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {-0.12545 -0.055682 -0.208451}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00538
+  xpos 18220
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.60854 0.556558 0.612024}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00537
+  xpos 18110
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {0.065363 0.296707 0.234319}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00526
+  xpos 18000
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {0.707594 1.44677 0.457579}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00519
+  xpos 17890
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.38805 0.595887 0.570918}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00515
+  xpos 17780
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {0.127675 0.296696 0.326488}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00513
+  xpos 17670
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {0.786439 1.43655 0.460092}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00512
+  xpos 17560
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {-0.158476 -0.101041 -0.161009}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00511
+  xpos 17450
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {2.09667 0.378774 0.109262}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00504
+  xpos 17340
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.31046 0.727086 0.073984}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00502
+  xpos 17230
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {0.537597 1.43708 0.183322}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00499
+  xpos 17120
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {2.6098 0.571812 0.350808}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00498
+  xpos 17010
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {0.557112 1.43267 0.26321}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00497
+  xpos 16900
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {0.566078 1.43098 0.306067}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00488
+  xpos 16790
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {0.635872 1.45372 0.139778}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00485
+  xpos 16680
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {0.555122 1.45728 0.173023}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00484
+  xpos 16570
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {2.11729 0.437846 0.050208}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00476
+  xpos 16460
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {0.58661 1.44082 0.265641}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00475
+  xpos 16350
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {0.61192 1.54094 0.241397}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00473
+  xpos 16240
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {0.625262 1.45221 0.26915}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00470
+  xpos 16130
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {2.30736 0.706676 0.372374}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00466
+  xpos 16020
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {2.24777 0.957374 0.211554}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00465
+  xpos 15910
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {0.573872 1.44418 0.169147}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00464
+  xpos 15800
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {0.664465 1.44769 0.339029}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00461
+  xpos 15690
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {0.598211 1.44867 0.198653}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00457
+  xpos 15580
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.9302 0.154573 0.426554}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00450
+  xpos 15470
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {0.658916 1.45719 0.230435}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00449
+  xpos 15360
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {0.866215 1.49307 0.20358}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00448
+  xpos 15250
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.28597 0.079929 -0.207092}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00447
+  xpos 15140
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {0.92591 1.49191 0.370675}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00446
+  xpos 15030
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {2.13476 0.624433 -1.02884}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00445
+  xpos 14920
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {2.32255 0.944125 0.182486}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00444
+  xpos 14810
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {0.648836 1.45685 0.158072}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00442
+  xpos 14700
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {0.916095 1.50346 0.158444}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00440
+  xpos 14590
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {2.04127 0.357915 -0.193736}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00439
+  xpos 14480
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {0.690406 1.46971 0.270023}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00438
+  xpos 14370
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {0.729421 1.46299 0.337767}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00437
+  xpos 14260
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {0.495449 0.150022 0.781953}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00436
+  xpos 14150
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.82699 0.154913 0.548744}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00435
+  xpos 14040
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.35228 0.329405 0.340736}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00434
+  xpos 13930
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {0.981669 0.033387 -0.623191}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00432
+  xpos 13820
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.85257 0.205318 -0.60353}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00431
+  xpos 13710
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.25952 0.733832 -0.064338}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00426
+  xpos 13600
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.38342 0.106877 0.880389}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00424
+  xpos 13490
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {0.664909 1.46334 0.162129}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00422
+  xpos 13380
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.84844 0.213499 -0.624729}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00419
+  xpos 13270
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {2.34936 0.97049 0.175254}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00416
+  xpos 13160
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {0.68908 1.46404 0.14036}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00410
+  xpos 13050
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {0.702724 1.46684 0.131542}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00408
+  xpos 12940
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {0.776654 1.47426 0.290907}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00405
+  xpos 12830
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.25357 0.694085 0.120246}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00403
+  xpos 12720
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {0.818238 1.47612 0.389738}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00402
+  xpos 12610
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {2.17406 0.97588 0.147177}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00398
+  xpos 12500
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {0.700737 1.46514 0.196839}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00395
+  xpos 12390
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.85045 0.29477 -0.744835}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00392
+  xpos 12280
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {2.31182 1.00946 0.026859}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00385
+  xpos 12170
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.11072 0.497904 0.304602}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00384
+  xpos 12060
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {0.756557 1.44683 0.20254}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00381
+  xpos 11950
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.46172 0.743165 0.097958}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00380
+  xpos 11840
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {0.826279 1.48121 0.218039}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00378
+  xpos 11730
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.30523 0.329481 0.332225}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00375
+  xpos 11620
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.36797 0.331613 0.363452}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00374
+  xpos 11510
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.43064 0.343517 0.345502}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00367
+  xpos 11400
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {2.38218 1.02707 0.006386}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00362
+  xpos 11290
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {2.13647 0.77788 -0.859142}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00353
+  xpos 11180
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {0.676203 0.026197 -0.360795}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00347
+  xpos 11070
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {0.839479 -0.025855 0.725162}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00344
+  xpos 10960
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {0.904215 1.49689 0.26182}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00343
+  xpos 10850
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {0.913879 1.49866 0.207789}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00337
+  xpos 10740
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.19954 0.124042 -0.688812}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00320
+  xpos 10630
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.12139 0.063207 0.893061}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00317
+  xpos 10520
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {0.992966 0.018881 1.15429}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00313
+  xpos 10410
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {2.10705 0.420744 0.083075}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00306
+  xpos 10300
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.01452 0.041642 0.891135}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00305
+  xpos 10190
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.43001 0.093008 0.912318}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00296
+  xpos 10080
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.06434 0.049732 0.885828}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00294
+  xpos 9970
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.53922 0.767304 -0.065423}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00291
+  xpos 9860
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.02747 1.22067 0.274561}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00290
+  xpos 9750
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.4277 0.345479 0.318268}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00285
+  xpos 9640
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.51243 0.300672 0.270377}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00283
+  xpos 9530
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.72494 0.411951 -0.489391}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00273
+  xpos 9420
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.29587 0.149285 -0.785718}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00267
+  xpos 9310
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.0609 1.51604 0.125567}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00258
+  xpos 9200
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.39173 0.523729 -0.782869}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00251
+  xpos 9090
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.11618 0.078562 -0.368219}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00239
+  xpos 8980
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.06768 1.42049 0.146758}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00236
+  xpos 8870
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.80006 0.169071 0.539819}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00232
+  xpos 8760
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.47475 0.615037 0.385313}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00230
+  xpos 8650
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.44497 0.533695 -0.839107}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00227
+  xpos 8540
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.29153 0.077014 -0.871122}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00225
+  xpos 8430
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.00244 1.09002 0.001135}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00222
+  xpos 8320
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.38225 0.08677 0.906966}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00221
+  xpos 8210
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.56697 0.62217 0.423116}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00215
+  xpos 8100
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.81054 0.170015 0.012345}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00210
+  xpos 7990
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.63816 0.660504 -1.06133}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00208
+  xpos 7880
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {2.04777 0.361049 -0.248279}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00206
+  xpos 7770
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.05135 1.12131 0.072298}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00205
+  xpos 7660
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.28961 0.103894 -0.541311}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00204
+  xpos 7550
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.07168 1.32093 0.154144}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00201
+  xpos 7440
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.26778 0.085663 0.401225}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00200
+  xpos 7330
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.07795 1.1952 0.163367}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00199
+  xpos 7220
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.3719 0.469163 -0.878485}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00197
+  xpos 7110
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.72552 0.699336 -1.13114}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00193
+  xpos 7000
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.86252 0.21117 -0.537951}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00190
+  xpos 6890
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.3867 0.329777 0.358871}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00187
+  xpos 6780
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.0802 1.12946 0.233109}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00186
+  xpos 6670
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.00442 1.34755 -0.009069}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00185
+  xpos 6560
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.07448 1.2727 0.157771}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00184
+  xpos 6450
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.06995 1.37261 0.150474}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00180
+  xpos 6340
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.93308 0.183199 0.151989}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00177
+  xpos 6230
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.58197 0.633845 -1.05229}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00172
+  xpos 6120
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.5438 0.615938 0.451012}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00162
+  xpos 6010
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.35357 0.744406 -0.101111}
+  uniform_scale {{feature_size i}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00158
+  xpos 5900
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.06618 1.44375 0.145822}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00156
+  xpos 5790
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.00146 1.25567 -0.004264}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00152
+  xpos 5680
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.14621 0.444691 -0.746959}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00142
+  xpos 5570
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.69795 0.396066 -0.415032}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00140
+  xpos 5460
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.63573 0.870658 -1.00272}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00136
+  xpos 5350
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.39902 0.504236 -0.516794}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00131
+  xpos 5240
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.13822 0.106873 0.049645}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00128
+  xpos 5130
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.07913 1.13207 0.150932}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00127
+  xpos 5020
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.51677 0.811754 -0.179644}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00126
+  xpos 4910
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.36414 0.32178 0.274033}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00125
+  xpos 4800
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.30391 0.332706 0.35806}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00118
+  xpos 4690
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.52046 0.61967 0.44709}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00115
+  xpos 4580
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.83764 0.194603 -0.359535}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00112
+  xpos 4470
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {0.927357 0.469003 0.641859}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00111
+  xpos 4360
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.39339 -0.056014 -1.1887}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00110
+  xpos 4250
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.40634 0.739907 -0.223418}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00102
+  xpos 4140
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.72357 0.397192 -0.41313}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00098
+  xpos 4030
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.35827 0.551379 -0.608276}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00093
+  xpos 3920
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.37404 0.598654 0.464167}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00092
+  xpos 3810
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.06907 1.32694 0.236303}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00089
+  xpos 3700
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.27219 0.08411 0.357319}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00087
+  xpos 3590
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.65792 0.533846 -0.017643}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00086
+  xpos 3480
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.08192 1.13033 0.167773}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00082
+  xpos 3370
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.54272 0.615644 0.47877}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00081
+  xpos 3260
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.08065 0.095613 -0.244494}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00079
+  xpos 3150
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.83595 0.286221 -0.388594}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00074
+  xpos 3040
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.34865 -0.004028 -1.15334}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00066
+  xpos 2930
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.44747 0.550807 -0.723638}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00061
+  xpos 2820
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.68515 1.16478 -0.937773}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00056
+  xpos 2710
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.30777 0.511779 -0.881981}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00053
+  xpos 2600
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.1015 0.815308 0.188566}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00051
+  xpos 2490
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.67316 1.07925 -0.972033}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00047
+  xpos 2380
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.58859 0.417514 -0.55058}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00046
+  xpos 2270
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {2.03396 0.739429 -0.762098}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00041
+  xpos 2160
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.29328 0.65496 0.62165}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00039
+  xpos 2050
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.41307 0.740788 0.080686}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00038
+  xpos 1940
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.59877 0.314507 0.235043}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00030
+  xpos 1830
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.38774 0.595363 0.572258}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00028
+  xpos 1720
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.88827 0.209419 -0.53744}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00025
+  xpos 1610
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.72802 0.227373 -0.149938}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00024
+  xpos 1500
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.29183 0.095909 -0.519552}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00023
+  xpos 1390
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.25221 0.707429 0.12106}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00022
+  xpos 1280
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.44399 0.286742 0.230391}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00020
+  xpos 1170
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.29187 0.208872 0.366012}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00017
+  xpos 1060
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {2.01082 0.20793 -0.298897}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00016
+  xpos 950
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.81622 0.170834 -0.08429}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00009
+  xpos 840
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.519 0.617389 0.477396}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00007
+  xpos 730
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.15136 0.101311 -0.274761}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00005
+  xpos 620
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.84971 0.291837 -0.746738}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00004
+  xpos 510
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.25866 0.743863 -0.06261}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00002
+  xpos 400
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.59299 0.738339 -0.26675}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1972c600
+push $N1971e200
+ SphereObj {
+  inputs 2
+  name Auto_00001
+  xpos 290
+  ypos 86
+  import_chan ""
+  export_chan ""
+  translate {1.94245 0.282667 -0.00542}
+  uniform_scale {{feature_size}}
+  rows 2
+  columns 4
+ }
+push $N1971e200
+ Scene {
+  inputs 256
+  name Feature01Combiner1
+  xpos 28240
+  ypos 67
+ }
+push $N1971e200
+ Scene {
+  inputs 3
+  name Camera01Combiner
+  xpos 28240
+  ypos 155
+ }
+ Output {
+  name Camera01Output
+  xpos 28230
+  ypos 221
+ }
+end_group
+set N197006e0 [stack 0]
+Scene {
+ name Scene
+ xpos -402
+ ypos -270
+ icon node_scene.xpm
+}
+CheckerBoard2 {
+ inputs 0
+ name CheckerBoard1
+ xpos -250
+ ypos -193
+}
+ScanlineRender {
+ inputs 3
+ name Camera01Render
+ xpos -412
+ ypos -169
+}
+push $N197006e0
+Viewer {
+ name Viewer1
+ xpos -249
+ ypos -328
+}
+NoOp {
+ inputs 0
+ name SB_Snapper1
+ tile_color 0x7189d3ff
+ xpos -411
+ ypos -383
+ hide_input true
+ addUserKnob {20 SB_Snapper_v01 l SB_Snapper t "SB_Snapper_v01.0\n\nCredits:\n\nSB - concept, python math, creation \nAnt Nasce - XYZ python ripping script"}
+ addUserKnob {22 SB_Snapper l "Create Snapper Card" t "Credits:\n\nSB - concept, python math, creation \nMacboy - XYZ python ripping script\n" T "from __future__ import with_statement\n\nimport math\n\nmyGroup = nuke.selectedNode()\n\nwith myGroup:\n    k=1\n    for n in nuke.selectedNodes():\n        XYZ = n\['translate'].value()\n \n        locals()\['pt' + str(k) + '_XYZ'] = XYZ\n        locals()\['pt' + str(k) + '_X'] = XYZ\[0]\n        locals()\['pt' + str(k) + '_Y'] = XYZ\[1]\n        locals()\['pt' + str(k) + '_Z'] = XYZ\[2]\n        k=k+1\n#The XYZ method above assigns one variable to show all three (for each loop.. i.e. it goes through and  does the\n#The Individual ones below that do X Y Z separately\n#Below - just to show that its actually assigned a variable to each value\n\nprint pt1_XYZ\nprint pt1_X\nprint pt1_Y\nprint pt1_Z\n\nprint pt2_XYZ\nprint pt2_X\nprint pt2_Y\nprint pt2_Z\n\n#So now you can use the variables above in calculations\n\ncard = nuke.createNode('Card')\n#card\['name'].setValue('SnappedCard')\n#card\['uniform_scale'].setValue(0.422971)\ncard\['gl_color'].setValue(1434451967)\ncard\['tile_color'].setValue(1434451967)\ncard\['display'].setValue('wireframe')\ncard\['rows'].setValue(8)\ncard\['columns'].setValue(8)\n\n#TRANSLATION of Card\ncard\['translate'].setValue(\[(((pt1_X)+(pt2_X))/2), (((pt1_Y)+(pt2_Y))/2), (((pt1_Z)+(pt2_Z))/2)])\nprint card\['translate'].value()\n\n#ROTATION of Card\n\nA_xdif = (pt1_X - pt2_X)\nprint A_xdif\nO_zdif = (pt1_Z - pt2_Z)\nprint O_zdif\n\n\nprint math.degrees(math.atan(O_zdif/A_xdif))\n\ncard\['rotate'].setValue(\[0 , (-1*((math.degrees(math.atan(O_zdif/A_xdif))))) , 0])\n\n#WIDTH of card\n\ncard\['scaling'].setValue(\[(math.sqrt((pow((O_zdif),2))+(pow((A_xdif),2)))) , 1 , 1])  " +STARTLINE}
+ addUserKnob {26 ""}
+ addUserKnob {26 userguide -STARTLINE T "-shift select 2 points in the 3D view\n-select the PointCloud group node in the DAG\n-press 'Create Snapper Card' button"}
+}

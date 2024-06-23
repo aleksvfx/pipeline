@@ -1,0 +1,262 @@
+#! Z:/INSTALL/Nuke4/35/nuke4.3.exe -nx
+version 4.3035
+Gizmo {
+ inputs 1
+ addUserKnob { 20 "" glare_simple } 
+ addUserKnob { 7 glaretol Tolerance R 0 1 } 
+ addUserKnob { 7 glaresize "Glare Size" R 0 20 t "" } 
+ addUserKnob { 7 glareaspect Aspect R 0 2 } 
+ addUserKnob { 7 glarespread "Chroma Spread" R 0 20 } 
+ addUserKnob { 26 "" "Color Options" } 
+ addUserKnob { 19 Grade1_multiply Mult R 0 4 t "" } 
+ addUserKnob { 19 Grade1_gamma Gamma R 0.2 5 t "" } 
+ addUserKnob { 6 crop "crop to bbox" } 
+ name Glare
+ tile_color 0xff00ff00
+ window {70 117 853 700 0 -197 161 0.85497}
+ glaretol 0.83
+ glaresize 5
+ glareaspect 1
+ glarespread 20
+ Grade1_multiply 1
+ Grade1_gamma 0.64
+ crop true
+}
+ BackdropNode {
+  inputs 0
+  name BackdropNode1
+  tile_color 1
+  xpos 54
+  ypos 84
+  bdwidth 132
+  bdheight 132
+ }
+ BackdropNode {
+  inputs 0
+  name BackdropNode2
+  tile_color 0x1aff0000
+  xpos 54
+  ypos 235
+  bdwidth 132
+  bdheight 132
+ }
+ BackdropNode {
+  inputs 0
+  name BackdropNode3
+  tile_color 0xff00
+  xpos 54
+  ypos 398
+  bdwidth 132
+  bdheight 132
+ }
+ Input {
+  inputs 0
+  name img
+  xpos 542
+  ypos 291
+ }
+ Dot {
+  name Dot1
+  xpos 594
+  ypos 409
+ }
+set Na58cff8 [stack 0]
+ Constant {
+  inputs 0
+  format "100 100 0 0 100 100 1 Glare"
+  name Constant1
+  xpos 80
+  ypos 14
+ }
+ Radial {
+  addUserKnob { 20 "" User } 
+  addUserKnob { 7 radsize Size R 0 100 } 
+  channel {rgba.red -rgba.green -rgba.blue rgba.alpha}
+  area {{(100-radsize)/2} {area.x} {100-area.x} {100-area.x}}
+  color 3
+  p1 {100 400}
+  p0 {100 100}
+  name Radial1
+  tile_color 0xc6717100
+  label "(red   alpha)"
+  xpos 80
+  ypos 117
+  indicators 2
+  radsize 100
+ }
+ Radial {
+  addUserKnob { 20 "" User } 
+  addUserKnob { 7 radsize Size R 0 100 } 
+  channel {rgba.red -rgba.green -rgba.blue rgba.alpha}
+  area {{(100-radsize)/2} {area.x} {100-area.x} {100-area.x}}
+  softness 0.43
+  color 0
+  p1 {100 400}
+  p0 {100 100}
+  name Radial2
+  tile_color 0xc6717100
+  label "(red   alpha)"
+  xpos 80
+  ypos 168
+  indicators 2
+  radsize 100
+ }
+ Radial {
+  addUserKnob { 20 "" User } 
+  addUserKnob { 7 radsize Size R 0 100 } 
+  channel {-rgba.red rgba.green -rgba.blue rgba.alpha}
+  area {{(100-radsize)/2} {area.x} {100-area.x} {100-area.x}}
+  color 2
+  p1 {100 400}
+  p0 {100 100}
+  name Radial3
+  tile_color 0x71c67100
+  label "(green  alpha)"
+  xpos 80
+  ypos 268
+  indicators 2
+  radsize {{100-glarespread}}
+ }
+ Radial {
+  addUserKnob { 20 "" User } 
+  addUserKnob { 7 radsize Size R 0 100 } 
+  channel {-rgba.red rgba.green -rgba.blue rgba.alpha}
+  area {{(100-radsize)/2} {area.x} {100-area.x} {100-area.x}}
+  softness 0.43
+  color 0
+  p1 {100 400}
+  p0 {100 100}
+  name Radial4
+  tile_color 0x71c67100
+  label "(green  alpha)"
+  xpos 80
+  ypos 319
+  indicators 2
+  radsize {{100-glarespread}}
+ }
+ Radial {
+  addUserKnob { 20 "" User } 
+  addUserKnob { 7 radsize Size R 0 100 } 
+  channel {-rgba.red -rgba.green rgba.blue rgba.alpha}
+  area {{(100-radsize)/2} {area.x} {100-area.x} {100-area.x}}
+  p1 {100 400}
+  p0 {100 100}
+  name Radial5
+  tile_color 0x7171c600
+  label "(blue alpha)"
+  xpos 80
+  ypos 431
+  indicators 2
+  radsize {{100-glarespread*2}}
+ }
+ Radial {
+  addUserKnob { 20 "" User } 
+  addUserKnob { 7 radsize Size R 0 100 } 
+  channel {-rgba.red -rgba.green rgba.blue rgba.alpha}
+  area {{(100-radsize)/2} {area.x} {100-area.x} {100-area.x}}
+  softness 0.43
+  color 0
+  p1 {100 400}
+  p0 {100 100}
+  name Radial6
+  tile_color 0x7171c600
+  label "(blue alpha)"
+  xpos 80
+  ypos 482
+  indicators 2
+  radsize {{100-glarespread*2}}
+ }
+ Transform {
+  scale {{parent.glaresize/5} {w/glareaspect}}
+  center {50 50}
+  name Transform1
+  xpos 80
+  ypos 550
+  indicators 2
+ }
+push $Na58cff8
+ Transform {
+  scale 0.2
+  center {{input.width/2} {input.height/2}}
+  filter Parzen
+  name Transform2
+  xpos 380
+  ypos 411
+  indicators 2
+ }
+ Keyer {
+  keyer luminance
+  range {{parent.glaretol} 1 1 1}
+  name Keyer1
+  tile_color 0xff0000
+  label (alpha)
+  xpos 229
+  ypos 404
+  indicators 2
+ }
+ Shuffle {
+  red alpha
+  green alpha
+  blue alpha
+  name Shuffle1
+  tile_color 0x9e3c6300
+  xpos 226
+  ypos 446
+ }
+ Convolve {
+  inputs 2
+  name Convolve1
+  label (all)
+  xpos 225
+  ypos 547
+ }
+ Grade {
+  multiply {{parent.Grade1_multiply.r} {parent.Grade1_multiply.g} {parent.Grade1_multiply.b} {parent.Grade1_multiply.a}}
+  add 0.035
+  gamma {{parent.Grade1_gamma.r} {parent.Grade1_gamma.g} {parent.Grade1_gamma.b} {parent.Grade1_gamma.a}}
+  unpremult rgba.alpha
+  name Grade1
+  tile_color 0x7aa9ff00
+  label "(rgb / - / rgba.alpha)"
+  xpos 225
+  ypos 619
+ }
+ Transform {
+  scale 5
+  center {{input.width/2} {input.height/2}}
+  filter Parzen
+  name Transform3
+  xpos 376
+  ypos 675
+  indicators 2
+ }
+ CopyBBox {
+  inputs 2
+  name CopyBBox1
+  tile_color 0x9e4d6d00
+  xpos 411
+  ypos 728
+  indicators 2
+  disable {{1-parent.crop}}
+ }
+set N7568a68 [stack 0]
+ Viewer {
+  frame_range 13,198
+  roi {40 40 600 440}
+  camera_near 0.01
+  camera_far 200000
+  scope_bbox {0 0 640 480}
+  window {1285 23 1272 997 1 -510 -989 0.47619}
+  name Viewer1
+  tile_color 0xff00f200
+  xpos 542
+  ypos 327
+  hide_input true
+ }
+push $N7568a68
+ Output {
+  name Output1
+  xpos 372
+  ypos 783
+ }
+end_group

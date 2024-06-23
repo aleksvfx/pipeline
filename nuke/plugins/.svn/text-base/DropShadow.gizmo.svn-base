@@ -1,0 +1,80 @@
+#! /method/cg/opt/Nuke5.1v5/Nuke5.1 -nx
+version 5.1500
+Gizmo {
+ addUserKnob {20 User}
+ addUserKnob {14 blurSize l "Blur Size" R 0 100}
+ blurSize 13
+ addUserKnob {14 scale l "Shadow Scale" R 0 100}
+ scale 1
+ addUserKnob {12 offset l "Shadow Offset"}
+ offset {42 -42}
+ addUserKnob {19 shadowColor l "Shadow Color"}
+ shadowColor {0 0 0 1}
+}
+ Input {
+  inputs 0
+  name Input1
+  xpos -370
+  ypos -636
+ }
+set N2028fbd0 [stack 0]
+push $N2028fbd0
+ Shuffle {
+  red alpha
+  green alpha
+  blue alpha
+  name Shuffle_alpha
+  xpos -370
+  ypos -606
+ }
+ Blur {
+  size {{parent.blurSize}}
+  name Blur_shadow
+  xpos -370
+  ypos -576
+ }
+ Transform {
+  translate {{parent.offset.x} {parent.offset.y}}
+  scale {{parent.scale}}
+  center {{width/2} {height/2}}
+  name Transform_offset_shadow
+  xpos -370
+  ypos -530
+ }
+ Multiply {
+  value {{parent.Constant1.color.a}}
+  name Multiply1
+  xpos -370
+  ypos -500
+ }
+ Constant {
+  inputs 0
+  channels rgb
+  color {{parent.shadowColor.r} {parent.shadowColor.g} {parent.shadowColor.b} {parent.shadowColor.a}}
+  name Constant1
+  xpos -480
+  ypos -477
+ }
+ ShuffleCopy {
+  inputs 2
+  name ShuffleCopy2
+  xpos -370
+  ypos -454
+ }
+ Premult {
+  name Premult1
+  xpos -370
+  ypos -424
+ }
+ Merge2 {
+  inputs 2
+  name Merge2
+  xpos -260
+  ypos -424
+ }
+ Output {
+  name Output1
+  xpos -260
+  ypos -394
+ }
+end_group

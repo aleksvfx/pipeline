@@ -1,0 +1,1463 @@
+#! /S2/3d/farm/nuke/apps/software/Nuke5.0.2/Nuke5.0 -nx
+version 5.0200
+Gizmo {
+ addUserKnob {20 "" l User}
+ addUserKnob {1 JOB l Job t "Job Name\nExample:   \[slateAutoText -job]\n                  SwayJob"}
+ addUserKnob {1 SHOT l Shot t "Shot Name\nExample:   v\[slateAutoText -shot]\n                  SW010"}
+ addUserKnob {1 TITLE l Title t "Title info"}
+ addUserKnob {6 auto_title l auto t "Auto generate a title based on script name"}
+ auto_title true
+ addUserKnob {1 FRAMERANGE l Range t "Frame Range"}
+ addUserKnob {6 auto_FrameRange l auto}
+ auto_FrameRange true
+ addUserKnob {20 infoGroup l info n 1}
+ addUserKnob {4 ThumbOpt l Thumbnail M {"First Frame" "Middle Frame" "Last Frame" None}}
+ addUserKnob {6 luts_opt l "lut info" t "add the lut information to the slate"}
+ addUserKnob {6 format_opt l "format info" t "add the format info to the slate"}
+ addUserKnob {41 message_1 l text t "slate info" T SlateInfoText.message}
+ addUserKnob {41 size T SlateInfoText.size}
+ addUserKnob {20 endGroup_2 l endGroup n -1}
+ addUserKnob {20 Frames n 1}
+ addUserKnob {3 Slate_Frame l Slate t "The Slate Render Frame"}
+ Slate_Frame {{root.first_frame}}
+ addUserKnob {3 FirstFrame l First}
+ FirstFrame {{root.first_frame+1}}
+ addUserKnob {3 LastFrame l Last}
+ LastFrame {{root.last_frame}}
+ addUserKnob {1 Timecode t "Time Code Information\nExample:  \[knob Read6.timecode]"}
+ addUserKnob {6 TimecodeOpt l enable}
+ TimecodeOpt true
+ addUserKnob {20 endGroup n -1}
+ addUserKnob {20 text t "text settings" n 1}
+ addUserKnob {2 font t "location of font file"}
+ font /S2/3d/farm/nuke/studio_custom/font/Vera.ttf
+ addUserKnob {7 font_size l size t "globle font scale" R 10 80}
+ font_size 80
+ addUserKnob {20 endGroup_1 l endGroup n -1}
+}
+ Text {
+  inputs 0
+  cliptype none
+  maskChannel -rgba.alpha
+  maskFrom input
+  message "monitor: \[knob root.monitorLut]   viewer: \[knob root.viewerLut]\n"
+  Font 1
+  font "\[knob parent.font]"
+  size {{parent.font_size*.25 i}}
+  xjustify center
+  yjustify top
+  translate {{int((parent.format.w/2)+parent.format.x) i} {int((parent.format.h-(parent.format.h*.01))+parent.format.y) i}}
+  scale {{parent.format.w/1920 i}}
+  name Text3
+  xpos -1180
+  ypos -645
+ }
+set Nf52195f0 [stack 0]
+ Rectangle {
+  cliptype none
+  replace true
+  maskChannel -rgba.alpha
+  maskFrom input
+  area {{input0.bbox.x i} {input0.bbox.y i} {input0.bbox.r i} {input0.bbox.t i}}
+  color {0 0 0 0.7}
+  name Rectangle24
+  xpos -1261
+  ypos -566
+ }
+push $Nf52195f0
+ Merge {
+  inputs 2
+  operation under
+  maskChannel -rgba.alpha
+  maskFrom input
+  name Merge28
+  xpos -1180
+  ypos -486
+ }
+ Text {
+  inputs 0
+  cliptype none
+  maskChannel -rgba.alpha
+  maskFrom input
+  message "\[expression (parent.format.w)]x\[expression (parent.format.h)] \\\[\[value parent.format.pixel_aspect]\\] "
+  Font 1
+  font "\[knob parent.font]"
+  size {{parent.font_size*.25 i}}
+  xjustify right
+  translate {{int(+parent.format.r-(parent.format.w*.01)) i} {int((parent.format.h*.01)+parent.format.y) i}}
+  scale {{parent.format.w/1920 i}}
+  name Text1
+  xpos -1184
+  ypos -1065
+ }
+set Nf528e3e0 [stack 0]
+ Rectangle {
+  cliptype none
+  replace true
+  maskChannel -rgba.alpha
+  maskFrom input
+  area {{input0.bbox.x i} {input0.bbox.y i} {input0.bbox.r i} {input0.bbox.t i}}
+  color {0 0 0 0.7}
+  name Rectangle8
+  xpos -1265
+  ypos -981
+ }
+push $Nf528e3e0
+ Merge {
+  inputs 2
+  operation under
+  maskChannel -rgba.alpha
+  maskFrom input
+  name Merge24
+  xpos -1184
+  ypos -906
+ }
+ Text {
+  inputs 0
+  cliptype none
+  message " \[file root \[file tail \[knob root.name]]]"
+  Font 1
+  font "\[knob parent.font]"
+  size {{parent.font_size i}}
+  yjustify center
+  translate {{parent.InsideBlack.area.x i} {((parent.InsideBlack.area.y-parent.TitleSafe.area.y)/2)+parent.TitleSafe.area.y i}}
+  scale {{parent.format.w/1920 i}}
+  color {0.5 0.5 0.5 1}
+  name Text9
+  xpos -1243
+  ypos -1774
+ }
+ Text {
+  inputs 0
+  cliptype none
+  message " \[value parent.TITLE]"
+  Font 1
+  font "\[knob parent.font]"
+  size {{parent.font_size i}}
+  yjustify center
+  translate {{parent.InsideBlack.area.x i} {((parent.InsideBlack.area.y-parent.TitleSafe.area.y)/2)+parent.TitleSafe.area.y i}}
+  scale {{parent.format.w/1920 i}}
+  color {0.5 0.5 0.5 1}
+  name Text11
+  xpos -1105
+  ypos -1768
+ }
+ Switch {
+  inputs 2
+  which {{parent.auto_title i}}
+  name Switch3
+  xpos -1152
+  ypos -1689
+ }
+set Nf09b0a78 [stack 0]
+ Shuffle {
+  red black
+  green black
+  blue black
+  name Shuffle7
+  xpos -1208
+  ypos -1615
+ }
+ Blur {
+  channels rgba
+  size 10
+  filter triangle
+  maskChannel -rgba.alpha
+  maskFrom input
+  name Blur4
+  xpos -1208
+  ypos -1576
+ }
+ Transform {
+  translate {8 -8}
+  center {288 162}
+  name Transform14
+  xpos -1208
+  ypos -1547
+ }
+push $Nf09b0a78
+ Merge {
+  inputs 2
+  operation under
+  maskChannel -rgba.alpha
+  maskFrom input
+  mix 0.5
+  name Merge38
+  xpos -1152
+  ypos -1454
+ }
+ Text {
+  inputs 0
+  cliptype none
+  message "(\[value parent.FirstFrame]-\[value parent.LastFrame]) "
+  Font 1
+  font "\[knob parent.font]"
+  size {{parent.font_size i}}
+  xjustify right
+  yjustify center
+  translate {{parent.InsideBlack.area.r i} {((parent.InsideBlack.area.y-parent.TitleSafe.area.y)/2)+parent.TitleSafe.area.y i}}
+  scale {{parent.format.w/1920 i}}
+  color {0.5 0.5 0.5 1}
+  name Text10
+  xpos -1244
+  ypos -2213
+ }
+ Text {
+  inputs 0
+  cliptype none
+  message "\[value parent.FRAMERANGE] "
+  Font 1
+  font "\[knob parent.font]"
+  size {{parent.font_size i}}
+  xjustify right
+  yjustify center
+  translate {{parent.InsideBlack.area.r i} {((parent.InsideBlack.area.y-parent.TitleSafe.area.y)/2)+parent.TitleSafe.area.y i}}
+  scale {{parent.format.w/1920 i}}
+  color {0.5 0.5 0.5 1}
+  name Text4
+  xpos -1116
+  ypos -2220
+ }
+ Switch {
+  inputs 2
+  which {{parent.auto_FrameRange i}}
+  name Switch4
+  xpos -1116
+  ypos -2146
+ }
+set Nf3f9d4a0 [stack 0]
+ Shuffle {
+  red black
+  green black
+  blue black
+  name Shuffle6
+  xpos -1187
+  ypos -2059
+ }
+ Blur {
+  channels rgba
+  size 10
+  filter triangle
+  maskChannel -rgba.alpha
+  maskFrom input
+  name Blur3
+  xpos -1187
+  ypos -2020
+ }
+ Transform {
+  translate {8 -8}
+  center {288 162}
+  name Transform13
+  xpos -1187
+  ypos -1991
+ }
+push $Nf3f9d4a0
+ Merge {
+  inputs 2
+  operation under
+  maskChannel -rgba.alpha
+  maskFrom input
+  mix 0.5
+  name Merge36
+  xpos -1110
+  ypos -1895
+ }
+ Text {
+  inputs 0
+  cliptype none
+  message "\[knob parent.SHOT] "
+  Font 1
+  font "\[knob parent.font]"
+  size {{parent.font_size i}}
+  xjustify right
+  yjustify center
+  translate {{parent.InsideBlack.area.r i} {((parent.TitleSafe.area.t-parent.InsideBlack.area.t)/2)+parent.InsideBlack.area.t i}}
+  scale {{parent.format.w/1920 i}}
+  color {0.5 0.5 0.5 1}
+  name Text2
+  xpos -1092
+  ypos -2541
+ }
+ Dot {
+  name Dot10
+  xpos -1058
+  ypos -2492
+ }
+set Nf3fcd5e0 [stack 0]
+ Shuffle {
+  red black
+  green black
+  blue black
+  name Shuffle5
+  xpos -1169
+  ypos -2455
+ }
+ Blur {
+  channels rgba
+  size 10
+  filter triangle
+  maskChannel -rgba.alpha
+  maskFrom input
+  name Blur2
+  xpos -1169
+  ypos -2416
+ }
+ Transform {
+  translate {8 -8}
+  center {288 162}
+  name Transform12
+  xpos -1169
+  ypos -2387
+ }
+push $Nf3fcd5e0
+ Merge {
+  inputs 2
+  operation under
+  maskChannel -rgba.alpha
+  maskFrom input
+  mix 0.5
+  name Merge32
+  xpos -1092
+  ypos -2291
+ }
+ Text {
+  inputs 0
+  cliptype none
+  message " \[knob parent.JOB]"
+  Font 1
+  font "\[knob parent.font]"
+  size {{parent.font_size i}}
+  yjustify center
+  translate {{parent.InsideBlack.area.x i} {((parent.TitleSafe.area.t-parent.InsideBlack.area.t)/2)+parent.InsideBlack.area.t i}}
+  scale {{parent.format.w/1920 i}}
+  color {0.5 0.5 0.5 1}
+  name Text6
+  xpos -1088
+  ypos -2924
+ }
+set Nf49eb6c0 [stack 0]
+ Shuffle {
+  red black
+  green black
+  blue black
+  name Shuffle8
+  xpos -1165
+  ypos -2869
+ }
+ Blur {
+  channels rgba
+  size 10
+  filter triangle
+  maskChannel -rgba.alpha
+  maskFrom input
+  name Blur5
+  xpos -1165
+  ypos -2830
+ }
+ Transform {
+  translate {8 -8}
+  center {288 162}
+  name Transform8
+  xpos -1165
+  ypos -2801
+ }
+push $Nf49eb6c0
+ Merge {
+  inputs 2
+  operation under
+  maskChannel -rgba.alpha
+  maskFrom input
+  mix 0.5
+  name Merge15
+  xpos -1088
+  ypos -2705
+ }
+ Input {
+  inputs 0
+  name Input1
+  xpos -2403
+  ypos -7706
+ }
+set Nf3f712f0 [stack 0]
+ Dot {
+  name Dot2
+  xpos -2369
+  ypos -5478
+ }
+set Nf3f72418 [stack 0]
+ Dot {
+  name Dot4
+  xpos -1804
+  ypos -5174
+ }
+set Nf3f73528 [stack 0]
+ FrameHold {
+  first_frame {{parent.LastFrame}}
+  name LastFrameHold
+  xpos -2011
+  ypos -5009
+ }
+push $Nf3f73528
+ FrameHold {
+  first_frame {{int((parent.LastFrame-parent.FirstFrame)/2)+parent.FirstFrame}}
+  name LastFrameHold1
+  xpos -1838
+  ypos -4999
+ }
+push $Nf3f73528
+ FrameHold {
+  first_frame {{parent.FirstFrame}}
+  name FirstFrameHold
+  xpos -1676
+  ypos -4999
+ }
+ Switch {
+  inputs 3
+  which {{parent.ThumbOpt}}
+  name Switch1
+  xpos -1838
+  ypos -4859
+ }
+ Shuffle {
+  alpha white
+  name WhiteAlpha
+  tile_color 0xffffff00
+  xpos -1838
+  ypos -4800
+ }
+ Reformat {
+  type scale
+  scale 0.3
+  filter Impulse
+  black_outside true
+  name Reformat2
+  xpos -1838
+  ypos -4722
+ }
+ Rectangle {
+  invert true
+  maskChannel -rgba.alpha
+  maskFrom input
+  area {{int(input0.format.x+3) i} {int(input0.format.y+3) i} {int(input0.format.w+parent.format.x-3) i} {int(input0.format.h+parent.format.y-3) i}}
+  color {0.831 0.831 0.831 0}
+  name Rectangle27
+  label "Format Outline"
+  xpos -1838
+  ypos -4664
+ }
+ Crop {
+  box {{input0.format.x i} {input0.format.y i} {input0.format.r i} {input0.format.t i}}
+  name Crop7
+  xpos -1838
+  ypos -4573
+  cached true
+ }
+set Nf09c1f38 [stack 0]
+ Shuffle {
+  red black
+  green black
+  blue black
+  name Shuffle4
+  xpos -1958
+  ypos -4492
+ }
+ Blur {
+  channels rgba
+  size {{((parent.format.w+parent.format.h)/2)*.02 i}}
+  filter triangle
+  maskChannel -rgba.alpha
+  maskFrom input
+  name Blur1
+  xpos -1958
+  ypos -4458
+ }
+ Transform {
+  translate {{((parent.format.w+parent.format.h)/2)*.02 i} {-((parent.format.w+parent.format.h)/2)*.02 i}}
+  center {288 162}
+  name Transform9
+  xpos -1958
+  ypos -4429
+ }
+push $Nf09c1f38
+ Merge {
+  inputs 2
+  operation under
+  maskChannel -rgba.alpha
+  maskFrom input
+  mix 0.5
+  name Merge30
+  xpos -1838
+  ypos -4367
+ }
+ Text {
+  cliptype none
+  message "Time Code: \[value parent.Timecode] "
+  Font 1
+  font "\[knob parent.font]"
+  size 20
+  xjustify center
+  yjustify top
+  translate {{(format.w/2)+format.x i} {-(format.h*.03) i}}
+  scale {{(parent.input0.format.h/1080) i}}
+  name TIME_CODE
+  label FRAME
+  xpos -1838
+  ypos -4294
+  disable {{TimecodeOpt==0 x1 1}}
+ }
+ Transform {
+  translate {{int((parent.format.w*.59)+parent.format.x) i} {int((parent.format.h*.48)+parent.format.y) i}}
+  filter Impulse
+  name Transform4
+  xpos -1838
+  ypos -4190
+ }
+push $Nf3f712f0
+ Remove {
+  name Remove1
+  xpos -972
+  ypos -7354
+ }
+ Rectangle {
+  invert true
+  maskChannel -rgba.alpha
+  maskFrom input
+  area {{int(parent.format.x+2) i} {int(parent.format.y+2) i} {int(parent.format.w+parent.format.x-2) i} {int(parent.format.h+parent.format.y-2) i}}
+  color {0.831 0.831 0.831 0}
+  name Rectangle3
+  label "Format Outline"
+  xpos -972
+  ypos -7258
+ }
+set Nf09a26b0 [stack 0]
+ Rectangle {
+  maskChannel -rgba.alpha
+  maskFrom input
+  area {{int((parent.format.w*.05)+parent.format.x) i} {int((parent.format.h*.05)+parent.format.y) i} {int(((parent.format.w*.95)/7)*7) i} {int((parent.format.h*.1)+parent.format.y) i}}
+  color {{from_sRGB(0) i} {from_sRGB(0) i} {from_sRGB(191) i} {1 i}}
+  name Rectangle19
+  label Blue
+  xpos -1137
+  ypos -7070
+ }
+ Rectangle {
+  maskChannel -rgba.alpha
+  maskFrom input
+  area {{int((parent.format.w*.05)+parent.format.x) i} {int((parent.format.h*.05)+parent.format.y) i} {int(((parent.format.w*.95)/7)*6) i} {int((parent.format.h*.1)+parent.format.y) i}}
+  color {{from_sRGB(191) i} {from_sRGB(0) i} {from_sRGB(0) i} {1 i}}
+  name Rectangle20
+  label Red
+  xpos -1137
+  ypos -7008
+ }
+ Rectangle {
+  maskChannel -rgba.alpha
+  maskFrom input
+  area {{int((parent.format.w*.05)+parent.format.x) i} {int((parent.format.h*.05)+parent.format.y) i} {int(((parent.format.w*.95)/7)*5) i} {int((parent.format.h*.1)+parent.format.y) i}}
+  color {{from_sRGB(191) i} {from_sRGB(0) i} {from_sRGB(191) i} {1 i}}
+  name Rectangle22
+  label Magenta
+  xpos -1137
+  ypos -6945
+ }
+ Rectangle {
+  maskChannel -rgba.alpha
+  maskFrom input
+  area {{int((parent.format.w*.05)+parent.format.x) i} {int((parent.format.h*.05)+parent.format.y) i} {int(((parent.format.w*.95)/7)*4) i} {int((parent.format.h*.1)+parent.format.y) i}}
+  color {{from_sRGB(0) i} {from_sRGB(191) i} {from_sRGB(0) i} {1 i}}
+  name Rectangle21
+  label Green
+  xpos -1137
+  ypos -6885
+ }
+ Rectangle {
+  maskChannel -rgba.alpha
+  maskFrom input
+  area {{int((parent.format.w*.05)+parent.format.x) i} {int((parent.format.h*.05)+parent.format.y) i} {int(((parent.format.w*.95)/7)*3) i} {int((parent.format.h*.1)+parent.format.y) i}}
+  color {{from_sRGB(0) i} {from_sRGB(191) i} {from_sRGB(191) i} {1 i}}
+  name Rectangle23
+  label Cyan
+  xpos -1137
+  ypos -6821
+ }
+ Rectangle {
+  maskChannel -rgba.alpha
+  maskFrom input
+  area {{int((parent.format.w*.05)+parent.format.x) i} {int((parent.format.h*.05)+parent.format.y) i} {int(((parent.format.w*.95)/7)*2) i} {int((parent.format.h*.1)+parent.format.y) i}}
+  color {{from_sRGB(191) i} {from_sRGB(191) i} {from_sRGB(0) i} {1 i}}
+  name Rectangle25
+  label Yellow
+  xpos -1137
+  ypos -6751
+ }
+ Rectangle {
+  maskChannel -rgba.alpha
+  maskFrom input
+  area {{int((parent.format.w*.05)+parent.format.x) i} {int((parent.format.h*.05)+parent.format.y) i} {int(((parent.format.w*.95)/7)*1) i} {int((parent.format.h*.1)+parent.format.y) i}}
+  color {{from_sRGB(191) i} {from_sRGB(191) i} {from_sRGB(191) i} {1 i}}
+  name Rectangle26
+  label White
+  xpos -1137
+  ypos -6679
+ }
+push $Nf09a26b0
+ Rectangle {
+  maskChannel -rgba.alpha
+  maskFrom input
+  area {{int((parent.format.w*.05)+parent.format.x) i} {int((parent.format.h*.05)+parent.format.y) i} {int((parent.format.w*.95)+parent.format.x) i} {int((parent.format.h*.95)++parent.format.y) i}}
+  color 0.0313876
+  name Rectangle2
+  label "Action Safe"
+  xpos -972
+  ypos -6894
+ }
+ Merge {
+  inputs 2
+  bbox B
+  maskChannel -rgba.alpha
+  maskFrom input
+  name Merge27
+  label "Color Bars"
+  xpos -972
+  ypos -6538
+ }
+ Dot {
+  name Dot3
+  xpos -938
+  ypos -6480
+ }
+set Nf09d7ea0 [stack 0]
+ Crop {
+  box {{parent.ActionSafe.area.x i} {parent.TitleSafe.area.t i} {parent.ActionSafe.area.r i} {parent.ActionSafe.area.t i}}
+  reformat true
+  name Crop9
+  xpos -1087
+  ypos -6444
+ }
+set Nf09d9038 [stack 0]
+ Crop {
+  box {{format.x i} {format.y i} {format.r i} {format.t/2 i}}
+  reformat true
+  name Crop2
+  xpos -1319
+  ypos -6388
+ }
+set Nf09db230 [stack 0]
+ Expression {
+  temp_name0 f
+  channel0 rgb
+  expr0 from_Cineon((x/(this.format.w-1))*1024)
+  channel1 {-rgba.red -rgba.green -rgba.blue rgba.alpha}
+  expr1 1
+  channel2 {-rgba.red -rgba.green -rgba.blue}
+  maskChannel -rgba.alpha
+  maskFrom input
+  unpremult -rgba.alpha
+  name Expression4
+  label "Full 1024 Scale Cineon"
+  xpos -1577
+  ypos -6337
+ }
+set Nf09dd430 [stack 0]
+ Rectangle {
+  replace true
+  maskChannel -rgba.alpha
+  maskFrom input
+  area {{int((format.w/1024)*95) i} {0 i} {int((format.w/1024)*95)+1 i} {format.t i}}
+  color {1 0 0 1}
+  name Rectangle6
+  xpos -1472
+  ypos -6273
+ }
+ Rectangle {
+  maskChannel -rgba.alpha
+  maskFrom input
+  area {{int((format.w/1024)*685) i} {0 i} {int((format.w/1024)*685)+1 i} {format.t i}}
+  color {1 0 0 1}
+  name Rectangle7
+  xpos -1472
+  ypos -6231
+ }
+push $Nf09dd430
+ Merge {
+  inputs 2
+  maskChannel -rgba.alpha
+  maskFrom input
+  name Merge23
+  xpos -1577
+  ypos -6174
+ }
+ Reformat {
+  type scale
+  black_outside true
+  name Reformat3
+  xpos -1577
+  ypos -6125
+ }
+ Transform {
+  translate {0 {format.h i}}
+  name Transform1
+  xpos -1577
+  ypos -6096
+ }
+push $Nf09db230
+ Expression {
+  temp_name0 f
+  channel0 rgb
+  expr0 from_sRGB((x/(this.format.w-1))*255)
+  channel1 {-rgba.red -rgba.green -rgba.blue rgba.alpha}
+  expr1 1
+  channel2 {-rgba.red -rgba.green -rgba.blue}
+  maskChannel -rgba.alpha
+  maskFrom input
+  unpremult -rgba.alpha
+  name Expression3
+  label "Full 255 Scale sRGB"
+  xpos -1319
+  ypos -6232
+ }
+ Reformat {
+  type scale
+  black_outside true
+  name Reformat1
+  xpos -1319
+  ypos -6178
+ }
+ Merge {
+  inputs 2
+  maskChannel -rgba.alpha
+  maskFrom input
+  name Merge14
+  xpos -1319
+  ypos -6012
+ }
+push $Nf09d9038
+ Merge {
+  inputs 2
+  maskChannel -rgba.alpha
+  maskFrom input
+  name Merge13
+  xpos -1087
+  ypos -5949
+ }
+ Crop {
+  box {{this.format.x i} {this.format.y i} {this.format.r i} {this.format.t i}}
+  reformat true
+  name Crop10
+  xpos -1087
+  ypos -5900
+ }
+ Transform {
+  translate {{parent.ActionSafe.area.x i} {parent.TitleSafe.area.t i}}
+  name Transform15
+  xpos -1087
+  ypos -5856
+ }
+push $Nf09d7ea0
+ Merge {
+  inputs 2
+  bbox B
+  maskChannel -rgba.alpha
+  maskFrom input
+  name Merge20
+  label "Top Gradent\n"
+  xpos -972
+  ypos -5808
+ }
+ Rectangle {
+  maskChannel -rgba.alpha
+  maskFrom input
+  area {{parent.TitleSafe.area.x i} {int((parent.format.h*.21)+parent.format.y) i} {parent.TitleSafe.area.r i} {int(parent.format.t-(parent.format.h*.21)) i}}
+  color {0.00303 0.00303 0.00303 1}
+  name InsideBlack
+  label "Inside Black"
+  xpos -972
+  ypos -5736
+ }
+set Nf0998228 [stack 0]
+ Expression {
+  channel0 {-rgba.red -rgba.green -rgba.blue rgba.alpha}
+  expr0 (int(x/25))%2
+  channel1 {rgba.red rgba.green rgba.blue -rgba.alpha}
+  expr1 0
+  channel2 {-rgba.red -rgba.green -rgba.blue}
+  maskChannel -rgba.alpha
+  maskFrom input
+  unpremult -rgba.alpha
+  name Expression8
+  label "GAMA - BARS"
+  xpos -1105
+  ypos -5704
+ }
+ Rectangle {
+  invert true
+  maskChannel -rgba.alpha
+  maskFrom input
+  area {{parent.InsideBlack.area.x i} {parent.InsideBlack.area.y i} {parent.InsideBlack.area.r i} {parent.InsideBlack.area.t i}}
+  color 0
+  name InsideBlack1
+  label "Inside Black"
+  xpos -1105
+  ypos -5651
+ }
+push $Nf0998228
+ Merge {
+  inputs 2
+  bbox B
+  maskChannel -rgba.alpha
+  maskFrom input
+  name Merge11
+  xpos -972
+  ypos -5572
+ }
+ Dot {
+  name Dot8
+  xpos -938
+  ypos -5311
+ }
+set Nf3f206b0 [stack 0]
+ Crop {
+  box {{parent.ActionSafe.area.x i} {parent.InsideBlack.area.y i} {parent.TitleSafe.area.x i} {parent.InsideBlack.area.t i}}
+  reformat true
+  name Crop1
+  xpos -1217
+  ypos -5253
+ }
+set Nf3f218c8 [stack 0]
+ Expression {
+  temp_name0 f
+  channel0 rgb
+  expr0 from_sRGB((y/(this.format.h-1))*255)
+  channel1 {-rgba.red -rgba.green -rgba.blue -rgba.alpha}
+  channel2 {-rgba.red -rgba.green -rgba.blue}
+  maskChannel -rgba.alpha
+  maskFrom input
+  unpremult -rgba.alpha
+  name Expression13
+  label "Full 255 Scale"
+  xpos -1282
+  ypos -5182
+ }
+push $Nf3f218c8
+ Expression {
+  temp_name0 f
+  channel0 rgb
+  expr0 from_sRGB(((y/(this.format.h-1))*130)+100)
+  channel1 {-rgba.red -rgba.green -rgba.blue rgba.alpha}
+  expr1 1
+  channel2 {-rgba.red -rgba.green -rgba.blue}
+  maskChannel -rgba.alpha
+  maskFrom input
+  unpremult -rgba.alpha
+  name Expression10
+  label "Scale 100 to 230"
+  xpos -1158
+  ypos -5181
+ }
+ Switch {
+  inputs 2
+  which 1
+  name Switch2
+  xpos -1219
+  ypos -5089
+  disable true
+ }
+ Shuffle {
+  alpha white
+  name Shuffle10
+  xpos -1219
+  ypos -5039
+ }
+set Nf3f2a570 [stack 0]
+ Expression {
+  temp_name0 f
+  channel0 rgb
+  expr0 (to_sRGB(r)%10)<.5
+  channel1 {-rgba.red -rgba.green -rgba.blue rgba.alpha}
+  expr1 1
+  channel2 {-rgba.red -rgba.green -rgba.blue}
+  maskChannel -rgba.alpha
+  maskFrom input
+  unpremult -rgba.alpha
+  name Expression16
+  label "Mesure Lines\non 10 in 255 scale"
+  xpos -1105
+  ypos -5005
+ }
+ Shuffle {
+  green black
+  blue black
+  alpha red
+  name Shuffle1
+  xpos -1105
+  ypos -4948
+ }
+ Rectangle {
+  maskChannel -rgba.alpha
+  maskFrom input
+  area {{int(format.w*.15) i} {-int(format.w*.4) i} {format.r-int(format.w*.15) i} {format.h+int(format.w*.4) i}}
+  color 0
+  name Rectangle34
+  xpos -1105
+  ypos -4914
+ }
+push $Nf3f218c8
+ Expression {
+  channel0 rgb
+  expr0 y%2
+  channel1 {-rgba.red -rgba.green -rgba.blue rgba.alpha}
+  expr1 1
+  channel2 {-rgba.red -rgba.green -rgba.blue}
+  maskChannel -rgba.alpha
+  maskFrom input
+  unpremult -rgba.alpha
+  name Expression12
+  label "GAMA - BARS"
+  xpos -1408
+  ypos -5179
+ }
+ Rectangle {
+  invert true
+  maskChannel -rgba.alpha
+  maskFrom input
+  area {{int(format.w*.15) i} {-int(format.w*.4) i} {format.r-int(format.w*.15) i} {format.h+int(format.w*.4) i}}
+  softness 24.2754
+  color 0
+  name Rectangle33
+  xpos -1408
+  ypos -5075
+ }
+push $Nf3f2a570
+ Merge {
+  inputs 2
+  maskChannel -rgba.alpha
+  maskFrom input
+  name Merge17
+  xpos -1219
+  ypos -4898
+ }
+ Merge {
+  inputs 2
+  maskChannel -rgba.alpha
+  maskFrom input
+  name Merge6
+  xpos -1219
+  ypos -4822
+ }
+ Shuffle {
+  alpha white
+  name Shuffle9
+  xpos -1219
+  ypos -4746
+ }
+ Crop {
+  box {{this.format.x i} {this.format.y i} {this.format.r i} {this.format.t i}}
+  reformat true
+  name Crop8
+  xpos -1219
+  ypos -4703
+ }
+ Transform {
+  translate {{parent.ActionSafe.area.x i} {parent.InsideBlack.area.y i}}
+  name Transform7
+  xpos -1219
+  ypos -4658
+ }
+push $Nf3f206b0
+ Merge {
+  inputs 2
+  bbox B
+  maskChannel -rgba.alpha
+  maskFrom input
+  name Merge19
+  label GamaTester
+  xpos -972
+  ypos -4508
+ }
+ Dot {
+  name Dot11
+  xpos -938
+  ypos -4395
+ }
+set Nf49b9a20 [stack 0]
+ Dot {
+  name Dot12
+  xpos -1250
+  ypos -4371
+ }
+set Nf49c69b0 [stack 0]
+ Expression {
+  channel0 rgb
+  expr0 (int(y/2))%2
+  channel1 {-rgba.red -rgba.green -rgba.blue rgba.alpha}
+  expr1 1
+  channel2 {-rgba.red -rgba.green -rgba.blue}
+  maskChannel -rgba.alpha
+  maskFrom input
+  unpremult -rgba.alpha
+  name Expression5
+  label "GAMA - BARS"
+  xpos -1455
+  ypos -4274
+ }
+ Rectangle {
+  invert true
+  maskChannel -rgba.alpha
+  maskFrom input
+  area {{parent.TitleSafe.area.r i} {(parent.InsideBlack.area.y)+((((parent.format.h/2)+parent.format.y)-(parent.InsideBlack.area.y))/2) i} {parent.ActionSafe.area.r i} {((parent.format.h/2)+parent.format.y) i}}
+  color 0
+  name Rectangle1
+  xpos -1455
+  ypos -4215
+ }
+push $Nf49c69b0
+ Expression {
+  channel0 rgb
+  expr0 (int(y/1))%2
+  channel1 {-rgba.red -rgba.green -rgba.blue rgba.alpha}
+  expr1 1
+  channel2 {-rgba.red -rgba.green -rgba.blue}
+  maskChannel -rgba.alpha
+  maskFrom input
+  unpremult -rgba.alpha
+  name Expression2
+  label "GAMA - BARS"
+  xpos -1353
+  ypos -4275
+ }
+ Rectangle {
+  invert true
+  maskChannel -rgba.alpha
+  maskFrom input
+  area {{parent.TitleSafe.area.r i} {parent.InsideBlack.area.y i} {parent.ActionSafe.area.r i} {(parent.format.h/2)+parent.format.y i}}
+  color 0
+  name Rectangle35
+  xpos -1353
+  ypos -4212
+ }
+ Merge {
+  inputs 2
+  maskChannel -rgba.alpha
+  maskFrom input
+  name Merge2
+  xpos -1353
+  ypos -4164
+ }
+push $Nf49c69b0
+ Expression {
+  channel0 rgb
+  expr0 (int(x/2))%2
+  channel1 {-rgba.red -rgba.green -rgba.blue rgba.alpha}
+  expr1 1
+  channel2 {-rgba.red -rgba.green -rgba.blue}
+  maskChannel -rgba.alpha
+  maskFrom input
+  unpremult -rgba.alpha
+  name Expression7
+  label "GAMA - BARS"
+  xpos -1081
+  ypos -4285
+ }
+ Rectangle {
+  invert true
+  maskChannel -rgba.alpha
+  maskFrom input
+  area {{parent.TitleSafe.area.r i} {((parent.format.h/2)+parent.format.y) i} {parent.ActionSafe.area.r i} {((parent.format.h/2)+parent.format.y)+int((parent.InsideBlack.area.t-((parent.format.h/2)+parent.format.y))/2) i}}
+  color 0
+  name Rectangle4
+  xpos -1081
+  ypos -4214
+ }
+push $Nf49c69b0
+ Expression {
+  channel0 rgb
+  expr0 x%2
+  channel1 {-rgba.red -rgba.green -rgba.blue rgba.alpha}
+  expr1 1
+  channel2 {-rgba.red -rgba.green -rgba.blue}
+  maskChannel -rgba.alpha
+  maskFrom input
+  unpremult -rgba.alpha
+  name Expression1
+  label "GAMA - BARS"
+  xpos -1199
+  ypos -4282
+ }
+ Rectangle {
+  invert true
+  maskChannel -rgba.alpha
+  maskFrom input
+  area {{parent.TitleSafe.area.r i} {(parent.format.h/2)+parent.format.y i} {parent.ActionSafe.area.r i} {parent.InsideBlack.area.t i}}
+  color 0
+  name Rectangle36
+  xpos -1199
+  ypos -4215
+ }
+ Merge {
+  inputs 2
+  maskChannel -rgba.alpha
+  maskFrom input
+  name Merge9
+  xpos -1220
+  ypos -4140
+ }
+ Merge {
+  inputs 2
+  maskChannel -rgba.alpha
+  maskFrom input
+  name Merge5
+  xpos -1267
+  ypos -4090
+ }
+push $Nf49b9a20
+ Merge {
+  inputs 2
+  bbox B
+  maskChannel -rgba.alpha
+  maskFrom input
+  name Merge3
+  label "moray pattern"
+  xpos -972
+  ypos -3998
+ }
+ Merge {
+  inputs 2
+  bbox B
+  name Merge4
+  label "Postage Stamp"
+  xpos -972
+  ypos -3873
+  disable {{"parent.ThumbOpt == 3"}}
+ }
+ Dot {
+  name Dot5
+  xpos -938
+  ypos -3786
+ }
+set Nf0212878 [stack 0]
+ Shuffle {
+  red black
+  green black
+  blue black
+  alpha black
+  name Shuffle11
+  xpos -1270
+  ypos -3649
+ }
+ Radial {
+  output alpha
+  cliptype none
+  replace true
+  area {{int(-((parent.format.w+parent.format.h)/2)*.02) i} {int(-((parent.format.w+parent.format.h)/2)*.02) i} {int(((parent.format.w+parent.format.h)/2)*.02) i} {int(((parent.format.w+parent.format.h)/2)*.02) i}}
+  softness 0
+  name Dots
+  xpos -1270
+  ypos -3564
+ }
+ Rectangle {
+  output {rgba.red rgba.green rgba.blue -rgba.alpha}
+  cliptype bbox
+  maskChannel none
+  maskFrom input
+  area {{parent.Dots.area.x i} {parent.Dots.area.y i} {parent.Dots.area.r i} {parent.Dots.area.t i}}
+  name Rectangle31
+  xpos -1270
+  ypos -3496
+ }
+ Rectangle {
+  output {rgba.red rgba.green rgba.blue -rgba.alpha}
+  cliptype bbox
+  maskChannel -rgba.alpha
+  maskFrom input
+  area {{parent.Dots.area.x i} {parent.Dots.area.y i} 0 0}
+  color {0 0 0 1}
+  name Rectangle30
+  xpos -1270
+  ypos -3438
+ }
+ Rectangle {
+  output {rgba.red rgba.green rgba.blue -rgba.alpha}
+  cliptype bbox
+  maskChannel -rgba.alpha
+  maskFrom input
+  area {0 0 {parent.Dots.area.r i} {parent.Dots.area.t i}}
+  color {0 0 0 1}
+  name Rectangle32
+  xpos -1270
+  ypos -3396
+ }
+ Premult {
+  name Premult1
+  xpos -1270
+  ypos -3359
+ }
+ Transform {
+  translate {{int(((parent.TitleSafe.area.x-parent.ActionSafe.area.x)/2)+parent.ActionSafe.area.x) i} {int(((parent.InsideBlack.area.y-parent.TitleSafe.area.y)/2)+parent.TitleSafe.area.y) i}}
+  name Transform2
+  xpos -1270
+  ypos -3313
+ }
+set Nf0223e58 [stack 0]
+ Mirror {
+  Horizontal true
+  name Mirror1
+  xpos -1601
+  ypos -3257
+ }
+push $Nf0223e58
+ Mirror {
+  Vertical true
+  name Mirror2
+  xpos -1464
+  ypos -3254
+ }
+push 0
+push $Nf0223e58
+ Mirror {
+  Horizontal true
+  Vertical true
+  name Mirror3
+  xpos -1365
+  ypos -3253
+ }
+push $Nf0223e58
+ Merge2 {
+  inputs 4+1
+  maskChannel -rgba.alpha
+  maskFrom input
+  name Merge10
+  xpos -1270
+  ypos -3200
+ }
+push $Nf0212878
+ Merge {
+  inputs 2
+  bbox B
+  maskChannel -rgba.alpha
+  maskFrom input
+  name Merge1
+  xpos -972
+  ypos -3067
+ }
+ Merge {
+  inputs 2
+  bbox B
+  maskChannel -rgba.alpha
+  maskFrom input
+  name Merge18
+  label "Title Text"
+  xpos -972
+  ypos -2619
+ }
+ Merge {
+  inputs 2
+  bbox B
+  maskChannel -rgba.alpha
+  maskFrom input
+  name Merge35
+  label "Shot text"
+  xpos -967
+  ypos -2161
+ }
+ Merge {
+  inputs 2
+  bbox B
+  maskChannel -rgba.alpha
+  maskFrom input
+  name Merge37
+  label "Frame Range Text"
+  xpos -967
+  ypos -1732
+ }
+ Merge {
+  inputs 2
+  bbox B
+  maskChannel -rgba.alpha
+  maskFrom input
+  name Merge39
+  label "Script Text"
+  xpos -967
+  ypos -1290
+ }
+set Nf023b670 [stack 0]
+ Shuffle {
+  red black
+  green black
+  blue black
+  alpha black
+  name Shuffle2
+  xpos -1044
+  ypos -1184
+ }
+ Text {
+  cliptype none
+  message ""
+  Font 1
+  font "\[knob parent.font]"
+  size 40
+  yjustify top
+  translate {{parent.format.w*.12 i} {parent.format.t*.76 i}}
+  scale {{parent.format.w/1920 i}}
+  color {0.5 0.5 0.5 1}
+  name SlateInfoText
+  label "Info Text"
+  xpos -1044
+  ypos -1131
+ }
+push $Nf023b670
+ Merge {
+  inputs 2
+  bbox B
+  maskChannel -rgba.alpha
+  maskFrom input
+  name Merge12
+  xpos -967
+  ypos -1038
+ }
+ Merge {
+  inputs 2
+  bbox B
+  maskChannel -rgba.alpha
+  maskFrom input
+  name Merge16
+  label "format info"
+  xpos -967
+  ypos -745
+ }
+ Merge {
+  inputs 2
+  bbox B
+  maskChannel -rgba.alpha
+  maskFrom input
+  name Merge29
+  label "Lut Information"
+  xpos -967
+  ypos -321
+ }
+ Dot {
+  name Dot6
+  xpos -933
+  ypos -184
+ }
+set Nf024f3b8 [stack 0]
+ Shuffle {
+  red black
+  green black
+  blue black
+  alpha black
+  name FloodBlack
+  xpos -1074
+  ypos -118
+ }
+ Rectangle {
+  maskChannel -rgba.alpha
+  maskFrom input
+  area {{int((parent.format.w*.1)+parent.format.x) i} {int((parent.format.h*.1)+parent.format.y) i} {int((parent.format.w*.9)+parent.format.x) i} {int((parent.format.h*.9)++parent.format.y) i}}
+  name TitleSafe
+  xpos -1265
+  ypos -74
+ }
+ Rectangle {
+  maskChannel -rgba.alpha
+  maskFrom input
+  area {{int((parent.format.w*.1)+parent.format.x)+2 i} {int((parent.format.h*.1)+parent.format.y)+2 i} {int((parent.format.w*.9)+parent.format.x)-2 i} {int((parent.format.h*.9)++parent.format.y)-2 i}}
+  color 0
+  name Rectangle5
+  xpos -1074
+  ypos -27
+ }
+push $Nf024f3b8
+ Merge {
+  inputs 2
+  bbox B
+  maskChannel -rgba.alpha
+  maskFrom input
+  name Merge8
+  label "Tile Safe"
+  xpos -967
+  ypos 40
+ }
+ Dot {
+  name Dot7
+  xpos -933
+  ypos 157
+ }
+set Nf025c418 [stack 0]
+ Shuffle {
+  red black
+  green black
+  blue black
+  alpha black
+  name FloodBlack2
+  xpos -1074
+  ypos 223
+ }
+ Rectangle {
+  maskChannel -rgba.alpha
+  maskFrom input
+  area {{int((parent.format.w*.05)+parent.format.x) i} {int((parent.format.h*.05)+parent.format.y) i} {int((parent.format.w*.95)+parent.format.x) i} {int((parent.format.h*.95)++parent.format.y) i}}
+  name ActionSafe
+  xpos -1163
+  ypos 261
+ }
+ Rectangle {
+  maskChannel -rgba.alpha
+  maskFrom input
+  area {{int((parent.format.w*.05)+parent.format.x)+2 i} {int((parent.format.h*.05)+parent.format.y)+2 i} {int((parent.format.w*.95)+parent.format.x)-2 i} {int((parent.format.h*.95)++parent.format.y)-2 i}}
+  color 0
+  name Rectangle18
+  xpos -1074
+  ypos 314
+ }
+push $Nf025c418
+ Merge {
+  inputs 2
+  bbox B
+  maskChannel -rgba.alpha
+  maskFrom input
+  name Merge26
+  label "Action safe"
+  xpos -967
+  ypos 382
+ }
+ Shuffle {
+  alpha white
+  name WhiteAlpha1
+  xpos -967
+  ypos 585
+ }
+push $Nf3f72418
+ Dot {
+  name Dot1
+  xpos -2369
+  ypos 264
+ }
+set Nf026c198 [stack 0]
+ Merge {
+  inputs 2
+  bbox A
+  name Merge7
+  label "FIX TIME"
+  xpos -967
+  ypos 789
+ }
+push $Nf026c198
+ Switch {
+  inputs 2
+  which {{"frame == parent.Slate_Frame"}}
+  name Slate_Switch
+  xpos -967
+  ypos 964
+ }
+ Output {
+  name Output1
+  xpos -967
+  ypos 1423
+ }
+ Viewer {
+  name Viewer1
+  selected true
+  xpos -857
+  ypos -5825
+ }
+end_group

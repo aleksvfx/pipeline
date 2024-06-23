@@ -1,0 +1,158 @@
+#! /Applications/Nuke5.1v3/Nuke5.1v3.app/Contents/MacOS/Nuke5.1v3 -nx
+version 5.1300
+add_layer {_RenderLayer_Depth _RenderLayer_Depth.Z}
+Gizmo {
+ tile_color 0x14ffff
+ gl_color 0x921ffff
+ label "Floating Image Viewer\n(Z-Depth, ...)"
+ note_font "Vibrocentric Bold Italic"
+ note_font_size 15
+ help "FLOATING-Image (zDepth) - Anzeiger/Umwandler\n----------------------------------------------------------------------\n\nSETTINGS:\n* hier die Layer IN&OUT auswählen und dazu die RGB(A)-Kanäle\n* CurveTool ODER Expression\n* Bild MIRROR (wg. Blender-Output)\n* Ergebnis INVERT (J/N)\n\nPixelAnalyzer vs. CurveTool:\n* Um Bild mittels CurveTool zu analysieren auf GO (1,1 für ein Bild oder zB 1,100 für die SequenzLänge)\n* Oder per Expression (pro RGB-Kanal)"
+ mapsize {0.260797 0.446809}
+ addUserKnob {20 SETTINGS}
+ addUserKnob {41 in l "in 1" T Shuffle1.in}
+ addUserKnob {41 out l "out 1" T Shuffle1.out}
+ addUserKnob {41 red T Shuffle1.red}
+ addUserKnob {41 green -STARTLINE T Shuffle1.green}
+ addUserKnob {41 blue -STARTLINE T Shuffle1.blue}
+ addUserKnob {41 alpha -STARTLINE T Shuffle1.alpha}
+ addUserKnob {26 "" -STARTLINE T "\n\n"}
+ addUserKnob {26 ""}
+ addUserKnob {26 "" l "A U S W A H L" T "\n"}
+ addUserKnob {26 "" -STARTLINE T "CurveTool   \[ 0 ]\nExpression  \[ 1 ]\nClamp        \[ 2 ]"}
+ addUserKnob {41 CurveToolExpressionClamp l "" t "CurveTool, Expression oder Clamp ?!?\n\n0 = CurveTool\n1 = Expression\n2 = Clamp (0-1)\n\nAuswahl der Einstellungen unter dem TAB\n\"CurveTool vs. Expression vs. Clamp\"" -STARTLINE T Switch1.which}
+ addUserKnob {26 ""}
+ addUserKnob {26 "" l "M I R R O R" T "\n\n"}
+ addUserKnob {26 "" -STARTLINE T "Spiegeln ( J / N )\n 0 = J  /  1 = N"}
+ addUserKnob {41 MIRROR l "" t "0 = Spiegeln JA\n1 = NEIN" -STARTLINE T Switch2.which}
+ addUserKnob {26 "" -STARTLINE T "\n\n\n\n\n\n"}
+ addUserKnob {26 "" l "I N V E R T"}
+ addUserKnob {41 channels T Invert1.channels}
+ addUserKnob {41 mix T Invert1.mix}
+ addUserKnob {20 PixelAnalyzerExpression l "CurveTool vs. Expression vs. Clamp" t "CurveTool -> MaxLumaPixel\n\nExpression -> RGB/100 (oder manuell)\n\nClamp -> ab Mix 0.99 bis ca. 0.90"}
+ addUserKnob {26 "" l "C U R V E T O O L"}
+ addUserKnob {41 channels_2 l channels T CurveTool1.channels}
+ addUserKnob {41 minlumapixvalue l "MinLum Pixel" T CurveTool1.minlumapixvalue}
+ addUserKnob {41 maxlumapixvalue l "MaxLum Pixel" T CurveTool1.maxlumapixvalue}
+ addUserKnob {26 "" l START: T "Analyze press GO and the Values Refresh"}
+ addUserKnob {41 go l Go! T CurveTool1.go}
+ addUserKnob {26 "" l "E X P R E S S I O N"}
+ addUserKnob {41 channel0 l channels T Expression2.channel0}
+ addUserKnob {41 expr0 l = T Expression2.expr0}
+ addUserKnob {41 channel1 l channels T Expression2.channel1}
+ addUserKnob {41 expr1 l = T Expression2.expr1}
+ addUserKnob {41 channel2 l channels T Expression2.channel2}
+ addUserKnob {41 expr2 l = T Expression2.expr2}
+ addUserKnob {26 "" l "C   L   A   M   P   "}
+ addUserKnob {41 channels_1 l channels T Clamp1.channels}
+ addUserKnob {41 mix_1 l mix T Clamp1.mix}
+ addUserKnob {26 ""}
+ addUserKnob {26 "" l "SETTINGS : " -STARTLINE T "CurveTool  -> MaxLumaPixel\nExpression -> RGB/100 (oder manuell)\nClamp       -> Mix ab 0.99 bis ca. 0.90"}
+}
+ Input {
+  inputs 0
+  name Input1
+  xpos -215
+  ypos -155
+ }
+ Shuffle {
+  in _RenderLayer_Depth
+  green red
+  blue red
+  alpha black
+  name Shuffle1
+  xpos -215
+  ypos -115
+ }
+set N9700130 [stack 0]
+ Clamp {
+  MinClampTo 1
+  MinClampTo_enable true
+  MaxClampTo 0
+  MaxClampTo_enable true
+  mix 0.95
+  name Clamp1
+  xpos -86
+  ypos -61
+ }
+push $N9700130
+ Expression {
+  expr0 r/100
+  expr1 g/100
+  expr2 b/100
+  mix 0.95
+  name Expression2
+  xpos -209
+  ypos -52
+ }
+push $N9700130
+ CurveTool {
+  operation "Max Luma Pixel"
+  avgframes 1
+  channels {rgba.red -rgba.green -rgba.blue}
+  ROI {0 0 360 288}
+  autocropdata {180 144 540 432}
+  intensitydata {{curve i}}
+  maxlumapixdata {{curve i x1 166} {curve i x1 116}}
+  maxlumapixvalue {{curve i x1 14.2049017} {curve i x1 0} {curve i x1 0}}
+  minlumapixdata {{curve i x1 359} {curve i x1 309}}
+  minlumapixvalue {{curve i x1 3.650969744} {curve i x1 0} {curve i x1 0}}
+  name CurveTool1
+  selected true
+  xpos -367
+  ypos -81
+ }
+ Expression {
+  temp_name0 maxColor
+  temp_expr0 CurveTool1.maxlumapixvalue
+  temp_name1 minColor
+  temp_expr1 CurveTool1.minlumapixvalue
+  expr0 ((r-minColor)/(maxColor-minColor))*1
+  expr1 ((g-minColor)/(maxColor-minColor))*1
+  expr2 ((b-minColor)/(maxColor-minColor))*1
+  channel3 {none none none -rgba.alpha}
+  name Expression1
+  xpos -367
+  ypos -20
+ }
+ Switch {
+  inputs 3
+  name Switch1
+  xpos -209
+  ypos 10
+ }
+set N142bc400 [stack 0]
+push $N142bc400
+ Mirror {
+  Vertical true
+  name Mirror1
+  xpos -263
+  ypos 47
+ }
+ Switch {
+  inputs 2
+  name Switch2
+  xpos -209
+  ypos 89
+ }
+set N1693d760 [stack 0]
+push $N1693d760
+ Invert {
+  channels rgb
+  clamp true
+  name Invert1
+  xpos -257
+  ypos 118
+ }
+ Switch {
+  inputs 2
+  name Switch3
+  xpos -210
+  ypos 165
+ }
+ Output {
+  name Output1
+  xpos -210
+  ypos 206
+ }
+end_group

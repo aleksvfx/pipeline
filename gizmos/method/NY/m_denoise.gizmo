@@ -1,0 +1,294 @@
+#! /method/cg/opt/Nuke6.1v3/Nuke6.1 -nx
+version 6.1 v3
+Gizmo {
+ inputs 3
+ help "This node is a simple wrapper around F_DeNoise, which extracts grain in an appropriate colorspace for the medium.  For example, in the case of film, the grain is proportional to the square of the film densities, so extracting grain in that colorspace tends to do a better job than F_Denoise's default Cineon mode."
+ addUserKnob {20 User}
+ addUserKnob {4 noiseCorrelation l "Noise Correlation" t "Select the correspondence between image intensity and noise." M {"Density squared (film)" ""}}
+ addUserKnob {41 amount l "DeNoise Amount" T F_DeNoise4.amount}
+ addUserKnob {41 plateSize l "Plate Size" T F_DeNoise4.plateSize}
+ addUserKnob {41 suppRinging l "Suppress Ringing" T F_DeNoise4.suppRinging}
+ addUserKnob {6 useNoise l "Use Noise" t "Use external noise sample." +STARTLINE}
+ addUserKnob {6 useVectors l "Use Vectors" t "Enable external motion vectors." +STARTLINE}
+ addUserKnob {4 outputType l "Output Type" t "Control output." M {Result Grain ""}}
+ addUserKnob {20 "Analysis Region" n 2}
+ "Analysis Region" 1
+ addUserKnob {41 centre l "Analysis Centre" T F_DeNoise4.centre}
+ addUserKnob {41 frame l "Analysis Frame" T F_DeNoise4.frame}
+ addUserKnob {20 "" n -1}
+ addUserKnob {20 Advanced n 2}
+ addUserKnob {41 redAmount l "Red Amount" T F_DeNoise4.redAmount}
+ addUserKnob {41 greenAmount l "Green Amount" T F_DeNoise4.greenAmount}
+ addUserKnob {41 blueAmount l "Blue Amount" T F_DeNoise4.blueAmount}
+ addUserKnob {20 "" n -1}
+}
+ OFXuk.co.thefoundry.furnace.f_degrain_v403 {
+  inputs 0
+  colourSpace Linear
+  amount 1
+  output Result
+  grain 10
+  "Analysis Region" 1
+  regionBL {1257.000122 1206.000035}
+  regionTR {1449.000122 1313.999995}
+  frame 49
+  Advanced 1
+  Frequencies 1
+  processSmall true
+  smallAmount 1
+  processMedium true
+  mediumAmount 1
+  processLarge true
+  largeAmount 1
+  processHuge true
+  hugeAmount 1
+  Channels 1
+  redAmount 1
+  greenAmount 1
+  blueAmount 1
+  notBeenAnalysed false
+  inputHasChanged false
+  magic0HR 0.003653662279
+  magic0DR 0.003971999045
+  magic0HG 0.003789175302
+  magic0DG 0.003844410181
+  magic0HB 0.004333699588
+  magic0DB 0.006221780553
+  magic1HR 0.001389761805
+  magic1DR 0.001409539371
+  magic1HG 0.001660662936
+  magic1DG 0.001534005511
+  magic1HB 0.002732833847
+  magic1DB 0.003060322022
+  magic2HR 0.001129168319
+  magic2DR 0.001089225174
+  magic2HG 0.001123706577
+  magic2DG 0.001015186892
+  magic2HB 0.001087151119
+  magic2DB 0.0009543199558
+  magic3HR 0.001135777333
+  magic3DR 0.001039530965
+  magic3HG 0.001135798637
+  magic3DG 0.0008033863851
+  magic3HB 0.00111436774
+  magic3DB 0.0009418291738
+  cacheBreaker false
+  name F_DeGrain1
+  xpos 1142
+  ypos -262
+ }
+ Input {
+  inputs 0
+  name Src
+  xpos 657
+  ypos -366
+ }
+set N2425c340 [stack 0]
+ Colorspace {
+  colorspace_out Cineon
+  name Colorspace9
+  xpos 657
+  ypos -316
+ }
+ Gamma {
+  value 0.5
+  name Gamma1
+  xpos 657
+  ypos -288
+ }
+set N2426edd0 [stack 0]
+ Input {
+  inputs 0
+  name Noise
+  xpos 429
+  ypos -367
+  number 1
+ }
+ Dot {
+  name Dot1
+  xpos 463
+  ypos -197
+ }
+set N24277e70 [stack 0]
+push $N2426edd0
+ Dot {
+  name Dot10
+  xpos 564
+  ypos -276
+ }
+set N2427ab00 [stack 0]
+ Dot {
+  name Dot9
+  xpos 320
+  ypos -276
+ }
+ Dot {
+  name Dot11
+  xpos 320
+  ypos -133
+ }
+ OFXuk.co.thefoundry.furnace.f_denoise_v403 {
+  inputs 2
+  colourSpace Linear
+  amount 1
+  plateSize 2K/HD
+  suppRinging true
+  output Result
+  noise 10
+  "Analysis Region" 1
+  centre {960 540}
+  frame 1
+  Advanced 1
+  redAmount 1
+  greenAmount 1
+  blueAmount 1
+  needToAnalyse true
+  sampleFrameHasBeenInitialised true
+  notBeenMoved false
+  beenHereBefore true
+  inputHasChanged false
+  beenHereBefore2 true
+  dontAnalyse false
+  cacheBreaker false
+  name F_DeNoise4
+  xpos 429
+  ypos -138
+ }
+ set C24283170 [stack 0]
+ Dot {
+  name Dot4
+  xpos 463
+  ypos 63
+ }
+ Input {
+  inputs 0
+  name Vecs
+  xpos 865
+  ypos -367
+  number 2
+ }
+ Dot {
+  name Dot2
+  xpos 899
+  ypos -197
+ }
+set N242d10d0 [stack 0]
+ Dot {
+  name Dot8
+  xpos 899
+  ypos -15
+ }
+push 0
+push $N2426edd0
+ Dot {
+  name Dot7
+  xpos 837
+  ypos -276
+ }
+clone $C24283170 {
+  inputs 3
+  xpos 803
+  ypos -20
+  selected false
+ }
+push $N242d10d0
+push $N24277e70
+push $N2426edd0
+clone $C24283170 {
+  inputs 3
+  xpos 657
+  ypos -202
+  selected false
+ }
+ Dot {
+  name Dot12
+  xpos 691
+  ypos -76
+ }
+push $N2427ab00
+clone $C24283170 {
+  xpos 530
+  ypos -139
+  selected false
+ }
+ Switch {
+  inputs 2
+  which {{"parent.useVectors && parent.useNoise" i}}
+  name Switch2
+  xpos 530
+  ypos -81
+ }
+ Switch {
+  inputs 2
+  which {{"parent.useVectors && !parent.useNoise" i}}
+  name Switch3
+  xpos 530
+  ypos -20
+ }
+ Switch {
+  inputs 2
+  which {{"parent.useNoise && !parent.useVectors" i}}
+  name Switch4
+  selected true
+  xpos 530
+  ypos 58
+ }
+ Gamma {
+  value 2
+  name Gamma2
+  xpos 530
+  ypos 109
+ }
+ Colorspace {
+  colorspace_in Cineon
+  name Colorspace10
+  xpos 530
+  ypos 151
+ }
+set N243bb060 [stack 0]
+ Viewer {
+  inputs 2
+  input_process false
+  name Viewer1
+  xpos 1026
+  ypos 151
+ }
+push $N243bb060
+push $N2425c340
+ Dot {
+  name Dot3
+  xpos 767
+  ypos -361
+ }
+ Dot {
+  name Dot5
+  xpos 767
+  ypos 210
+ }
+ Merge2 {
+  inputs 2
+  operation from
+  output rgb
+  name Merge1
+  xpos 530
+  ypos 205
+ }
+push $N243bb060
+ Dot {
+  name Dot6
+  xpos 447
+  ypos 156
+ }
+ Switch {
+  inputs 2
+  which {{parent.outputType i}}
+  name Switch1
+  xpos 413
+  ypos 205
+ }
+ Output {
+  name Output1
+  xpos 413
+  ypos 334
+ }
+end_group

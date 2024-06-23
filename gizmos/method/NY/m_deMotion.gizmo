@@ -1,0 +1,49 @@
+#! /method/cg/opt/Nuke6.1v3/Nuke6.1 -nx
+version 6.1 v3
+Gizmo {
+ addUserKnob {20 User}
+ addUserKnob {12 translate l Translate t "Translation values for stabilizing (or de-stabilizing) the plate.  These will be used to calculate deblur angle and distance."}
+ translate {{parent.Tracker9.translate.x} {parent.Tracker9.translate.y}}
+ addUserKnob {7 shutter l Shutter t "The shutter factor will account for shorter or longer shutter angles in a shot, scaling up or down the amount of deblur.  Normal shutter is 180 degrees." R 0 360}
+ shutter 144
+ addUserKnob {41 iterations l Iterations T F_DeBlur1.iterations}
+ addUserKnob {41 beta l "Ring Clamping" T F_DeBlur1.beta}
+ addUserKnob {41 useDeBlurRegion l "Use DeBlur Region" T F_DeBlur1.useDeBlurRegion}
+ addUserKnob {41 regionBL l "DeBlur Region BL" T F_DeBlur1.regionBL}
+ addUserKnob {41 regionTR l "DeBlur Region TR" T F_DeBlur1.regionTR}
+}
+ Input {
+  inputs 0
+  name Input1
+  xpos -328
+  ypos -64
+ }
+ OFXuk.co.thefoundry.furnace.f_deblur_v402 {
+  blurType Motion
+  blurSize {{".5 * sqrt(pow(parent.translate.x(t + 1) - parent.translate.x(t-1), 2) +  pow(parent.translate.y(t + 1) - parent.translate.y(t-1), 2)) * parent.shutter / 360" i}}
+  iterations 20
+  regularisationFactor 0
+  beta 1
+  output DeBlurred
+  noiseEstimate 0
+  calculateRotation false
+  angle {{"atan2(parent.translate.y(t + 1) - parent.translate.y(t-1),parent.translate.x(t + 1) - parent.translate.x(t-1)) * 180 / pi" i}}
+  removeRinging true
+  useDeBlurRegion false
+  regionBL {-0.400299076 -1.500000036}
+  regionTR {1920.2005 1079.799929}
+  threshold 0.02
+  widgetPos {960 540}
+  needsBlurInput false
+  needsTemporalInput false
+  cacheBreaker true
+  name F_DeBlur1
+  xpos -328
+  ypos 37
+ }
+ Output {
+  name Output1
+  xpos -328
+  ypos 144
+ }
+end_group

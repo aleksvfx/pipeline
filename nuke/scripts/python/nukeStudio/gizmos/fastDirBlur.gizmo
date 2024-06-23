@@ -1,0 +1,469 @@
+#! /lot/s61/SWDEVL/SOFTWARE/linuxrh9_intel/nuke4.3/23/nuke4.3.23 -nx
+version 4.3023
+Gizmo {
+ inputs 1
+ addUserKnob { 20 "" User } 
+ addUserKnob { 4 layer layer M { all rgba rgb alpha } } 
+ addUserKnob { 7 angle angle R -90 90 } 
+ addUserKnob { 7 amount amount R 0 300 t "this is the amount of the directional blur.\nhigher numbers produce much faster results." } 
+ addUserKnob { 7 qual quality R 1 15 t "higher values will be slower. 15 is max." } 
+ addUserKnob { 4 filter filter M { box triangle quadratic gaussian } } 
+ addUserKnob { 6 effect_only effect_only } 
+ addUserKnob { 7 mix mix R 0 1 } 
+ name FastDirBlur1
+ tile_color 0x8e8e3800
+ window {400 249 1139 689 0 -806 17 0.828}
+ layer rgba
+ angle 45
+ qual 5
+ mix 1
+}
+ Input {
+  inputs 0
+  name Input1
+  xpos -535
+  ypos -621
+ }
+set N4a84bc20 [stack 0]
+ Dot {
+  name Dot1
+  tile_color 0x9597bf00
+  xpos -526
+  ypos 81
+ }
+set N4a8e4998 [stack 0]
+push $N4a8e4998
+ Blur {
+  channels {rgba.red -rgba.green -rgba.blue -rgba.alpha}
+  size {{((parent.amount)*(1/Transform1.scale)) i}}
+  quality {{parent.qual}}
+  name Blur20
+  tile_color 0x8e8e3800
+  label (red)
+  xpos -65
+  ypos 217
+  indicators 2
+ }
+push $N4a8e4998
+ Blur {
+  channels {rgba.red -rgba.green -rgba.blue -rgba.alpha}
+  size {{((parent.amount)*(1/Transform1.scale)) i}}
+  filter quadratic
+  quality {{parent.qual}}
+  name Blur19
+  tile_color 0x8e8e3800
+  label (red)
+  xpos -203
+  ypos 218
+  indicators 2
+ }
+push $N4a8e4998
+ Blur {
+  channels {rgba.red -rgba.green -rgba.blue -rgba.alpha}
+  size {{((parent.amount)*(1/Transform1.scale)) i}}
+  filter triangle
+  quality {{parent.qual}}
+  name Blur18
+  tile_color 0x8e8e3800
+  label (red)
+  xpos -302
+  ypos 218
+  indicators 2
+ }
+push $N4a8e4998
+ Blur {
+  channels {rgba.red -rgba.green -rgba.blue -rgba.alpha}
+  size {{((parent.amount)*(1/Transform1.scale))*1.5 i}}
+  filter box
+  quality {{parent.qual}}
+  name Blur16
+  tile_color 0x8e8e3800
+  label (red)
+  xpos -400
+  ypos 226
+  indicators 2
+ }
+ Dissolve {
+  inputs 4
+  which {{parent.filter}}
+  name Dissolve7
+  xpos -212
+  ypos 340
+  indicators 2
+ }
+push $N4a84bc20
+ Transform {
+  scale {{parent.amount<135?(.25>abs((100-parent.amount)/100)?.25:abs((100-parent.amount)/100)):.25 i}}
+  center {{input.width/2 i} {input.height/2}}
+  filter Impulse
+  name Transform1
+  tile_color 0xa378a800
+  xpos 320
+  ypos -297
+  indicators 2
+ }
+ Transform {
+  rotate {{parent.angle i}}
+  center {{input.width/2 i} {input.height/2}}
+  filter Impulse
+  name Transform50
+  tile_color 0xa378a800
+  xpos 320
+  ypos -269
+  indicators 2
+ }
+set N4acfb4b0 [stack 0]
+ Dot {
+  name Dot4
+  tile_color 0x9597bf00
+  xpos 1434
+  ypos -78
+ }
+set N4acfcdd0 [stack 0]
+add_layer {alpha rgba.alpha}
+ Blur {
+  channels alpha
+  size {{0 i x67 0} {parent.amount i x67 0}}
+  quality {{parent.qual i}}
+  mix {{parent.mix}}
+  name Blur13
+  tile_color 0x8e8e3800
+  label (alpha)
+  xpos 1581
+  ypos 2
+  indicators 3
+ }
+push $N4acfcdd0
+ Blur {
+  channels alpha
+  size {{0 i x67 0} {parent.amount i x67 0}}
+  filter quadratic
+  quality {{parent.qual i}}
+  mix {{parent.mix}}
+  name Blur15
+  tile_color 0x8e8e3800
+  label (alpha)
+  xpos 1461
+  ypos 2
+  indicators 3
+ }
+push $N4acfcdd0
+ Blur {
+  channels alpha
+  size {{0 i x67 0} {parent.amount i x67 0}}
+  filter triangle
+  quality {{parent.qual i}}
+  mix {{parent.mix}}
+  name Blur14
+  tile_color 0x8e8e3800
+  label (alpha)
+  xpos 1358
+  ypos 2
+  indicators 3
+ }
+push $N4acfcdd0
+ Blur {
+  channels alpha
+  size {{0 i x67 0} {parent.amount i x67 0}}
+  filter box
+  quality {{parent.qual i}}
+  mix {{parent.mix}}
+  name Blur2
+  tile_color 0x8e8e3800
+  label (alpha)
+  xpos 1247
+  ypos 2
+  indicators 3
+ }
+ Dissolve {
+  inputs 4
+  which {{parent.filter}}
+  name Dissolve6
+  xpos 1405
+  ypos 81
+  indicators 2
+ }
+push $N4acfb4b0
+ Dot {
+  name Dot3
+  tile_color 0x9597bf00
+  xpos 926
+  ypos -78
+ }
+set N4b004ed0 [stack 0]
+ Blur {
+  channels rgb
+  size {{0 i x67 0} {parent.amount i x67 0}}
+  quality {{parent.qual i}}
+  mix {{parent.mix}}
+  name Blur12
+  tile_color 0x8e8e3800
+  label rgb
+  xpos 1085
+  ypos -16
+  indicators 3
+ }
+push $N4b004ed0
+ Blur {
+  channels rgb
+  size {{0 i x67 0} {parent.amount i x67 0}}
+  filter quadratic
+  quality {{parent.qual i}}
+  mix {{parent.mix}}
+  name Blur11
+  tile_color 0x8e8e3800
+  label rgb
+  xpos 978
+  ypos -16
+  indicators 3
+ }
+push $N4b004ed0
+ Blur {
+  channels rgb
+  size {{0 i x67 0} {parent.amount i x67 0}}
+  filter triangle
+  quality {{parent.qual i}}
+  mix {{parent.mix}}
+  name Blur10
+  tile_color 0x8e8e3800
+  label rgb
+  xpos 866
+  ypos -16
+  indicators 3
+ }
+push $N4b004ed0
+ Blur {
+  channels rgb
+  size {{0 i x67 0} {parent.amount i x67 0}}
+  filter box
+  quality {{parent.qual i}}
+  mix {{parent.mix}}
+  name Blur1
+  tile_color 0x8e8e3800
+  label rgb
+  xpos 744
+  ypos -16
+  indicators 3
+ }
+ Dissolve {
+  inputs 4
+  which {{parent.filter}}
+  name Dissolve5
+  xpos 875
+  ypos 63
+  indicators 2
+ }
+push $N4acfb4b0
+ Dot {
+  name Dot2
+  tile_color 0x9597bf00
+  xpos 386
+  ypos -100
+ }
+set N4b00a748 [stack 0]
+ Blur {
+  channels rgba
+  size {{0 i x67 0} {parent.amount i x67 0}}
+  quality {{parent.qual i}}
+  mix {{parent.mix}}
+  name Blur7
+  tile_color 0x8e8e3800
+  label rgba
+  xpos 546
+  ypos -16
+  indicators 3
+ }
+push $N4b00a748
+ Blur {
+  channels rgba
+  size {{0 i x67 0} {parent.amount i x67 0}}
+  filter quadratic
+  quality {{parent.qual i}}
+  mix {{parent.mix}}
+  name Blur8
+  tile_color 0x8e8e3800
+  label rgba
+  xpos 445
+  ypos -16
+  indicators 3
+ }
+push $N4b00a748
+ Blur {
+  channels rgba
+  size {{0 i x67 0} {parent.amount i x67 0}}
+  filter triangle
+  quality {{parent.qual i}}
+  mix {{parent.mix}}
+  name Blur9
+  tile_color 0x8e8e3800
+  label rgba
+  xpos 325
+  ypos -16
+  indicators 3
+ }
+push $N4b00a748
+ Blur {
+  channels rgba
+  size {{0 i x67 0} {parent.amount i x67 0}}
+  filter box
+  quality {{parent.qual i}}
+  mix {{parent.mix}}
+  name Blur35
+  tile_color 0x8e8e3800
+  label rgba
+  xpos 226
+  ypos -16
+  indicators 3
+ }
+ Dissolve {
+  inputs 4
+  which {{parent.filter}}
+  name Dissolve4
+  xpos 338
+  ypos 99
+  indicators 2
+ }
+push $N4acfb4b0
+ Dot {
+  name Dot5
+  tile_color 0x9597bf00
+  xpos -36
+  ypos -92
+ }
+set N4b010f58 [stack 0]
+ Blur {
+  size {{0 i x67 0} {parent.amount i x67 0}}
+  quality {{parent.qual i}}
+  mix {{parent.mix}}
+  name Blur6
+  tile_color 0x8e8e3800
+  label (all)
+  xpos 67
+  ypos -16
+  indicators 3
+ }
+push $N4b010f58
+ Blur {
+  size {{0 i x67 0} {parent.amount i x67 0}}
+  filter quadratic
+  quality {{parent.qual i}}
+  mix {{parent.mix}}
+  name Blur5
+  tile_color 0x8e8e3800
+  label (all)
+  xpos -35
+  ypos -21
+  indicators 3
+ }
+push $N4b010f58
+ Blur {
+  size {{0 i x67 0} {parent.amount i x67 0}}
+  filter triangle
+  quality {{parent.qual i}}
+  mix {{parent.mix}}
+  name Blur4
+  tile_color 0x8e8e3800
+  label (all)
+  xpos -134
+  ypos -23
+  indicators 3
+ }
+push $N4b010f58
+ Blur {
+  size {{0 i x67 0} {parent.amount i x67 0}}
+  filter box
+  quality {{parent.qual i}}
+  mix {{parent.mix}}
+  name Blur3
+  tile_color 0x8e8e3800
+  label (all)
+  xpos -238
+  ypos -21
+  indicators 3
+ }
+ Dissolve {
+  inputs 4
+  which {{parent.filter}}
+  name Dissolve3
+  xpos -87
+  ypos 109
+  indicators 2
+ }
+ Dissolve {
+  inputs 4
+  which {{parent.layer}}
+  name Dissolve1
+  label "select layer"
+  xpos 334
+  ypos 236
+  indicators 2
+ }
+ Transform {
+  rotate {{(1-(parent.angle))-1 i}}
+  center {{input.width/2 i} {input.height/2 i}}
+  name Transform51
+  tile_color 0xa378a800
+  xpos 334
+  ypos 286
+  indicators 2
+ }
+ Transform {
+  scale {{1/Transform1.scale i}}
+  center {{input.width/2 i} {input.height/2}}
+  name Transform2
+  tile_color 0xa378a800
+  xpos 334
+  ypos 322
+  indicators 2
+ }
+ CopyBBox {
+  inputs 2
+  name CopyBBox1
+  tile_color 0x9e3c6300
+  xpos -226
+  ypos 459
+ }
+set N4b019188 [stack 0]
+ Merge {
+  inputs 2
+  operation absminus
+  bbox A
+  name Absminus1
+  tile_color 0x7171c600
+  xpos -457
+  ypos 459
+ }
+push $N4b019188
+ Dissolve {
+  inputs 2
+  which {{parent.effect_only==1?1:0}}
+  name Dissolve2
+  label "effect only?"
+  xpos -462
+  ypos 578
+  indicators 2
+ }
+push $N4a8e4998
+ Switch {
+  inputs 2
+  which {{parent.amount==0?0:1}}
+  name Switch1
+  xpos -575
+  ypos 639
+  indicators 2
+ }
+ Output {
+  name Output1
+  xpos -580
+  ypos 737
+ }
+push $N4a8e4998
+ Blur {
+  channels rgba
+  size 81
+  name Blur21
+  tile_color 0x8e8e3800
+  xpos -389
+  ypos 21
+ }
+end_group

@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/sw/!svn/ver/4875/app/method/tools/trunk/nuke/scripts/python
+END
+nuke_dependencies.py
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/sw/!svn/ver/3432/app/method/tools/trunk/nuke/scripts/python/nuke_dependencies.py
+END
+justjobfilesys.py
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/sw/!svn/ver/937/app/method/tools/trunk/nuke/scripts/python/justjobfilesys.py
+END
+createDirectories.py
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/sw/!svn/ver/3675/app/method/tools/trunk/nuke/scripts/python/createDirectories.py
+END
+qubeSubmit.py
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/sw/!svn/ver/3676/app/method/tools/trunk/nuke/scripts/python/qubeSubmit.py
+END
+wtslate.py
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/sw/!svn/ver/2966/app/method/tools/trunk/nuke/scripts/python/wtslate.py
+END
+nuke_import_plates.py
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/sw/!svn/ver/3362/app/method/tools/trunk/nuke/scripts/python/nuke_import_plates.py
+END
+collect.py
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/sw/!svn/ver/2948/app/method/tools/trunk/nuke/scripts/python/collect.py
+END

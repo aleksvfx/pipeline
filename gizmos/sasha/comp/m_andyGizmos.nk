@@ -1,0 +1,444 @@
+#! /method/cg/opt/Nuke6.0v7/Nuke6.0 -nx
+version 6.0 v7
+define_window_layout_xml {<?xml version="1.0" encoding="UTF-8"?>
+<layout version="1.0">
+    <window x="0" y="0" w="2560" h="1576" screen="0">
+        <splitter orientation="1">
+            <split size="40"></split>
+            <dock id="" hideTitles="1" activePageId="Toolbar.1">
+                <page id="Toolbar.1"></page>
+            </dock>
+            <split size="2504"></split>
+            <splitter orientation="1">
+                <split size="1244"></split>
+                <dock id="" activePageId="DAG.1">
+                    <page id="DAG.1"></page>
+                    <page id="Script Editor.1"></page>
+                    <page id="Curve Editor.1"></page>
+                </dock>
+                <split size="1256"></split>
+                <splitter orientation="2">
+                    <split size="832"></split>
+                    <dock id="" activePageId="Viewer.1">
+                        <page id="Viewer.1"></page>
+                    </dock>
+                    <split size="683"></split>
+                    <dock id="" activePageId="Properties.1">
+                        <page id="Properties.1"></page>
+                    </dock>
+                </splitter>
+            </splitter>
+        </splitter>
+    </window>
+</layout>
+}
+Root {
+ inputs 0
+ name /home/adjordjevic/nuke/gizmos/sasha/comp/m_andyGizmos.nk
+ format "720 540 0 0 720 540 1 NTSC_square_pixel"
+ proxy_type scale
+ proxy_format "1024 778 0 0 1024 778 1 1K_Super_35(full-ap)"
+}
+BackdropNode {
+ inputs 0
+ name BackdropNode5
+ label "Atmosphere (uses depth scattering)"
+ note_font_size 24
+ xpos 2344
+ ypos -578
+ bdwidth 851
+ bdheight 682
+}
+BackdropNode {
+ inputs 0
+ name BackdropNode4
+ label "Depth Scattering"
+ note_font_size 24
+ xpos 1606
+ ypos -582
+ bdwidth 640
+ bdheight 486
+}
+BackdropNode {
+ inputs 0
+ name BackdropNode3
+ label "Depth Attenuation"
+ note_font_size 24
+ xpos 1074
+ ypos -576
+ bdwidth 449
+ bdheight 275
+}
+BackdropNode {
+ inputs 0
+ name BackdropNode2
+ label "CG Shadow"
+ note_font_size 24
+ xpos 26
+ ypos -575
+ bdwidth 967
+ bdheight 670
+}
+BackdropNode {
+ inputs 0
+ name BackdropNode1
+ label "Lens Distortion"
+ note_font_size 24
+ xpos -697
+ ypos -571
+ bdwidth 595
+ bdheight 438
+}
+m_depthScattering {
+ inputs 0
+ name m_depthScattering1
+ xpos 1665
+ ypos -434
+ atten {{"invert * (1.0 - attenuationCoefficient.main.r) + (1 - invert) * attenuationCoefficient.main.r"} {"invert * (1.0 - attenuationCoefficient.main.g) + (1 - invert) * attenuationCoefficient.main.g"} {"invert * (1.0 - attenuationCoefficient.main.b) + (1 - invert) * attenuationCoefficient.main.b"}}
+}
+LensDistortion1_0 {
+ inputs 0
+ serializeKnob ""
+ serialiseKnob "22 serialization::archive 4 0 0 0 0 0 0 0 0 0 0 0 0"
+ outputType Displacement
+ invertDistortion true
+ name LensDistortion1
+ xpos -404
+ ypos -412
+}
+push 0
+STMap {
+ inputs 2
+ uv forward
+ filter Keys
+ name STMap2
+ xpos -404
+ ypos -335
+}
+Switch {
+ which {{"(parent.LensDistortion1.distortion1.main == 0) && (parent.LensDistortion1.distortion2.main == 0) && (parent.LensDistortion1.distortionCenter.main.x == 0) && (parent.LensDistortion1.distortionCenter.main.y == 0)"}}
+ name Switch1
+ xpos -538
+ ypos -271
+}
+Dot {
+ inputs 0
+ name Dot1
+ xpos 303
+ ypos -369
+}
+set Naa9bd00 [stack 0]
+Clamp {
+ channels rgb
+ maximum {{parent.highlightThreshold.main.r i} {parent.highlightThreshold.main.g i} {parent.highlightThreshold.main.b i} 1}
+ name Clamp1
+ xpos 179
+ ypos -374
+}
+set Naa9f060 [stack 0]
+push $Naa9f060
+Blur {
+ size {{parent.existingShadowRadius.main i}}
+ name Blur1
+ xpos 69
+ ypos -381
+}
+Merge2 {
+ inputs 2
+ operation divide
+ name Merge3
+ xpos 69
+ ypos -300
+}
+push $Naa9bd00
+Switch {
+ inputs 2
+ which {{parent.normalizedExistingShadowKey.main i}}
+ name Switch5
+ xpos 269
+ ypos -300
+}
+Keyer {
+ operation "luminance key"
+ range {0.6924769353 0.9931961392 1 1}
+ name Keyer1
+ xpos 269
+ ypos -262
+}
+set Na99ad30 [stack 0]
+Dot {
+ name Dot2
+ xpos 303
+ ypos 17
+}
+push $Na99ad30
+Shuffle {
+ inputs 0
+ red alpha
+ green alpha
+ blue alpha
+ name Shuffle2
+ xpos 668
+ ypos -459
+}
+push 0
+Switch {
+ inputs 2
+ which {{parent.useAlpha.main i}}
+ name Switch2
+ xpos 563
+ ypos -459
+}
+Invert {
+ channels rgba
+ name Invert1
+ xpos 563
+ ypos -431
+ disable {{!parent.invert.main i}}
+}
+Grade {
+ blackpoint {{"parent.testColorShadow.main.r / parent.testColorLit.main.r" i} {"parent.testColorShadow.main.g / parent.testColorLit.main.g" i} {"parent.testColorShadow.main.b / parent.testColorLit.main.b" i} 0}
+ whitepoint {1 1 1 1}
+ reverse true
+ black_clamp false
+ name Grade1
+ xpos 563
+ ypos -403
+}
+push $Naa9bd00
+Merge2 {
+ inputs 2
+ operation multiply
+ name Merge4
+ xpos 563
+ ypos -374
+}
+set Naa95fc0 [stack 0]
+push $Naa9bd00
+Dissolve {
+ inputs 2+1
+ which 1
+ name Dissolve1
+ xpos 494
+ ypos -155
+}
+push $Naa95fc0
+Switch {
+ inputs 2
+ which {{parent.maskExistingShadows.main i}}
+ name Switch4
+ xpos 568
+ ypos -76
+}
+set Na9c13f0 [stack 0]
+push $Naa9bd00
+Merge2 {
+ inputs 2
+ operation from
+ name Merge1
+ xpos 459
+ ypos -27
+}
+push $Na9c13f0
+Switch {
+ inputs 3
+ which {{parent.output i}}
+ name Switch3
+ xpos 568
+ ypos 12
+}
+Expression {
+ inputs 0
+ expr0 "exp(-1.0 * r * parent.depthScale * parent.atten.r)"
+ expr1 "exp(-g * parent.atten.g * parent.depthScale)"
+ expr2 "exp(-b * parent.atten.b * parent.depthScale)"
+ name Expression1
+ xpos 1346
+ ypos -474
+}
+m_depthAttenuation {
+ inputs 0
+ name m_depthAttenuation1
+ xpos 1140
+ ypos -479
+ atten {{"invert * (1.0 - attenuationCoefficient.main.r) + (1 - invert) * attenuationCoefficient.main.r"} {"invert * (1.0 - attenuationCoefficient.main.g) + (1 - invert) * attenuationCoefficient.main.g"} {"invert * (1.0 - attenuationCoefficient.main.b) + (1 - invert) * attenuationCoefficient.main.b"}}
+}
+Expression {
+ inputs 0
+ expr0 "(1 / parent.atten.r) * (1.0 - exp(-1.0 * r * parent.depthScale * parent.atten.r))"
+ expr1 "(1 / parent.atten.g) * (1.0 - exp(-1.0 * g * parent.depthScale * parent.atten.g))"
+ expr2 "(1 / parent.atten.b) * (1.0 - exp(-1.0 * b * parent.depthScale * parent.atten.b))"
+ name Expression2
+ xpos 1870
+ ypos -346
+}
+Multiply {
+ channels rgb
+ value {{parent.lightColor.main.r} {parent.lightColor.main.g} {parent.lightColor.main.b} 0}
+ name Multiply1
+ xpos 1870
+ ypos -288
+}
+Dot {
+ inputs 0
+ name Dot7
+ xpos 2954
+ ypos -315
+}
+m_depthScattering {
+ name m_depthScattering2
+ xpos 2920
+ ypos -209
+ lightColor {{parent.scatteredLightColor.main.r i} {parent.scatteredLightColor.main.g i} {parent.scatteredLightColor.main.b i}}
+ atten {{"invert * (1.0 - attenuationCoefficient.main.r) + (1 - invert) * attenuationCoefficient.main.r"} {"invert * (1.0 - attenuationCoefficient.main.g) + (1 - invert) * attenuationCoefficient.main.g"} {"invert * (1.0 - attenuationCoefficient.main.b) + (1 - invert) * attenuationCoefficient.main.b"}}
+ depthScale {{parent.depthScale.main i}}
+ attenuationCoefficient {{parent.attenuationCoefficient.main.r i} {parent.attenuationCoefficient.main.g i} {parent.attenuationCoefficient.main.b i}}
+ invert {{parent.invert.main i}}
+}
+set Nc21aec0 [stack 0]
+Merge2 {
+ operation multiply
+ name Merge28
+ xpos 3055
+ ypos -209
+}
+Dot {
+ name Dot6
+ xpos 3089
+ ypos -106
+}
+push $Nc21aec0
+Switch {
+ inputs 2
+ which {{parent.useLightInput.main i}}
+ name Switch6
+ xpos 2920
+ ypos -111
+}
+set Nd7ef7d0 [stack 0]
+Dot {
+ inputs 0
+ name Dot5
+ xpos 2544
+ ypos -316
+}
+Merge2 {
+ inputs 2
+ operation from
+ name Merge2
+ xpos 2510
+ ypos -111
+ disable {{!parent.scatteringEnabled.main}}
+}
+set Nd97bee0 [stack 0]
+m_depthAttenuation {
+ inputs 0
+ name m_depthAttenuation2
+ xpos 2986
+ ypos -474
+ atten {{"invert * (1.0 - attenuationCoefficient.main.r) + (1 - invert) * attenuationCoefficient.main.r"} {"invert * (1.0 - attenuationCoefficient.main.g) + (1 - invert) * attenuationCoefficient.main.g"} {"invert * (1.0 - attenuationCoefficient.main.b) + (1 - invert) * attenuationCoefficient.main.b"}}
+ depthScale {{parent.depthScale.main i}}
+ attenuationCoefficient {{parent.attenuationCoefficient.main.r i} {parent.attenuationCoefficient.main.g i} {parent.attenuationCoefficient.main.b i}}
+ invert {{parent.invert.main i}}
+}
+set Nd801570 [stack 0]
+Dot {
+ name Dot8
+ xpos 2643
+ ypos -202
+}
+Dot {
+ name Dot9
+ xpos 2643
+ ypos -78
+}
+Merge2 {
+ inputs 2
+ operation divide
+ name Merge5
+ xpos 2510
+ ypos -83
+}
+push $Nd97bee0
+Dot {
+ name Dot10
+ xpos 2447
+ ypos -106
+}
+Dot {
+ name Dot11
+ xpos 2447
+ ypos -24
+}
+Switch {
+ inputs 2
+ which {{parent.attenuationEnabled.main i}}
+ name Switch7
+ xpos 2510
+ ypos -29
+}
+Dot {
+ name Dot12
+ xpos 2544
+ ypos 26
+}
+push $Nd7ef7d0
+Dot {
+ name Dot3
+ xpos 2954
+ ypos -52
+}
+push $Nd801570
+Dot {
+ name Dot4
+ xpos 2855
+ ypos -80
+}
+push 0
+Merge2 {
+ inputs 2
+ operation multiply
+ Achannels {rgba.red rgba.green rgba.blue -rgba.alpha}
+ Bchannels {rgba.red rgba.green rgba.blue -rgba.alpha}
+ output {rgba.red rgba.green rgba.blue -rgba.alpha}
+ name Merge26
+ xpos 2697
+ ypos -85
+ disable {{!parent.attenuationEnabled.main i}}
+}
+Merge2 {
+ inputs 2
+ operation plus
+ Achannels {rgba.red rgba.green rgba.blue -rgba.alpha}
+ Bchannels {rgba.red rgba.green rgba.blue -rgba.alpha}
+ output {rgba.red rgba.green rgba.blue -rgba.alpha}
+ name Merge27
+ xpos 2697
+ ypos -57
+ disable {{!parent.scatteringEnabled.main}}
+}
+Switch {
+ inputs 2
+ which {{parent.reverse.main}}
+ name Switch8
+ xpos 2697
+ ypos 21
+}
+m_atmosphere {
+ inputs 0
+ name m_atmosphere1
+ xpos 2419
+ ypos -457
+}
+m_lensDistortion {
+ inputs 0
+ name m_lensDistortion1
+ xpos -671
+ ypos -461
+}
+m_cgShadow {
+ inputs 0
+ name m_cgShadow1
+ xpos 75
+ ypos -455
+}
